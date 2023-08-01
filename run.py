@@ -1,5 +1,5 @@
 from simple_term_menu import TerminalMenu
-
+from blessed import Terminal
 
 # Menu option lists
 options_main = ['Start', 'Exit']
