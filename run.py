@@ -43,12 +43,12 @@ def main():
     game_running = True
     board = generate_grid()
     while game_running:
-        display_grid(board)
-        #user_choice = main_menu.show()
+        
+        user_choice = main_menu.show()
         if options_main[user_choice] == "Start":
             print(term.home + term.clear)
             output_string('Starting Battleships Game...\n')
-            
+            display_grid(board)
         elif options_main[user_choice] == "Exit":
             output_string('Closing Battleships Game...\n')
             game_running = False
