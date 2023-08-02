@@ -1,5 +1,6 @@
 from simple_term_menu import TerminalMenu
 from blessed import Terminal
+import numpy as np
 
 # Menu option lists
 options_main = ['Start', 'Exit']
