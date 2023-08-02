@@ -1,7 +1,10 @@
 from simple_term_menu import TerminalMenu
 from blessed import Terminal
 import numpy as np
+import sys
+from time import sleep
 
+terminal = Terminal()
 # Menu option lists
 options_main = ['Start', 'Exit']
 # Menu Variables
@@ -11,23 +14,31 @@ def generate_grid():
     """
     Generates and returns a grid of nodes as a 2D numpy array.
     """
-    #return np.array([[Node(row, col) for col in range(WIDTH)] for row in range(HEIGHT)])
     return np.arange(100).reshape(10,10)
+
+def output_string(string):
+    """ 
+    Displays the string parameter with a delayed timer.
+    """
+    for char in string:
+        sleep(0.1)
+        sys.stdout.write(char)
+        sys.stdout.flush()
+
+
 
 def main():
     """
     Main Function.
     """
     game_running = True
-    grid = generate_grid()
-    
+    board = generate_grid()
     while game_running:
         user_choice = main_menu.show()
         if options_main[user_choice] == "Start":
-            print('Starting Game...')
-            print(grid)
+            output_string('Starting Battleships Game...\n')
         elif options_main[user_choice] == "Exit":
-            print('Closing Game...')
+            output_string('Closing Battleships Game...\n')
             game_running = False
     
 # Checking if we are running this file directly.
