@@ -5,7 +5,6 @@ from time import sleep
 import curses
 
 menu = ['Start', 'Exit']
-
 def print_menu(stdscr, selected_option_idx):
     """
     Print Menu
@@ -44,14 +43,16 @@ def display_grid(stdscr, grid):
     """
     Displays the grid in the terminal.
     """
+
     stdscr.clear()
     h , w = stdscr.getmaxyx()
+    
     for idx,row in enumerate(grid):
-        output = np.array2string(row)
-        x = w//2 - len(output)//2
+        x = w//2 - len(row)//2
         y = h//2 - len(grid) + idx
-        print(type(output))
-        stdscr.addstr(y,x,output)
+        stdscr.addstr(y,x,row)
+    
+    stdscr.refresh()
 
 def old_grid(grid):
     for row in grid:
@@ -68,8 +69,13 @@ def main(stdscr):
     current_row = 0
     print_menu(stdscr, current_row)
     board = generate_grid()
+    board.tolist()
 
-
+    game_board = []
+    for i,row in enumerate(board):
+        grid_string = " ".join(str('-') for col in row)
+        game_board.append(grid_string)
+    
     while True:
         key = stdscr.getch()
         stdscr.clear()
@@ -82,8 +88,8 @@ def main(stdscr):
                 break
             elif menu[current_row] == 'Start':
                 stdscr.refresh()
-                display_grid(stdscr, board)
-                #print(np.array_str(board))
+                display_grid(stdscr, menu)
+
             stdscr.getch()
 
         print_menu(stdscr, current_row)
