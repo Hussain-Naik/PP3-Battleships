@@ -25,9 +25,10 @@ class Node:
     def make_unused(self):
         self.used = False
     
-    def view(self):
+    def set_view(self):
         self.view = True
-    def hidden(self):
+        
+    def set_hidden(self):
         self.view = False
 
     def is_occupied(self):
