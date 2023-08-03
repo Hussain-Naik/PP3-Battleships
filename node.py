@@ -18,8 +18,10 @@ class Node:
     
     def make_used(self):
         self.used = True
+
     def make_unused(self):
         self.used = False
+        
     def is_occupied(self):
         return self.occupied
 
