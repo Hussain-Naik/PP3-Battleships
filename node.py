@@ -9,12 +9,12 @@ class Node:
         self.used = False
         self.view = False
     def __str__(self):
-        if self.view:
+        if self.used and self.occupied:
+            return "X"
+        elif self.view:
             return "+"
         elif self.used:
             return "0"
-        elif self.used and self.occupied:
-            return "X"
         return "-"
     def is_used(self):
         return self.used
@@ -27,7 +27,7 @@ class Node:
     
     def set_view(self):
         self.view = True
-        
+
     def set_hidden(self):
         self.view = False
 
