@@ -50,42 +50,46 @@ def main():
     while True:
         user_choice = main_menu.show()
         if options_main[user_choice] == "Start":
-            output_string('Starting Battleship Game...')
+            #output_string('Starting Battleship Game...')
             display_grid(board)
             with terminal.cbreak(), terminal.hidden_cursor():
-                output_string('Select Location to Strike.\nPress Enter when Co-ordinates confirmed Admiral')
+                #output_string('Select Location to Strike.\nPress Enter when Co-ordinates confirmed Admiral')
                 temp_start = board[5][5]
                 while True:
                     key_pressed = terminal.inkey()
-                    temp_start.make_used()
-                    if key_pressed.code == terminal.KEY_ENTER:
+                    temp_start.set_view()
+                    if key_pressed.code == terminal.KEY_ESCAPE:
+                        temp_start.set_hidden()
                         break
+                    elif key_pressed.code == terminal.KEY_ENTER:
+                        board[temp_start.row][temp_start.col].make_used()
+                        board[temp_start.row][temp_start.col].set_hidden()
                     elif key_pressed.code == terminal.KEY_UP:
-                        temp_start.make_unused()
+                        temp_start.set_hidden()
                         temp_start = board[temp_start.row - 1][temp_start.col]
-                        temp_start.make_used()
+                        temp_start.set_view()
                     elif key_pressed.code == terminal.KEY_DOWN:
                         if temp_start.row + 1 > len(board) -1:
-                            temp_start.make_unused()
+                            temp_start.set_hidden()
                             temp_start = board[0][temp_start.col]
-                            temp_start.make_used()
+                            temp_start.set_view()
                         else:
-                            temp_start.make_unused()
+                            temp_start.set_hidden()
                             temp_start = board[temp_start.row + 1][temp_start.col]
-                            temp_start.make_used()
+                            temp_start.set_view()
                     elif key_pressed.code == terminal.KEY_RIGHT:
                         if temp_start.col + 1 > len(board) -1:
-                            temp_start.make_unused()
+                            temp_start.set_hidden()
                             temp_start = board[temp_start.row][0]
-                            temp_start.make_used()
+                            temp_start.set_view()
                         else:
-                            temp_start.make_unused()
+                            temp_start.set_hidden()
                             temp_start = board[temp_start.row][temp_start.col + 1]
-                            temp_start.make_used()
+                            temp_start.set_view()
                     elif key_pressed.code == terminal.KEY_LEFT:
-                        temp_start.make_unused()
+                        temp_start.set_hidden()
                         temp_start = board[temp_start.row][temp_start.col - 1]
-                        temp_start.make_used()
+                        temp_start.set_view()
                     display_grid(board)
         elif options_main[user_choice] == "Exit":
             break
