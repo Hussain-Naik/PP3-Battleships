@@ -40,7 +40,7 @@ def display_grid(grid):
         print(terminal.home + terminal.clear)
         for row in grid:
             print(" ".join(str(node) for node in row))
-        sleep(0.15)
+        sleep(0.02)
 
 def main():
     """
@@ -50,10 +50,10 @@ def main():
     while True:
         user_choice = main_menu.show()
         if options_main[user_choice] == "Start":
-            #output_string('Starting Battleship Game...')
+            output_string('Starting Battleship Game...')
             display_grid(board)
             with terminal.cbreak(), terminal.hidden_cursor():
-                #output_string('Select Location to Strike.\nPress Enter when Co-ordinates confirmed Admiral')
+                output_string('Select Location to Strike.\nPress Enter when Co-ordinates confirmed Admiral')
                 temp_start = board[5][5]
                 while True:
                     key_pressed = terminal.inkey()
