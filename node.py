@@ -7,11 +7,14 @@ class Node:
         self.col = col
         self.occupied = False
         self.used = False
+        self.view = False
     def __str__(self):
-        if self.occupied:
-            return "X"
+        if self.view:
+            return "+"
         elif self.used:
             return "0"
+        elif self.used and self.occupied:
+            return "X"
         return "-"
     def is_used(self):
         return self.used
@@ -21,7 +24,12 @@ class Node:
 
     def make_unused(self):
         self.used = False
-        
+    
+    def view(self):
+        self.view = True
+    def hidden(self):
+        self.view = False
+
     def is_occupied(self):
         return self.occupied
 
