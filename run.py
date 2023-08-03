@@ -3,8 +3,11 @@ import numpy as np
 import sys
 from time import sleep
 import curses
+from node import Node
 
 menu = ['Start', 'Exit']
+
+terminal = Terminal()
 def print_menu(stdscr, selected_option_idx):
     """
     Print Menu
@@ -27,7 +30,9 @@ def generate_grid():
     """
     Generates and returns a grid of nodes as a 2D numpy array.
     """
-    return np.arange(100).reshape(10,10)
+    return np.array(
+        [[Node(row, col) for col in range(10)] for row in range(10)]
+        )
 
 def output_string(string):
     """ 
@@ -54,11 +59,15 @@ def display_grid(stdscr, grid):
     
     stdscr.refresh()
 
-def old_grid(grid):
-    for row in grid:
-        grid_string = " ".join(str('-') for col in row) +'\n'
-        output_string(grid_string)
-        sleep(0.05)
+def display_grid2(grid):
+    """
+    Displays the grid in the terminal.
+    """
+    with terminal.hidden_cursor():
+        print(terminal.home + terminal.clear)
+        for row in grid:
+            print(" ".join(str(node) for node in row))
+        sleep(0.15)
 
 def main(stdscr):
     """
@@ -69,8 +78,6 @@ def main(stdscr):
     current_row = 0
     print_menu(stdscr, current_row)
     board = generate_grid()
-    board.tolist()
-
     game_board = []
     for i,row in enumerate(board):
         grid_string = " ".join(str('-') for col in row)
@@ -88,7 +95,7 @@ def main(stdscr):
                 break
             elif menu[current_row] == 'Start':
                 stdscr.refresh()
-                display_grid(stdscr, menu)
+                display_grid2(board)
 
             stdscr.getch()
 
