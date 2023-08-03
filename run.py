@@ -1,15 +1,29 @@
-from simple_term_menu import TerminalMenu
 from blessed import Terminal
 import numpy as np
 import sys
 from time import sleep
+import curses
 
-term = Terminal()
-# Menu option lists
-options_main = ['Start', 'Exit']
-# Menu Variables
-main_menu = TerminalMenu(options_main,title='Main Menu')
+menu = ['Start', 'Exit']
 
+def print_menu(stdscr, selected_option_idx):
+    """
+    Print Menu
+    """
+    stdscr.clear()
+    h , w = stdscr.getmaxyx()
+    
+    for idx,row in enumerate(menu):
+        x = w//2 - len(row)//2
+        y = h//2 - len(menu) + idx
+        if idx == selected_option_idx:
+            stdscr.attron(curses.color_pair(1))
+            stdscr.addstr(y,x,row)
+            stdscr.attroff(curses.color_pair(1))
+        else:
+            stdscr.addstr(y,x,row)
+    
+    stdscr.refresh()
 def generate_grid():
     """
     Generates and returns a grid of nodes as a 2D numpy array.
@@ -24,36 +38,58 @@ def output_string(string):
         sleep(0.1)
         sys.stdout.write(char)
         sys.stdout.flush()
+        
 
-def display_grid(grid):
+def display_grid(stdscr, grid):
     """
     Displays the grid in the terminal.
     """
-    with term.hidden_cursor():
-        print(term.home + term.clear)
-        for row in grid:
-            grid_string = " ".join(str('-') for col in row) +'\n'
-            output_string(grid_string)
-            sleep(0.05)
+    stdscr.clear()
+    h , w = stdscr.getmaxyx()
+    for idx,row in enumerate(grid):
+        output = np.array2string(row)
+        x = w//2 - len(output)//2
+        y = h//2 - len(grid) + idx
+        print(type(output))
+        stdscr.addstr(y,x,output)
 
-def main():
+def old_grid(grid):
+    for row in grid:
+        grid_string = " ".join(str('-') for col in row) +'\n'
+        output_string(grid_string)
+        sleep(0.05)
+
+def main(stdscr):
     """
     Main Function.
     """
-    game_running = True
+    curses.curs_set(0)
+    curses.init_pair(1, curses.COLOR_BLACK, curses.COLOR_WHITE)
+    current_row = 0
+    print_menu(stdscr, current_row)
     board = generate_grid()
-    while game_running:
-        
-        user_choice = main_menu.show()
-        if options_main[user_choice] == "Start":
-            print(term.home + term.clear)
-            output_string('Starting Battleships Game...\n')
-            display_grid(board)
-        elif options_main[user_choice] == "Exit":
-            output_string('Closing Battleships Game...\n')
-            game_running = False
-    
+
+
+    while True:
+        key = stdscr.getch()
+        stdscr.clear()
+        if key == curses.KEY_UP and current_row > 0:
+            current_row -= 1
+        elif key == curses.KEY_DOWN and current_row < len(menu) -1:
+            current_row += 1
+        elif key == curses.KEY_ENTER or key in [10,13]:
+            if menu[current_row] == 'Exit':
+                break
+            elif menu[current_row] == 'Start':
+                stdscr.refresh()
+                display_grid(stdscr, board)
+                #print(np.array_str(board))
+            stdscr.getch()
+
+        print_menu(stdscr, current_row)
+        stdscr.refresh()
+
 # Checking if we are running this file directly.
 if __name__ == "__main__":
     # Calling the main function.
-    main()
+    curses.wrapper(main)
