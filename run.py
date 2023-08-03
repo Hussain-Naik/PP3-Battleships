@@ -1,31 +1,20 @@
 from blessed import Terminal
+from simple_term_menu import TerminalMenu
 import numpy as np
 import sys
 from time import sleep
-import curses
 from node import Node
 
-menu = ['Start', 'Exit']
-
+options_main = [
+    "Start",
+    "Exit",
+]
+main_menu = TerminalMenu(
+    options_main,
+    title="Main menu"
+    )
 terminal = Terminal()
-def print_menu(stdscr, selected_option_idx):
-    """
-    Print Menu
-    """
-    stdscr.clear()
-    h , w = stdscr.getmaxyx()
-    
-    for idx,row in enumerate(menu):
-        x = w//2 - len(row)//2
-        y = h//2 - len(menu) + idx
-        if idx == selected_option_idx:
-            stdscr.attron(curses.color_pair(1))
-            stdscr.addstr(y,x,row)
-            stdscr.attroff(curses.color_pair(1))
-        else:
-            stdscr.addstr(y,x,row)
-    
-    stdscr.refresh()
+
 def generate_grid():
     """
     Generates and returns a grid of nodes as a 2D numpy array.
@@ -43,23 +32,7 @@ def output_string(string):
         sys.stdout.write(char)
         sys.stdout.flush()
         
-
-def display_grid(stdscr, grid):
-    """
-    Displays the grid in the terminal.
-    """
-
-    stdscr.clear()
-    h , w = stdscr.getmaxyx()
-    
-    for idx,row in enumerate(grid):
-        x = w//2 - len(row)//2
-        y = h//2 - len(grid) + idx
-        stdscr.addstr(y,x,row)
-    
-    stdscr.refresh()
-
-def display_grid2(grid):
+def display_grid(grid):
     """
     Displays the grid in the terminal.
     """
@@ -69,40 +42,56 @@ def display_grid2(grid):
             print(" ".join(str(node) for node in row))
         sleep(0.15)
 
-def main(stdscr):
+def main():
     """
     Main Function.
     """
-    curses.curs_set(0)
-    curses.init_pair(1, curses.COLOR_BLACK, curses.COLOR_WHITE)
-    current_row = 0
-    print_menu(stdscr, current_row)
     board = generate_grid()
-    game_board = []
-    for i,row in enumerate(board):
-        grid_string = " ".join(str('-') for col in row)
-        game_board.append(grid_string)
-    
     while True:
-        key = stdscr.getch()
-        stdscr.clear()
-        if key == curses.KEY_UP and current_row > 0:
-            current_row -= 1
-        elif key == curses.KEY_DOWN and current_row < len(menu) -1:
-            current_row += 1
-        elif key == curses.KEY_ENTER or key in [10,13]:
-            if menu[current_row] == 'Exit':
-                break
-            elif menu[current_row] == 'Start':
-                stdscr.refresh()
-                display_grid2(board)
-
-            stdscr.getch()
-
-        print_menu(stdscr, current_row)
-        stdscr.refresh()
+        user_choice = main_menu.show()
+        if options_main[user_choice] == "Start":
+            output_string('Starting Battleship Game...')
+            display_grid(board)
+            with terminal.cbreak(), terminal.hidden_cursor():
+                output_string('Select Location to Strike.\nPress Enter when Co-ordinates confirmed Admiral')
+                temp_start = board[5][5]
+                while True:
+                    key_pressed = terminal.inkey()
+                    temp_start.make_used()
+                    if key_pressed.code == terminal.KEY_ENTER:
+                        break
+                    elif key_pressed.code == terminal.KEY_UP:
+                        temp_start.make_unused()
+                        temp_start = board[temp_start.row - 1][temp_start.col]
+                        temp_start.make_used()
+                    elif key_pressed.code == terminal.KEY_DOWN:
+                        if temp_start.row + 1 > len(board) -1:
+                            temp_start.make_unused()
+                            temp_start = board[0][temp_start.col]
+                            temp_start.make_used()
+                        else:
+                            temp_start.make_unused()
+                            temp_start = board[temp_start.row + 1][temp_start.col]
+                            temp_start.make_used()
+                    elif key_pressed.code == terminal.KEY_RIGHT:
+                        if temp_start.col + 1 > len(board) -1:
+                            temp_start.make_unused()
+                            temp_start = board[temp_start.row][0]
+                            temp_start.make_used()
+                        else:
+                            temp_start.make_unused()
+                            temp_start = board[temp_start.row][temp_start.col + 1]
+                            temp_start.make_used()
+                    elif key_pressed.code == terminal.KEY_LEFT:
+                        temp_start.make_unused()
+                        temp_start = board[temp_start.row][temp_start.col - 1]
+                        temp_start.make_used()
+                    display_grid(board)
+        elif options_main[user_choice] == "Exit":
+            break
+        
 
 # Checking if we are running this file directly.
 if __name__ == "__main__":
     # Calling the main function.
-    curses.wrapper(main)
+    main()
