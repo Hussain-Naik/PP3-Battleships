@@ -40,6 +40,9 @@ def display_grid(grid):
         print(terminal.home + terminal.clear)
         for row in grid:
             print(" ".join(str(node) for node in row))
+        print("Use ARROW keys to move around the grid.")
+        print("Press ENTER to confirm placement")
+        print("Press ESC to show menu.")
         sleep(0.02)
 
 def main():
