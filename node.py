@@ -3,11 +3,16 @@ class Node:
     Node Class
     """
     def __init__(self, row, col):
+        #Row and Column position of node
         self.row = row
         self.col = col
+        #variable for ship placement
         self.occupied = False
+        #variable for used attack position 
         self.used = False
+        #Variable for grid position selection
         self.view = False
+    
     def __str__(self):
         if self.used and self.occupied:
             return "X"
