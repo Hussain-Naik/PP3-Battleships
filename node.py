@@ -16,6 +16,8 @@ class Node:
         elif self.used:
             return "0"
         return "-"
+    def location(self):
+        return f"{self.row}, {self.col}"
     def is_used(self):
         return self.used
     
@@ -36,3 +38,8 @@ class Node:
 
     def occupy(self):
         self.occupied = True
+    
+    def return_row(self):
+        return self.row
+    def return_col(self):
+        return self.col
