@@ -46,6 +46,9 @@ class Node:
         self.used = True
 
     def set_view(self):
+        """
+        Method to change view variable to true
+        """
         self.view = True
 
     def set_hidden(self):
