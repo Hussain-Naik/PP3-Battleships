@@ -47,11 +47,14 @@ class Node:
 
     def set_view(self):
         """
-        Method to change view variable to true
+        Method to change view variable to True
         """
         self.view = True
 
     def set_hidden(self):
+        """
+        Method to reset view variable to False
+        """
         self.view = False
 
     def is_occupied(self):
