@@ -14,13 +14,19 @@ class Node:
         self.view = False
     
     def __str__(self):
+        # override str method to display node as string.
         if self.used and self.occupied:
+            #board to display X if Hit and occupied
             return "X"
         elif self.view:
+            #board to display + when selecting grid position
             return "+"
         elif self.used:
+            #board to display 0 when missed 
             return "0"
+        #board default available grid positions displayed as -
         return "-"
+    
     def location(self):
         return f"{self.row}, {self.col}"
     def is_used(self):
