@@ -34,6 +34,9 @@ class Node:
         return f"{self.row}, {self.col}"
     
     def is_used(self):
+        """
+        method to access used variable
+        """
         return self.used
     
     def make_used(self):
@@ -54,7 +57,3 @@ class Node:
     def occupy(self):
         self.occupied = True
     
-    def return_row(self):
-        return self.row
-    def return_col(self):
-        return self.col
