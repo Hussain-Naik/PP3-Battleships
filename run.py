@@ -52,7 +52,7 @@ def main():
     """
     Main Function.
     """
-    b1 = Ship(2)
+    b1 = Ship(1)
     b2 = Ship(3)
     fleet_status = [b1.sunk, b2.sunk]
     x = all(fleet_status)
@@ -61,6 +61,11 @@ def main():
     print(f"x:{b1.horizontal_size} y:{b1.vertical_size} {b1.vertical}")
     b1.rotate_ship()
     print(f"x:{b1.horizontal_size} y:{b1.vertical_size} {b1.vertical}")
+    print(b1.sunk)
+    print(b1.nodes[0].used)
+    b1.nodes[0].make_used()
+    b1.update_status()
+    print(b1.nodes[0].used)
     print(b1.sunk)
     board = generate_grid()
     while True:
