@@ -11,6 +11,7 @@ class Ship:
     nodes = []
     
     def __init__(self, size):
+        #Size of the ship
         self.size = size
         self.horizontal_size = size
         self.nodes = [Node(row, 0) for row in range(size)]
