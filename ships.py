@@ -6,8 +6,12 @@ class Ship:
     """
     sunk = False
     vertical = True
+    vertical_size = 1
+    horizontal_size = 1
     nodes = []
     def __init__(self, size):
+        self.size = size
+        self.horizontal_size = size
         self.nodes = np.array([Node(row, 0) for row in range(size)])
         #self.nodes = np.array([Node(0,0), Node(0,1), Node(0,2)])
 
@@ -21,13 +25,5 @@ class Ship:
             node.col = temp_row
             node.row = temp_col
         self.vertical = False if True else False
-battleship = Ship(3)
-for node in battleship.nodes:
-    print((node.location()))
-
-battleship.rotate_ship()
-for node in battleship.nodes:
-    print((node.location()))
-battleship.rotate_ship()
-for node in battleship.nodes:
-    print((node.location()))
+        self.horizontal_size = 1 if self.vertical else self.size
+        self.vertical_size = self.size if self.vertical else 1
