@@ -58,6 +58,9 @@ class Node:
         self.view = False
 
     def is_occupied(self):
+        """
+        Method to access variable occupied
+        """
         return self.occupied
 
     def occupy(self):
