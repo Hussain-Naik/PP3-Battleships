@@ -28,3 +28,6 @@ class Ship:
         self.vertical = not self.vertical
         self.horizontal_size = 1 if True else self.size
         self.vertical_size =  self.size if True else 0
+    
+    def update_status(self):
+        self.sunk = all([node.used for node in self.nodes])
