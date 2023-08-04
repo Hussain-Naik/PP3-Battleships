@@ -28,7 +28,11 @@ class Node:
         return "-"
     
     def location(self):
+        """
+        method for testing node positions
+        """
         return f"{self.row}, {self.col}"
+    
     def is_used(self):
         return self.used
     
