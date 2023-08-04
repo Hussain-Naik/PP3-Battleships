@@ -64,5 +64,8 @@ class Node:
         return self.occupied
 
     def occupy(self):
+        """
+        Method to set variable occupied to True
+        """
         self.occupied = True
     
