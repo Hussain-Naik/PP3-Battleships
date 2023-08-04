@@ -62,5 +62,10 @@ class Ship:
         self.nodes = placed_nodes
 
     def confirm_placement(self):
+        """
+        Set all ship nodes to occupied variable to True
+        """
+        #Loop through all ship nodes
         for node in self.nodes:
+            #Call node occupy method
             node.occupy()
