@@ -47,12 +47,20 @@ class Ship:
         self.sunk = all([node.used for node in self.nodes])
 
     def assign_ship_to_board(self, board):
+        """
+        Add board nodes to ship so ship
+        nodes reference same board node 
+        """
+        #Temporary list
         placed_nodes = []
+
+        #loop through all nodes
         for node in self.nodes:
+            #Add board node with node col and row to temp list
             placed_nodes.append(board[node.col][node.row])
-            print(id(board[node.col][node.row]))
-            print(id(node))
+        #Save node list with temporary list
         self.nodes = placed_nodes
+
     def confirm_placement(self):
         for node in self.nodes:
             node.occupy()
