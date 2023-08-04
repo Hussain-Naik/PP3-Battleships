@@ -45,9 +45,6 @@ class Node:
         """
         self.used = True
 
-    def make_unused(self):
-        self.used = False
-    
     def set_view(self):
         self.view = True
 
