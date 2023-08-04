@@ -6,16 +6,22 @@ from time import sleep
 from node import Node
 from ships import Ship
 
-player_fleet = []
-enemy_fleet = []
+
+
+#List of option for main menu
 options_main = [
     "Start",
     "Exit",
 ]
+
+#Variable for main menu
 main_menu = TerminalMenu(
     options_main,
     title="Main menu"
     )
+
+player_fleet = []
+enemy_fleet = []
 terminal = Terminal()
 
 def generate_grid():
