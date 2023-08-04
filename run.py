@@ -52,22 +52,19 @@ def main():
     """
     Main Function.
     """
-    b1 = Ship(1)
+    b1 = Ship(2)
     b2 = Ship(3)
     fleet_status = [b1.sunk, b2.sunk]
     x = all(fleet_status)
     print(x)
-
-    print(f"x:{b1.horizontal_size} y:{b1.vertical_size} {b1.vertical}")
-    b1.rotate_ship()
-    print(f"x:{b1.horizontal_size} y:{b1.vertical_size} {b1.vertical}")
-    print(b1.sunk)
-    print(b1.nodes[0].used)
-    b1.nodes[0].make_used()
-    b1.update_status()
-    print(b1.nodes[0].used)
-    print(b1.sunk)
     board = generate_grid()
+    b1.assign_ship_to_board(board)
+    board[0,0].occupy()
+    b1.confirm_placement()
+    print(id(board))
+    print(id(board[0][0]))
+    print(id(b1.nodes[0]))
+    print(board[0][0].is_occupied())
     while True:
         user_choice = main_menu.show()
         if options_main[user_choice] == "Start":
