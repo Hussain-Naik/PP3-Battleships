@@ -24,12 +24,19 @@ class Ship:
         return self.nodes
     
     def rotate_ship(self):
+        """
+        Rotate method for ship
+        """
         for node in self.nodes:
+            #Assign temporary variables
             temp_row = node.return_row()
             temp_col = node.return_col()
+            #Invert row and col
             node.col = temp_row
             node.row = temp_col
+        #Change vertical
         self.vertical = not self.vertical
+        #Switch Vertical and horizontal sizes
         self.horizontal_size = 1 if True else self.size
         self.vertical_size =  self.size if True else 0
     
