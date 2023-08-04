@@ -8,8 +8,8 @@ class Ship:
     vertical = True
     nodes = []
     def __init__(self, size):
-        #self.nodes = np.array([[Node(row, col) for col in range(0)] for row in range(size)])
-        self.nodes = np.array([Node(0,0), Node(0,1), Node(0,2)])
+        self.nodes = np.array([Node(row, 0) for row in range(size)])
+        #self.nodes = np.array([Node(0,0), Node(0,1), Node(0,2)])
 
     def print_location(self):
         return self.nodes
@@ -25,6 +25,9 @@ battleship = Ship(3)
 for node in battleship.nodes:
     print((node.location()))
 
+battleship.rotate_ship()
+for node in battleship.nodes:
+    print((node.location()))
 battleship.rotate_ship()
 for node in battleship.nodes:
     print((node.location()))
