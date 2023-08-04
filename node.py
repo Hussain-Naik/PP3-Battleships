@@ -69,3 +69,15 @@ class Node:
         """
         self.occupied = True
     
+    def return_row(self):
+        """
+        method to access variable row
+        """
+        return self.row
+    
+    def return_col(self):
+        """
+        Method to access variable col
+        """
+        return self.col
+    
