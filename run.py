@@ -66,6 +66,7 @@ def main():
     x = all(fleet_status)
     print(x)
     board = generate_grid()
+    b1.rotate_ship()
     b1.assign_ship_to_board(board)
     board[0,0].occupy()
     b1.confirm_placement()
