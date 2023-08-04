@@ -25,6 +25,6 @@ class Ship:
             temp_col = node.return_col()
             node.col = temp_row
             node.row = temp_col
-        self.vertical = False if True else False
+        self.vertical = not self.vertical
         self.horizontal_size = 1 if True else self.size
         self.vertical_size =  self.size if True else 0
