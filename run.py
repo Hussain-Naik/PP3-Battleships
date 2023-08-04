@@ -4,7 +4,10 @@ import numpy as np
 import sys
 from time import sleep
 from node import Node
+from ships import Ship
 
+player_fleet = []
+enemy_fleet = []
 options_main = [
     "Start",
     "Exit",
@@ -49,6 +52,17 @@ def main():
     """
     Main Function.
     """
+    b1 = Ship(2)
+    b2 = Ship(3)
+    b1.sunk = True
+    b2.sunk = True
+    fleet_status = [b1.sunk, b2.sunk]
+    x = all(fleet_status)
+    print(x)
+
+    print(f"x:{b1.horizontal_size} y:{b1.vertical_size} {b1.vertical}")
+    b1.rotate_ship()
+    print(f"x:{b1.horizontal_size} y:{b1.vertical_size} {b1.vertical}")
     board = generate_grid()
     while True:
         user_choice = main_menu.show()
