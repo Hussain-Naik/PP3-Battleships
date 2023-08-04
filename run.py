@@ -22,6 +22,8 @@ main_menu = TerminalMenu(
 
 player_fleet = []
 enemy_fleet = []
+
+#Blessed terminal variable
 terminal = Terminal()
 
 def generate_grid():
