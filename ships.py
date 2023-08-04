@@ -4,7 +4,7 @@ class Ship:
     """
     Battleship class
     """
-    sunk = False
+    sunk = True
     vertical = False
     vertical_size = 1
     horizontal_size = 1
@@ -14,6 +14,7 @@ class Ship:
         self.horizontal_size = size
         self.nodes = np.array([Node(row, 0) for row in range(size)])
         #self.nodes = np.array([Node(0,0), Node(0,1), Node(0,2)])
+        self.sunk = all([node.used for node in self.nodes])
 
     def print_location(self):
         return self.nodes
