@@ -40,6 +40,9 @@ class Node:
         return self.used
     
     def make_used(self):
+        """
+        Method to change used to True
+        """
         self.used = True
 
     def make_unused(self):
