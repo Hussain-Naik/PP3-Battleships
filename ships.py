@@ -41,6 +41,9 @@ class Ship:
         self.vertical_size =  self.size if True else 0
     
     def update_status(self):
+        """
+        Update ship sunk status
+        """
         self.sunk = all([node.used for node in self.nodes])
 
     def assign_ship_to_board(self, board):
