@@ -107,7 +107,10 @@ def auto_position_fleet(fleet):
         fleet_positions.update(ship_position)
         print(fleet_positions)
         
-        
+def place_fleet_on_board(fleet, board):
+    for x in range(0, len(fleet)):
+        fleet[x].assign_ship_to_board(board)
+        fleet[x].confirm_placement()
         
 def main():
     """
@@ -122,9 +125,7 @@ def main():
     print(enemy_fleet_status)
     print(str(enemy_fleet[0]))
     auto_position_fleet(enemy_fleet)
-    for ships in enemy_fleet:
-        ships.assign_ship_to_board(board)
-        ships.confirm_placement()
+    place_fleet_on_board(enemy_fleet, board)
     print(f'{str(enemy_fleet[0])} nodes:{enemy_fleet[0].return_node_set()} size:{enemy_fleet[0].return_size()}')
     print(f'{str(enemy_fleet[1])} nodes:{enemy_fleet[1].return_node_set()} size:{enemy_fleet[1].return_size()}')
     print(f'{str(enemy_fleet[2])} nodes:{enemy_fleet[2].return_node_set()} size:{enemy_fleet[2].return_size()}')
