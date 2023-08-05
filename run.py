@@ -11,6 +11,7 @@ UP = (0,-1)
 DOWN = (0, 1)
 LEFT = (-1,0)
 RIGHT = (1,0)
+CURSOR = (0,0)
 DELAY = 0.02
 
 #List of option for main menu
@@ -61,19 +62,20 @@ def display_grid(grid):
         print("Press ESC to show menu.")
         sleep(DELAY)
 
-def move_node(t_node, board, direction):
+def move_node(t_node, board, direction, size):
     """
     Function to move in grid
     """
     (x, y) = direction
-    grid_row = t_node.row if t_node.row + y > len(board) -1  or t_node.row + y < 0 else t_node.row + y
-    grid_col = t_node.col if t_node.col + x > len(board) -1  or t_node.col + x < 0 else t_node.col + x
+    (size_x, size_y) = size
+    grid_row = t_node.row if t_node.row + y + size_y > len(board) -1  or t_node.row + y < 0 else t_node.row + y
+    grid_col = t_node.col if t_node.col + x + size_x> len(board) -1  or t_node.col + x < 0 else t_node.col + x
     t_node.set_hidden()
     t_node = board[grid_row][grid_col]
     t_node.set_view()
     return t_node
 
-def move_ship_up(self, board):
+def move_ship(ship, board, direction):
     """
     Method to move ship up on grid
     """
@@ -114,13 +116,13 @@ def main():
                         board[temp_start.row][temp_start.col].make_used()
                         board[temp_start.row][temp_start.col].set_hidden()
                     elif key_pressed.code == terminal.KEY_UP:
-                        temp_start = move_node(temp_start, board, UP)
+                        temp_start = move_node(temp_start, board, UP, CURSOR)
                     elif key_pressed.code == terminal.KEY_DOWN:
-                        temp_start = move_node(temp_start, board, DOWN)
+                        temp_start = move_node(temp_start, board, DOWN, CURSOR)
                     elif key_pressed.code == terminal.KEY_RIGHT:
-                        temp_start = move_node(temp_start, board, RIGHT)
+                        temp_start = move_node(temp_start, board, RIGHT, CURSOR)
                     elif key_pressed.code == terminal.KEY_LEFT:
-                        temp_start = move_node(temp_start, board, LEFT)
+                        temp_start = move_node(temp_start, board, LEFT, CURSOR)
                     display_grid(board)
         elif options_main[user_choice] == "Exit":
             break
