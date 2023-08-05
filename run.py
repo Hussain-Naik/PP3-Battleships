@@ -122,11 +122,14 @@ def main():
     print(enemy_fleet_status)
     print(str(enemy_fleet[0]))
     auto_position_fleet(enemy_fleet)
-    print(f'{str(enemy_fleet[0])} {enemy_fleet[0].return_node_set()}')
-    print(f'{str(enemy_fleet[1])} {enemy_fleet[1].return_node_set()}')
-    print(f'{str(enemy_fleet[2])} {enemy_fleet[2].return_node_set()}')
-    print(f'{str(enemy_fleet[3])} {enemy_fleet[3].return_node_set()}')
-    print(f'{str(enemy_fleet[4])} {enemy_fleet[4].return_node_set()}')
+    for ships in enemy_fleet:
+        ships.assign_ship_to_board(board)
+        ships.confirm_placement()
+    print(f'{str(enemy_fleet[0])} nodes:{enemy_fleet[0].return_node_set()} size:{enemy_fleet[0].return_size()}')
+    print(f'{str(enemy_fleet[1])} nodes:{enemy_fleet[1].return_node_set()} size:{enemy_fleet[1].return_size()}')
+    print(f'{str(enemy_fleet[2])} nodes:{enemy_fleet[2].return_node_set()} size:{enemy_fleet[2].return_size()}')
+    print(f'{str(enemy_fleet[3])} nodes:{enemy_fleet[3].return_node_set()} size:{enemy_fleet[3].return_size()}')
+    print(f'{str(enemy_fleet[4])} nodes:{enemy_fleet[4].return_node_set()} size:{enemy_fleet[4].return_size()}')
     #End of testing section
     while True:
         user_choice = main_menu.show()
