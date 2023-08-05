@@ -24,7 +24,7 @@ main_menu = TerminalMenu(options_main, title="Main menu")
 ship_menu = TerminalMenu(options_ship, title="Main menu")
 
 player_fleet = []
-enemy_fleet = []
+
 
 #Blessed terminal variable
 terminal = Terminal()
@@ -79,6 +79,21 @@ def move_ship(ship, board, direction):
     Method to move ship up on grid
     """
     
+def generate_fleet():
+    fleet = []
+    patrol = Ship(1)
+    fleet.append(patrol)
+    sub = Ship(2)
+    fleet.append(sub)
+    destroyer = Ship(3)
+    fleet.append(destroyer)
+    battleship = Ship(4)
+    fleet.append(battleship)
+    carrier = Ship(5)
+    fleet.append(carrier)
+    return fleet
+
+        
 def main():
     """
     Main Function.
@@ -98,6 +113,9 @@ def main():
     print(id(b1.nodes[0]))
     print(board[0][0].is_occupied())
     print(type(b1.return_size()))
+    enemy_fleet = generate_fleet()
+    enemy_fleet[0].sunk = True
+    print(enemy_fleet)
     while True:
         user_choice = main_menu.show()
         if options_main[user_choice] == "Start":
