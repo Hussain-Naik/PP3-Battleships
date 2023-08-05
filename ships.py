@@ -78,6 +78,19 @@ class Ship:
         
         return node_set
 
+    def set_random_position(self):
+        random_rotate = random.randint(0,1)
+        if random_rotate == 0:
+            self.rotate_ship()
+            print("rotated ship")
+        
+        (x,y) = self.return_size()
+        random_col = random.randint(0, 9 - x)
+        random_row = random.randint(0, 9 - y)
+
+        for node in self.nodes:
+            node.col += random_col
+            node.row += random_row
 
     def return_size(self):
         """
