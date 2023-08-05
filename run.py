@@ -23,10 +23,6 @@ main_menu = TerminalMenu(options_main, title="Main menu")
 #Variable for main menu
 ship_menu = TerminalMenu(options_ship, title="Main menu")
 
-player_fleet_status = []
-enemy_fleet_status = []
-
-
 #Blessed terminal variable
 terminal = Terminal()
 
@@ -47,16 +43,21 @@ def output_string(string):
         sys.stdout.write(char)
         sys.stdout.flush()
         
-def display_grid(enemy_grid, player_grid):
+def display_grid(enemy_grid, player_grid, enemy_ships, player_ships):
     """
     Displays the grid in the terminal.
     """
     with terminal.hidden_cursor():
         print(terminal.home + terminal.clear)
-        print("#######################     #######################")
-        for (enemy_row, player_row) in zip(enemy_grid, player_grid):
-            print("# " + " ".join(str(node) for node in enemy_row) + " #     # " + " ".join(str(point) for point in player_row) + " #")
-        print("#######################     #######################")
+        print("           #######################     #######################")
+        for (enemy_row, player_row, i) in zip(enemy_grid, player_grid, range(0,10)):
+            enemy_ship_name = " " * 11
+            player_ship_name = " " * 11
+            if i < len(enemy_ships):
+                enemy_ship_name = str(enemy_ships[i])
+                player_ship_name = str(player_ships[i])
+            print(enemy_ship_name + "# " + " ".join(str(node) for node in enemy_row) + " #     # " + " ".join(str(point) for point in player_row) + " # "+ player_ship_name)
+        print("           #######################     #######################")
         print("Use ARROW keys to move around the grid.")
         print("Press ENTER to confirm placement")
         print("Press ESC to show menu.")
@@ -117,6 +118,9 @@ def main():
     """
     enemy_fleet = generate_fleet()
     enemy_fleet_status = all([ship.sunk for ship in enemy_fleet])
+
+    player_fleet = generate_fleet()
+    player_fleet_status = all([ship.sunk for ship in enemy_fleet])
  
     enemy_board = generate_grid()
     player_board = generate_grid()
@@ -137,7 +141,7 @@ def main():
         user_choice = main_menu.show()
         if options_main[user_choice] == "Start":
             output_string('Starting Battleship Game...')
-            display_grid(enemy_board, player_board)
+            display_grid(enemy_board, player_board, enemy_fleet, player_fleet)
             with terminal.cbreak(), terminal.hidden_cursor():
                 output_string('Select Location to Strike.\nPress Enter when Co-ordinates confirmed Admiral')
                 temp_start = enemy_board[5][5]
@@ -158,7 +162,7 @@ def main():
                         temp_start = move_node(temp_start, enemy_board, RIGHT, CURSOR)
                     elif key_pressed.code == terminal.KEY_LEFT:
                         temp_start = move_node(temp_start, enemy_board, LEFT, CURSOR)
-                    display_grid(enemy_board, player_board)
+                    display_grid(enemy_board, player_board, enemy_fleet, player_fleet)
         elif options_main[user_choice] == "Exit":
             break
         
