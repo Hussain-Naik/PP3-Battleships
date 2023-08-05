@@ -72,9 +72,9 @@ class Ship:
             node.occupy()
     
     def return_node_set(self):
-        node_set = {}
+        node_set = set()
         for node in self.nodes:
-            node_set.add(node.location)
+            node_set.add(node.location())
         
         return node_set
 
