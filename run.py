@@ -52,8 +52,10 @@ def display_grid(grid):
     """
     with terminal.hidden_cursor():
         print(terminal.home + terminal.clear)
+        print("#######################")
         for row in grid:
-            print(" ".join(str(node) for node in row))
+            print("# " + " ".join(str(node) for node in row) + " #")
+        print("#######################")
         print("Use ARROW keys to move around the grid.")
         print("Press ENTER to confirm placement")
         print("Press ESC to show menu.")
