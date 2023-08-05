@@ -109,14 +109,7 @@ def main():
     b1.assign_ship_to_board(board)
     board[0,0].occupy()
     b1.confirm_placement()
-    print(id(board))
-    print(id(board[0][0]))
-    print(id(b1.nodes[0]))
-    print(board[0][0].is_occupied())
-    print(type(b1.return_size()))
-    enemy_fleet = generate_fleet()
-    enemy_fleet[0].sunk = True
-    print(enemy_fleet)
+    print(b2.return_node_set)
     while True:
         user_choice = main_menu.show()
         if options_main[user_choice] == "Start":
