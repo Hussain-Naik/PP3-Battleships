@@ -99,18 +99,14 @@ def main():
     """
     Main Function.
     """
-    b1 = Ship(2)
-    b2 = Ship(3)
-    fleet_status = [b1.sunk, b2.sunk]
-    x = all(fleet_status)
-    print(x)
+    enemy_fleet = generate_fleet()
+    enemy_fleet_status = all([ship.sunk for ship in enemy_fleet])
+ 
     board = generate_grid()
-    b1.rotate_ship()
-    b1.assign_ship_to_board(board)
-    board[0,0].occupy()
-    b1.confirm_placement()
-    b2.set_random_position()
-    print(b2.return_node_set())
+
+    #Testing section
+
+    #End of testing section
     while True:
         user_choice = main_menu.show()
         if options_main[user_choice] == "Start":
