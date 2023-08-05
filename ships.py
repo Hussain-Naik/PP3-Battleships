@@ -69,3 +69,8 @@ class Ship:
         for node in self.nodes:
             #Call node occupy method
             node.occupy()
+    
+    def move_ship_up(self, board):
+        """
+        Method to move ship up on grid
+        """
