@@ -15,16 +15,13 @@ CURSOR = (0,0)
 DELAY = 0.02
 
 #List of option for main menu
-options_main = [
-    "Start",
-    "Exit",
-]
+options_main = ["Start","Exit"]
 
+options_ship = ["Patrol Boat","Submarine","Destroyer", "Battleship", "Carrier"]
 #Variable for main menu
-main_menu = TerminalMenu(
-    options_main,
-    title="Main menu"
-    )
+main_menu = TerminalMenu(options_main, title="Main menu")
+#Variable for main menu
+ship_menu = TerminalMenu(options_ship, title="Main menu")
 
 player_fleet = []
 enemy_fleet = []
@@ -45,7 +42,7 @@ def output_string(string):
     Displays the string parameter with a delayed timer.
     """
     for char in string:
-        sleep(0.1)
+        sleep(DELAY)
         sys.stdout.write(char)
         sys.stdout.flush()
         
