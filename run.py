@@ -123,8 +123,9 @@ def main():
 
     #Testing section
     print(enemy_fleet_status)
-    print(str(enemy_fleet[0]))
+    print(enemy_fleet[0].name)
     auto_position_fleet(enemy_fleet)
+    enemy_fleet[0].sunk = True
     print(f'{str(enemy_fleet[0])} nodes:{enemy_fleet[0].return_node_set()} size:{enemy_fleet[0].return_size()}')
     print(f'{str(enemy_fleet[1])} nodes:{enemy_fleet[1].return_node_set()} size:{enemy_fleet[1].return_size()}')
     print(f'{str(enemy_fleet[2])} nodes:{enemy_fleet[2].return_node_set()} size:{enemy_fleet[2].return_size()}')
