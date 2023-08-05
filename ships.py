@@ -96,12 +96,10 @@ class Ship:
         random_rotate = random.randint(0,1)
         if random_rotate == 0:
             self.rotate_ship()
-            print("rotated ship")
         
         (x,y) = self.return_size()
         random_col = random.randint(0, 9 - y)
         random_row = random.randint(0, 9 - x)
-        print(random_col, random_row)
         for node in self.nodes:
             node.col += random_col
             node.row += random_row
