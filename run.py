@@ -145,7 +145,7 @@ def main():
                     if key_pressed.code == terminal.KEY_ESCAPE:
                         temp_start.set_hidden()
                         break
-                    elif key_pressed.code == terminal.KEY_ENTER:
+                    elif key_pressed.code == terminal.KEY_ENTER or key_pressed.code == terminal.KEY_SPACE:
                         board[temp_start.row][temp_start.col].make_used()
                         board[temp_start.row][temp_start.col].set_hidden()
                     elif key_pressed.code == terminal.KEY_UP:
