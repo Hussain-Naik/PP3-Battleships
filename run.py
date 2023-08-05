@@ -154,6 +154,8 @@ def main():
                     elif key_pressed.code == terminal.KEY_ENTER:
                         enemy_board[temp_start.row][temp_start.col].make_used()
                         enemy_board[temp_start.row][temp_start.col].set_hidden()
+                        for ships in enemy_fleet:
+                            ships.update_status()
                     elif key_pressed.code == terminal.KEY_UP:
                         temp_start = move_node(temp_start, enemy_board, UP, CURSOR)
                     elif key_pressed.code == terminal.KEY_DOWN:
