@@ -92,6 +92,7 @@ class Ship:
         return node_set
 
     def set_random_position(self):
+        self.reset_ship()
         random_rotate = random.randint(0,1)
         if random_rotate == 0:
             self.rotate_ship()
@@ -111,3 +112,11 @@ class Ship:
         """
         #Return ship dimensions with respective size -1
         return (self.horizontal_size -1, self.vertical_size -1)
+    
+    def reset_ship(self):
+        for x in range(0 ,self.size):
+            self.nodes[x].col = 0
+            self.nodes[x].row = x
+        self.horizontal_size = len(self.nodes)
+        self.vertical = False
+        self.vertical_size = 1
