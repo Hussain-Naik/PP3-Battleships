@@ -73,4 +73,5 @@ class Ship:
         """
         Method to return ship size as tuple
         """
-        return (self.horizontal_size, self.vertical_size)
+        #Return ship dimensions with respective size -1
+        return (self.horizontal_size -1, self.vertical_size -1)
