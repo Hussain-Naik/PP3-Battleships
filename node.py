@@ -31,7 +31,7 @@ class Node:
         """
         method for testing node positions
         """
-        return f"{self.row}, {self.col}"
+        return f"{self.col}, {self.row}"
     
     def is_used(self):
         """
