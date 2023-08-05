@@ -95,6 +95,18 @@ def generate_fleet():
     
     return fleet
 
+def auto_position_fleet(fleet):
+    fleet_positions = set()
+    for x in range(0, len(fleet)):
+        fleet[x].set_random_position()
+        ship_position = fleet[x].return_node_set()
+        while ship_position in fleet_positions:
+            fleet[x].set_random_position()
+            ship_position = fleet[x].return_node_set()
+            print(ship_position)
+        fleet_positions.update(ship_position)
+        
+        
         
 def main():
     """
