@@ -98,6 +98,7 @@ def main():
     print(id(board[0][0]))
     print(id(b1.nodes[0]))
     print(board[0][0].is_occupied())
+    print(type(b1.return_size()))
     while True:
         user_choice = main_menu.show()
         if options_main[user_choice] == "Start":
