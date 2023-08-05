@@ -100,12 +100,11 @@ def auto_position_fleet(fleet):
     for x in range(0, len(fleet)):
         fleet[x].set_random_position()
         ship_position = fleet[x].return_node_set()
-        while ship_position in fleet_positions:
+        while len(ship_position.difference(fleet_positions)) < len(ship_position):
             fleet[x].set_random_position()
             ship_position = fleet[x].return_node_set()
-            print(ship_position)
         fleet_positions.update(ship_position)
-        print(fleet_positions)
+
         
 def place_fleet_on_board(fleet, board):
     for x in range(0, len(fleet)):
@@ -125,12 +124,12 @@ def main():
     print(enemy_fleet_status)
     print(str(enemy_fleet[0]))
     auto_position_fleet(enemy_fleet)
-    place_fleet_on_board(enemy_fleet, board)
     print(f'{str(enemy_fleet[0])} nodes:{enemy_fleet[0].return_node_set()} size:{enemy_fleet[0].return_size()}')
     print(f'{str(enemy_fleet[1])} nodes:{enemy_fleet[1].return_node_set()} size:{enemy_fleet[1].return_size()}')
     print(f'{str(enemy_fleet[2])} nodes:{enemy_fleet[2].return_node_set()} size:{enemy_fleet[2].return_size()}')
     print(f'{str(enemy_fleet[3])} nodes:{enemy_fleet[3].return_node_set()} size:{enemy_fleet[3].return_size()}')
     print(f'{str(enemy_fleet[4])} nodes:{enemy_fleet[4].return_node_set()} size:{enemy_fleet[4].return_size()}')
+    place_fleet_on_board(enemy_fleet, board)
     #End of testing section
     while True:
         user_choice = main_menu.show()
