@@ -10,6 +10,7 @@ class Ship:
     vertical_size = 1
     horizontal_size = 1
     nodes = []
+    name = ""
     
     def __init__(self, size):
         #Size of the ship
@@ -20,9 +21,16 @@ class Ship:
         self.nodes = [Node(row, 0) for row in range(size)]
         #Set ship sunk boolean based of all node used variable
         self.sunk = all([node.used for node in self.nodes])
+        self.name = self.name_ship()
 
     def __str__(self):
         # override str method to display ship type as string.
+        if self.sunk:
+            return '\u0336'.join(self.name) + '\u0336'
+        else:
+            return self.name
+    
+    def name_ship(self):
         if len(self.nodes) == 5:
             return "Carrier"
         elif len(self.nodes) == 4:
@@ -33,7 +41,6 @@ class Ship:
             return "Submarine"
         else:
             return "Patrol Boat"
-    
     def print_location(self):
         return self.nodes
     
