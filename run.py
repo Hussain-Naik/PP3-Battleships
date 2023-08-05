@@ -105,6 +105,7 @@ def auto_position_fleet(fleet):
             ship_position = fleet[x].return_node_set()
             print(ship_position)
         fleet_positions.update(ship_position)
+        print(fleet_positions)
         
         
         
@@ -120,6 +121,12 @@ def main():
     #Testing section
     print(enemy_fleet_status)
     print(str(enemy_fleet[0]))
+    auto_position_fleet(enemy_fleet)
+    print(f'{str(enemy_fleet[0])} {enemy_fleet[0].return_node_set()}')
+    print(f'{str(enemy_fleet[1])} {enemy_fleet[1].return_node_set()}')
+    print(f'{str(enemy_fleet[2])} {enemy_fleet[2].return_node_set()}')
+    print(f'{str(enemy_fleet[3])} {enemy_fleet[3].return_node_set()}')
+    print(f'{str(enemy_fleet[4])} {enemy_fleet[4].return_node_set()}')
     #End of testing section
     while True:
         user_choice = main_menu.show()
