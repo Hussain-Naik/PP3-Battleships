@@ -21,6 +21,19 @@ class Ship:
         #Set ship sunk boolean based of all node used variable
         self.sunk = all([node.used for node in self.nodes])
 
+    def __str__(self):
+        # override str method to display ship type as string.
+        if len(self.nodes) == 5:
+            return "Carrier"
+        elif len(self.nodes) == 4:
+            return "Battleship"
+        elif len(self.nodes) == 3:
+            return "Destroyer"
+        elif len(self.nodes) == 2:
+            return "Submarine"
+        else:
+            return "Patrol Boat"
+    
     def print_location(self):
         return self.nodes
     
