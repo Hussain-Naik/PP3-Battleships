@@ -93,9 +93,6 @@ def generate_fleet():
     patrol = Ship(1)
     fleet.append(patrol)
     
-    
-    
-    
     return fleet
 
         
