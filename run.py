@@ -106,6 +106,7 @@ def main():
 
     #Testing section
     print(enemy_fleet_status)
+    print(str(ship) for ship in enemy_fleet)
     #End of testing section
     while True:
         user_choice = main_menu.show()
