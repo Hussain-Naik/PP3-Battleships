@@ -73,6 +73,11 @@ def move_node(t_node, board, direction):
     t_node.set_view()
     return t_node
 
+def move_ship_up(self, board):
+    """
+    Method to move ship up on grid
+    """
+    
 def main():
     """
     Main Function.
