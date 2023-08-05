@@ -23,7 +23,8 @@ main_menu = TerminalMenu(options_main, title="Main menu")
 #Variable for main menu
 ship_menu = TerminalMenu(options_ship, title="Main menu")
 
-player_fleet = []
+player_fleet_status = []
+enemy_fleet_status = []
 
 
 #Blessed terminal variable
