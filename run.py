@@ -82,16 +82,20 @@ def move_ship(ship, board, direction):
     
 def generate_fleet():
     fleet = []
-    patrol = Ship(1)
-    fleet.append(patrol)
-    sub = Ship(2)
-    fleet.append(sub)
-    destroyer = Ship(3)
-    fleet.append(destroyer)
-    battleship = Ship(4)
-    fleet.append(battleship)
     carrier = Ship(5)
     fleet.append(carrier)
+    battleship = Ship(4)
+    fleet.append(battleship)
+    destroyer = Ship(3)
+    fleet.append(destroyer)
+    submarine = Ship(2)
+    fleet.append(submarine)
+    patrol = Ship(1)
+    fleet.append(patrol)
+    
+    
+    
+    
     return fleet
 
         
@@ -106,7 +110,7 @@ def main():
 
     #Testing section
     print(enemy_fleet_status)
-    print(str(ship) for ship in enemy_fleet)
+    print(str(enemy_fleet[0]))
     #End of testing section
     while True:
         user_choice = main_menu.show()
