@@ -105,7 +105,7 @@ def main():
     board = generate_grid()
 
     #Testing section
-
+    print(enemy_fleet_status)
     #End of testing section
     while True:
         user_choice = main_menu.show()
