@@ -69,4 +69,8 @@ class Ship:
         for node in self.nodes:
             #Call node occupy method
             node.occupy()
-    
+    def return_size(self):
+        """
+        Method to return ship size as tuple
+        """
+        return (self.horizontal_size, self.vertical_size)
