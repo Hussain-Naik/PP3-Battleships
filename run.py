@@ -6,7 +6,11 @@ from time import sleep
 from node import Node
 from ships import Ship
 
-
+#Set up constant global variables
+UP = (0,-1)
+DOWN = (0, 1)
+LEFT = (-1,0)
+RIGHT = (1,0)
 
 #List of option for main menu
 options_main = [
@@ -56,6 +60,14 @@ def display_grid(grid):
         print("Press ESC to show menu.")
         sleep(0.02)
 
+def move_node(t_node, board, direction):
+    (x, y) = direction
+    grid_row = t_node.row if t_node.row + y > len(board) -1 else t_node.row + y
+    t_node.set_hidden()
+    t_node = board[t_node.row + y][t_node.col + x]
+    t_node.set_view()
+    return t_node
+
 def main():
     """
     Main Function.
@@ -92,9 +104,7 @@ def main():
                         board[temp_start.row][temp_start.col].make_used()
                         board[temp_start.row][temp_start.col].set_hidden()
                     elif key_pressed.code == terminal.KEY_UP:
-                        temp_start.set_hidden()
-                        temp_start = board[temp_start.row - 1][temp_start.col]
-                        temp_start.set_view()
+                        temp_start = move_node(temp_start, board, (0,-1))
                     elif key_pressed.code == terminal.KEY_DOWN:
                         if temp_start.row + 1 > len(board) -1:
                             temp_start.set_hidden()
