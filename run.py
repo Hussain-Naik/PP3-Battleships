@@ -109,6 +109,7 @@ def main():
     b1.assign_ship_to_board(board)
     board[0,0].occupy()
     b1.confirm_placement()
+    b2.set_random_position()
     print(b2.return_node_set())
     while True:
         user_choice = main_menu.show()
