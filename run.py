@@ -11,6 +11,7 @@ UP = (0,-1)
 DOWN = (0, 1)
 LEFT = (-1,0)
 RIGHT = (1,0)
+DELAY = 0.02
 
 #List of option for main menu
 options_main = [
@@ -58,13 +59,13 @@ def display_grid(grid):
         print("Use ARROW keys to move around the grid.")
         print("Press ENTER to confirm placement")
         print("Press ESC to show menu.")
-        sleep(0.02)
+        sleep(DELAY)
 
 def move_node(t_node, board, direction):
     (x, y) = direction
-    grid_row = t_node.row if t_node.row + y > len(board) -1 else t_node.row + y
+    grid_row = t_node.row if t_node.row + y > len(board) -1  or t_node.row + y < 0 else t_node.row + y
     t_node.set_hidden()
-    t_node = board[t_node.row + y][t_node.col + x]
+    t_node = board[grid_row][t_node.col + x]
     t_node.set_view()
     return t_node
 
@@ -104,7 +105,7 @@ def main():
                         board[temp_start.row][temp_start.col].make_used()
                         board[temp_start.row][temp_start.col].set_hidden()
                     elif key_pressed.code == terminal.KEY_UP:
-                        temp_start = move_node(temp_start, board, (0,-1))
+                        temp_start = move_node(temp_start, board, UP)
                     elif key_pressed.code == terminal.KEY_DOWN:
                         if temp_start.row + 1 > len(board) -1:
                             temp_start.set_hidden()
