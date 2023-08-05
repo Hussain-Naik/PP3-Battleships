@@ -1,4 +1,5 @@
 import numpy as np
+import random
 from node import Node
 class Ship:
     """
@@ -69,6 +70,15 @@ class Ship:
         for node in self.nodes:
             #Call node occupy method
             node.occupy()
+    
+    def return_node_set(self):
+        node_set = {}
+        for node in self.nodes:
+            node_set.add(node.location)
+        
+        return node_set
+
+
     def return_size(self):
         """
         Method to return ship size as tuple
