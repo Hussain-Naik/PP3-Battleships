@@ -47,16 +47,16 @@ def output_string(string):
         sys.stdout.write(char)
         sys.stdout.flush()
         
-def display_grid(grid):
+def display_grid(enemy_grid, player_grid):
     """
     Displays the grid in the terminal.
     """
     with terminal.hidden_cursor():
         print(terminal.home + terminal.clear)
-        print("#######################")
-        for row in grid:
-            print("# " + " ".join(str(node) for node in row) + " #")
-        print("#######################")
+        print("#######################     #######################")
+        for (enemy_row, player_row) in zip(enemy_grid, player_grid):
+            print("# " + " ".join(str(node) for node in enemy_row) + " #     # " + " ".join(str(point) for point in player_row) + " #")
+        print("#######################     #######################")
         print("Use ARROW keys to move around the grid.")
         print("Press ENTER to confirm placement")
         print("Press ESC to show menu.")
@@ -118,7 +118,8 @@ def main():
     enemy_fleet = generate_fleet()
     enemy_fleet_status = all([ship.sunk for ship in enemy_fleet])
  
-    board = generate_grid()
+    enemy_board = generate_grid()
+    player_board = generate_grid()
 
     #Testing section
     print(enemy_fleet_status)
@@ -129,16 +130,16 @@ def main():
     print(f'{str(enemy_fleet[2])} nodes:{enemy_fleet[2].return_node_set()} size:{enemy_fleet[2].return_size()}')
     print(f'{str(enemy_fleet[3])} nodes:{enemy_fleet[3].return_node_set()} size:{enemy_fleet[3].return_size()}')
     print(f'{str(enemy_fleet[4])} nodes:{enemy_fleet[4].return_node_set()} size:{enemy_fleet[4].return_size()}')
-    place_fleet_on_board(enemy_fleet, board)
+    place_fleet_on_board(enemy_fleet, enemy_board)
     #End of testing section
     while True:
         user_choice = main_menu.show()
         if options_main[user_choice] == "Start":
             output_string('Starting Battleship Game...')
-            display_grid(board)
+            display_grid(enemy_board, player_board)
             with terminal.cbreak(), terminal.hidden_cursor():
                 output_string('Select Location to Strike.\nPress Enter when Co-ordinates confirmed Admiral')
-                temp_start = board[5][5]
+                temp_start = enemy_board[5][5]
                 while True:
                     key_pressed = terminal.inkey()
                     temp_start.set_view()
@@ -146,17 +147,17 @@ def main():
                         temp_start.set_hidden()
                         break
                     elif key_pressed.code == terminal.KEY_ENTER:
-                        board[temp_start.row][temp_start.col].make_used()
-                        board[temp_start.row][temp_start.col].set_hidden()
+                        enemy_board[temp_start.row][temp_start.col].make_used()
+                        enemy_board[temp_start.row][temp_start.col].set_hidden()
                     elif key_pressed.code == terminal.KEY_UP:
-                        temp_start = move_node(temp_start, board, UP, CURSOR)
+                        temp_start = move_node(temp_start, enemy_board, UP, CURSOR)
                     elif key_pressed.code == terminal.KEY_DOWN:
-                        temp_start = move_node(temp_start, board, DOWN, CURSOR)
+                        temp_start = move_node(temp_start, enemy_board, DOWN, CURSOR)
                     elif key_pressed.code == terminal.KEY_RIGHT:
-                        temp_start = move_node(temp_start, board, RIGHT, CURSOR)
+                        temp_start = move_node(temp_start, enemy_board, RIGHT, CURSOR)
                     elif key_pressed.code == terminal.KEY_LEFT:
-                        temp_start = move_node(temp_start, board, LEFT, CURSOR)
-                    display_grid(board)
+                        temp_start = move_node(temp_start, enemy_board, LEFT, CURSOR)
+                    display_grid(enemy_board, player_board)
         elif options_main[user_choice] == "Exit":
             break
         
