@@ -47,12 +47,12 @@ class Ai:
         return (random_col, random_row)
 
     def new_calculated_move(self):
-        last_move = self.successful_hits[len(self.successful_hits) -1]
-        (last_x, last_y) = last_move
+        last_hit = self.successful_hits[len(self.successful_hits) -1]
+        (last_x, last_y) = last_hit
         i = 0
         while True:
             print(f'start loop {i}')
-            (precision_x, precision_y) = self.precision_list[self.fail_counter + i]
+            (precision_x, precision_y) = self.precision_list[(self.fail_counter + i) % 4]
             check_hit = (precision_x + last_x, precision_y + last_y)
             (check_x, check_y) = check_hit
             print(f'check x:{check_x} check y:{check_y}')
@@ -64,13 +64,38 @@ class Ai:
                 i += 1
             else:
                 return check_hit
+    
+    def new_sequence_move(self):
+        last_hit = self.successful_hits[len(self.successful_hits) -1]
+        sequence_hit = self.successful_hits[len(self.successful_hits) -2]
+        (last_x, last_y) = last_hit
+        (sequence_x, sequence_y) = sequence_hit
+        dy = last_y - sequence_y if self.fail_counter == 0 else sequence_y - last_y
+        dy = 0 if dy == 0 else int(dy / abs(dy))
+        dx = last_x - sequence_x if self.fail_counter == 0 else sequence_x - last_x
+        dx = 0 if dx == 0 else int(dx / abs(dx))
+        if dx == 0 or dy == 0:
+            if self.fail_counter == 0:
+                return (last_x + dx, last_y + dy)
+            elif self.fail_counter > 0 and not (sequence_x + dx, sequence_y + dy) in self.all_hits:
+                return (sequence_x + dx, sequence_y + dy)
+            else:
+                move = self.new_calculated_move()
+        else:
+            move = self.new_calculated_move()
+        
+        return move
+
 
     def new_move(self):
         new_move = ()
         if len(self.successful_hits) == 0:
             new_move = self.new_random_move()
-        else:
+        elif len(self.successful_hits) == 1:
             new_move = self.new_calculated_move()
+        else:
+            new_move = self.new_sequence_move()
+
         check = new_move in self.all_hits
         while check:
             new_move = self.new_random_move()
