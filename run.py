@@ -111,11 +111,46 @@ def place_fleet_on_board(fleet, board):
     for x in range(0, len(fleet)):
         fleet[x].assign_ship_to_board(board)
         fleet[x].confirm_placement()
-        
+
+def play_game(enemy_board, player_board, enemy_fleet, player_fleet):
+    enemy_fleet_status = all([ship.sunk for ship in enemy_fleet])
+    player_fleet_status = all([ship.sunk for ship in enemy_fleet])
+    display_grid(enemy_board, player_board, enemy_fleet, player_fleet)
+    with terminal.cbreak(), terminal.hidden_cursor():
+        output_string('Select Location to Strike.\nPress Enter when Co-ordinates confirmed Admiral')
+        temp_start = enemy_board[5][5]
+        while not enemy_fleet_status or not player_fleet_status:
+            key_pressed = terminal.inkey()
+            temp_start.set_view()
+            enemy_fleet_status = all([ship.sunk for ship in enemy_fleet])
+            if enemy_fleet_status:
+                return (False, True, False)
+            elif player_fleet_status:
+                return (False, False, True)
+            if key_pressed.code == terminal.KEY_ESCAPE:
+                temp_start.set_hidden()
+                return True
+            elif key_pressed.code == terminal.KEY_ENTER:
+                enemy_board[temp_start.row][temp_start.col].make_used()
+                enemy_board[temp_start.row][temp_start.col].set_hidden()
+                for ships in enemy_fleet:
+                    ships.update_status()
+            elif key_pressed.code == terminal.KEY_UP:
+                temp_start = move_node(temp_start, enemy_board, UP, CURSOR)
+            elif key_pressed.code == terminal.KEY_DOWN:
+                temp_start = move_node(temp_start, enemy_board, DOWN, CURSOR)
+            elif key_pressed.code == terminal.KEY_RIGHT:
+                temp_start = move_node(temp_start, enemy_board, RIGHT, CURSOR)
+            elif key_pressed.code == terminal.KEY_LEFT:
+                temp_start = move_node(temp_start, enemy_board, LEFT, CURSOR)
+            display_grid(enemy_board, player_board, enemy_fleet, player_fleet)
+        return True
+
 def main():
     """
     Main Function.
     """
+    game_running = True
     enemy_fleet = generate_fleet()
     enemy_fleet_status = all([ship.sunk for ship in enemy_fleet])
 
@@ -137,38 +172,15 @@ def main():
     print(f'{str(enemy_fleet[4])} nodes:{enemy_fleet[4].return_node_set()} size:{enemy_fleet[4].return_size()}')
     place_fleet_on_board(enemy_fleet, enemy_board)
     #End of testing section
-    while not enemy_fleet_status or not player_fleet_status:
+    while game_running:
         user_choice = main_menu.show()
-        enemy_fleet_status = all([ship.sunk for ship in enemy_fleet])
+        print(enemy_fleet_status)
+        print(player_fleet_status)
         if options_main[user_choice] == "Start":
             output_string('Starting Battleship Game...')
-            display_grid(enemy_board, player_board, enemy_fleet, player_fleet)
-            with terminal.cbreak(), terminal.hidden_cursor():
-                output_string('Select Location to Strike.\nPress Enter when Co-ordinates confirmed Admiral')
-                temp_start = enemy_board[5][5]
-                while not enemy_fleet_status or not player_fleet_status:
-                    key_pressed = terminal.inkey()
-                    temp_start.set_view()
-                    enemy_fleet_status = all([ship.sunk for ship in enemy_fleet])
-                    if key_pressed.code == terminal.KEY_ESCAPE or enemy_fleet_status:
-                        temp_start.set_hidden()
-                        break
-                    elif key_pressed.code == terminal.KEY_ENTER:
-                        enemy_board[temp_start.row][temp_start.col].make_used()
-                        enemy_board[temp_start.row][temp_start.col].set_hidden()
-                        for ships in enemy_fleet:
-                            ships.update_status()
-                    elif key_pressed.code == terminal.KEY_UP:
-                        temp_start = move_node(temp_start, enemy_board, UP, CURSOR)
-                    elif key_pressed.code == terminal.KEY_DOWN:
-                        temp_start = move_node(temp_start, enemy_board, DOWN, CURSOR)
-                    elif key_pressed.code == terminal.KEY_RIGHT:
-                        temp_start = move_node(temp_start, enemy_board, RIGHT, CURSOR)
-                    elif key_pressed.code == terminal.KEY_LEFT:
-                        temp_start = move_node(temp_start, enemy_board, LEFT, CURSOR)
-                    display_grid(enemy_board, player_board, enemy_fleet, player_fleet)
-        elif options_main[user_choice] == "Exit" or enemy_fleet_status or player_fleet_status:
-            break
+            (game_running, enemy_fleet_status, player_fleet_status) = play_game(enemy_board, player_board, enemy_fleet, player_fleet)
+        elif options_main[user_choice] == "Exit":
+            game_running = False
     if enemy_fleet_status:
         print("You win")
     else:
