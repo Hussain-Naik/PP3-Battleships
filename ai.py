@@ -74,17 +74,28 @@ class Ai:
         dy = 0 if dy == 0 else int(dy / abs(dy))
         dx = last_x - sequence_x if self.fail_counter == 0 else sequence_x - last_x
         dx = 0 if dx == 0 else int(dx / abs(dx))
+        check_last_x_limit = last_x + dx >= 0 and last_x + dx <= 9
+        check_last_y_limit = last_y + dy >= 0 and last_y + dy <= 9
+        result_last_x = last_x + dx if check_last_x_limit else sequence_x -dx
+        result_last_y = last_y + dy if check_last_y_limit else sequence_y -dy
+        check_last_hit = (result_last_x, result_last_y) in self.all_hits
+
+        check_seq_x_limit = sequence_x + dx >= 0 and sequence_x + dx <= 9
+        check_seq_y_limit = sequence_y + dy >= 0 and sequence_y + dy <= 9
+        result_seq_x = sequence_x + dx if check_seq_x_limit else last_x -dx
+        result_seq_y = sequence_y + dy if check_seq_y_limit else last_y -dy
+        check_seq_hit = (result_seq_x, result_seq_y) in self.all_hits
+        print(f'result seq x:{result_seq_x} y:{result_seq_y}')
         if dx == 0 or dy == 0:
-            if self.fail_counter == 0:
-                return (last_x + dx, last_y + dy)
-            elif self.fail_counter > 0 and not (sequence_x + dx, sequence_y + dy) in self.all_hits:
-                return (sequence_x + dx, sequence_y + dy)
+            if self.fail_counter == 0 and not check_last_hit:
+                return (result_last_x, result_last_y)
+            elif self.fail_counter > 0 and not check_seq_hit:
+                return (result_seq_x, result_seq_y)
             else:
-                move = self.new_calculated_move()
+                return self.new_calculated_move()
         else:
-            move = self.new_calculated_move()
+            return self.new_calculated_move()
         
-        return move
 
 
     def new_move(self):
@@ -104,6 +115,12 @@ class Ai:
         return new_move
 
 computer = Ai('fleet')
-computer.add_successful_hit((9,9))
+computer.add_successful_hit((0,0))
+computer.add_successful_hit((0,1))
+computer.add_hit_to_set((0,2))
+computer.add_hit_to_set((0,0))
+computer.fail_counter = 1
+computer.add_hit_to_set((1,5))
+computer.add_hit_to_set((2,4))
 move = computer.new_move()
 print(move)
