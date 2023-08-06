@@ -9,6 +9,7 @@ class Ai:
         self.sunk_ships = []
         self.all_hits = set()
         self.successful_hits = []
+        self.precision_list = [(1,0), (0,1), (-1,0), (0,-1)]
         self.start_counter = False
         self.fail_counter = 0
 
@@ -30,6 +31,7 @@ class Ai:
     
     def add_successful_hit(self, hit):
         self.successful_hits.append(hit)
+        self.reset_counter()
 
     def increment_counter(self):
         if self.start_counter:
@@ -45,7 +47,23 @@ class Ai:
         return (random_col, random_row)
 
     def new_calculated_move(self):
-        return (0,0)
+        last_move = self.successful_hits[len(self.successful_hits) -1]
+        (last_x, last_y) = last_move
+        i = 0
+        while True:
+            print(f'start loop {i}')
+            (precision_x, precision_y) = self.precision_list[self.fail_counter + i]
+            check_hit = (precision_x + last_x, precision_y + last_y)
+            (check_x, check_y) = check_hit
+            print(f'check x:{check_x} check y:{check_y}')
+            if check_hit in self.all_hits:
+                i += 1
+            elif 0 > check_x or  check_x > 9 :
+                i += 1
+            elif 0 > check_y or check_y > 9 :
+                i += 1
+            else:
+                return check_hit
 
     def new_move(self):
         new_move = ()
@@ -59,3 +77,8 @@ class Ai:
             check = new_move in self.all_hits
 
         return new_move
+
+computer = Ai('fleet')
+computer.add_successful_hit((9,9))
+move = computer.new_move()
+print(move)
