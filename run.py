@@ -137,18 +137,20 @@ def main():
     print(f'{str(enemy_fleet[4])} nodes:{enemy_fleet[4].return_node_set()} size:{enemy_fleet[4].return_size()}')
     place_fleet_on_board(enemy_fleet, enemy_board)
     #End of testing section
-    while True:
+    while not enemy_fleet_status or not player_fleet_status:
         user_choice = main_menu.show()
+        enemy_fleet_status = all([ship.sunk for ship in enemy_fleet])
         if options_main[user_choice] == "Start":
             output_string('Starting Battleship Game...')
             display_grid(enemy_board, player_board, enemy_fleet, player_fleet)
             with terminal.cbreak(), terminal.hidden_cursor():
                 output_string('Select Location to Strike.\nPress Enter when Co-ordinates confirmed Admiral')
                 temp_start = enemy_board[5][5]
-                while True:
+                while not enemy_fleet_status or not player_fleet_status:
                     key_pressed = terminal.inkey()
                     temp_start.set_view()
-                    if key_pressed.code == terminal.KEY_ESCAPE:
+                    enemy_fleet_status = all([ship.sunk for ship in enemy_fleet])
+                    if key_pressed.code == terminal.KEY_ESCAPE or enemy_fleet_status:
                         temp_start.set_hidden()
                         break
                     elif key_pressed.code == terminal.KEY_ENTER:
@@ -165,9 +167,12 @@ def main():
                     elif key_pressed.code == terminal.KEY_LEFT:
                         temp_start = move_node(temp_start, enemy_board, LEFT, CURSOR)
                     display_grid(enemy_board, player_board, enemy_fleet, player_fleet)
-        elif options_main[user_choice] == "Exit":
+        elif options_main[user_choice] == "Exit" or enemy_fleet_status or player_fleet_status:
             break
-        
+    if enemy_fleet_status:
+        print("You win")
+    else:
+        print("You Lose")
 
 # Checking if we are running this file directly.
 if __name__ == "__main__":
