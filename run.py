@@ -165,25 +165,24 @@ def main():
     #Testing section
     print(enemy_fleet_status)
     print(enemy_fleet[0].name)
-    auto_position_fleet(enemy_fleet)
+    auto_position_fleet(enemy_fleet) # Add to main code game loop
     enemy_fleet[0].sunk = True
     print(f'{str(enemy_fleet[0])} nodes:{enemy_fleet[0].return_node_set()} size:{enemy_fleet[0].return_size()}')
     print(f'{str(enemy_fleet[1])} nodes:{enemy_fleet[1].return_node_set()} size:{enemy_fleet[1].return_size()}')
     print(f'{str(enemy_fleet[2])} nodes:{enemy_fleet[2].return_node_set()} size:{enemy_fleet[2].return_size()}')
     print(f'{str(enemy_fleet[3])} nodes:{enemy_fleet[3].return_node_set()} size:{enemy_fleet[3].return_size()}')
     print(f'{str(enemy_fleet[4])} nodes:{enemy_fleet[4].return_node_set()} size:{enemy_fleet[4].return_size()}')
-    place_fleet_on_board(enemy_fleet, enemy_board)
-    print(len(computer.successful_hits))
+    place_fleet_on_board(enemy_fleet, enemy_board) # Add to main code game loop
+    print(f'hit list :{len(computer.successful_hits)}')
     player_fleet[3].sunk = True
     player_fleet[3].confirm_placement()
     print(player_fleet[3].return_node_set())
     computer.add_successful_hit((0,0))
     computer.add_successful_hit((0,1))
-    print(len(computer.successful_hits))
-    computer.update_sunk_ships()
+    print(f'hit list :{len(computer.successful_hits)}')
     computer.update_hit_list()
-    print(len(computer.sunk_ships))
-    print(len(computer.successful_hits))
+    print(f'shunk ships :{len(computer.sunk_ships)}')
+    print(f'hit list :{len(computer.successful_hits)}')
     #End of testing section
     while game_running:
         user_choice = main_menu.show()
