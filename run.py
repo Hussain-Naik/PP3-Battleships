@@ -150,6 +150,10 @@ def play_game(enemy_board, player_board, enemy_fleet, player_fleet):
             display_grid(enemy_board, player_board, enemy_fleet, player_fleet)
         return True
 
+def player_assigned_ships(fleet):
+    for ship in fleet:
+        ship.assign_to_player()
+    
 def main():
     """
     Main Function.
@@ -189,6 +193,7 @@ def main():
                 place_fleet_on_board(enemy_fleet, enemy_board)
                 auto_position_fleet(player_fleet)
                 place_fleet_on_board(player_fleet, player_board)
+                player_assigned_ships(player_fleet)
                 (game_running, enemy_fleet_status, player_fleet_status) = play_game(enemy_board, player_board, enemy_fleet, player_fleet)
             elif options_start[user_choice] == "Manual Placement":
                 user_choice = ship_menu.show()
