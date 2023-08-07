@@ -173,7 +173,17 @@ def main():
     print(f'{str(enemy_fleet[3])} nodes:{enemy_fleet[3].return_node_set()} size:{enemy_fleet[3].return_size()}')
     print(f'{str(enemy_fleet[4])} nodes:{enemy_fleet[4].return_node_set()} size:{enemy_fleet[4].return_size()}')
     place_fleet_on_board(enemy_fleet, enemy_board)
-    print(computer)
+    print(len(computer.successful_hits))
+    player_fleet[3].sunk = True
+    player_fleet[3].confirm_placement()
+    print(player_fleet[3].return_node_set())
+    computer.add_successful_hit((0,0))
+    computer.add_successful_hit((0,1))
+    print(len(computer.successful_hits))
+    computer.update_sunk_ships()
+    computer.update_hit_list()
+    print(len(computer.sunk_ships))
+    print(len(computer.successful_hits))
     #End of testing section
     while game_running:
         user_choice = main_menu.show()
