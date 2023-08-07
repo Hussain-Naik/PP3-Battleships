@@ -104,8 +104,12 @@ class Ai:
             print(f'result seq x:{result_seq_x} y:{result_seq_y} ')
             if self.fail_counter == 0 and not check_last_hit:
                 return (result_last_x, result_last_y)
-            elif self.fail_counter == 1 and not check_seq_hit:
+            elif self.fail_counter == 0 and check_last_hit:
+                return (result_last_x - dx, result_last_y - dy)
+            elif self.fail_counter > 0 and not check_seq_hit:
                 return (result_seq_x, result_seq_y)
+            elif self.fail_counter > 0 and check_seq_hit:
+                return (result_seq_x + dx, result_seq_y + dy)
             else:
                 return self.new_calculated_move()
         else:
