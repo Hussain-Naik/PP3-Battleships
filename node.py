@@ -12,12 +12,17 @@ class Node:
         self.used = False
         #Variable for grid position selection
         self.view = False
+        #Variable for assigned to player ships
+        self.player = False
     
     def __str__(self):
         # override str method to display node as string.
         if self.used and self.occupied:
             #board to display X if Hit and occupied
             return "X"
+        elif self.player:
+            #board to display + when selecting grid position
+            return "@"
         elif self.view:
             #board to display + when selecting grid position
             return "+"
@@ -56,6 +61,12 @@ class Node:
         Method to reset view variable to False
         """
         self.view = False
+
+    def set_players(self):
+        """
+        Method to set node is assigned to player
+        """
+        self.player = True
 
     def is_occupied(self):
         """
