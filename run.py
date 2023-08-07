@@ -166,16 +166,6 @@ def main():
     computer = Ai(player_fleet)
 
     #Testing section
-    print(enemy_fleet_status)
-    print(enemy_fleet[0].name)
-    auto_position_fleet(enemy_fleet) # Add to main code game loop
-    enemy_fleet[0].sunk = True
-    print(f'{str(enemy_fleet[0])} nodes:{enemy_fleet[0].return_node_set()} size:{enemy_fleet[0].return_size()}')
-    print(f'{str(enemy_fleet[1])} nodes:{enemy_fleet[1].return_node_set()} size:{enemy_fleet[1].return_size()}')
-    print(f'{str(enemy_fleet[2])} nodes:{enemy_fleet[2].return_node_set()} size:{enemy_fleet[2].return_size()}')
-    print(f'{str(enemy_fleet[3])} nodes:{enemy_fleet[3].return_node_set()} size:{enemy_fleet[3].return_size()}')
-    print(f'{str(enemy_fleet[4])} nodes:{enemy_fleet[4].return_node_set()} size:{enemy_fleet[4].return_size()}')
-    place_fleet_on_board(enemy_fleet, enemy_board) # Add to main code game loop
     print(f'hit list :{len(computer.successful_hits)}')
     player_fleet[3].sunk = True
     player_fleet[3].confirm_placement()
@@ -195,6 +185,10 @@ def main():
             output_string('Starting Battleship Game...')
             user_choice = start_menu.show()
             if options_start[user_choice] == "Random Placement":
+                auto_position_fleet(enemy_fleet)
+                place_fleet_on_board(enemy_fleet, enemy_board)
+                auto_position_fleet(player_fleet)
+                place_fleet_on_board(player_fleet, player_board)
                 (game_running, enemy_fleet_status, player_fleet_status) = play_game(enemy_board, player_board, enemy_fleet, player_fleet)
             elif options_start[user_choice] == "Manual Placement":
                 user_choice = ship_menu.show()
