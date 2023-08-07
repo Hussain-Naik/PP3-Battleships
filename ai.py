@@ -13,6 +13,9 @@ class Ai:
         self.start_counter = False
         self.fail_counter = 0
 
+    def remaining_ship_count(self):
+        return len(self.remaining_ships)
+
     def return_last_sunk_ship(self):
         return self.sunk_ships[len(self.sunk_ships) -1]
     
