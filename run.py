@@ -17,12 +17,15 @@ DELAY = 0.02
 
 #List of option for main menu
 options_main = ["Start","Exit"]
+options_start = ["Random Placement", "Manual Placement", "Back"]
+options_ship = ["Patrol Boat","Submarine","Destroyer", "Battleship", "Carrier", "Back"]
 
-options_ship = ["Patrol Boat","Submarine","Destroyer", "Battleship", "Carrier"]
 #Variable for main menu
 main_menu = TerminalMenu(options_main, title="Main menu")
-#Variable for main menu
-ship_menu = TerminalMenu(options_ship, title="Main menu")
+#Variable for start menu
+start_menu = TerminalMenu(options_start, title="Start menu")
+#Variable for ship menu
+ship_menu = TerminalMenu(options_ship, title="Ship menu")
 
 #Blessed terminal variable
 terminal = Terminal()
@@ -130,7 +133,7 @@ def play_game(enemy_board, player_board, enemy_fleet, player_fleet):
                 return (False, False, True)
             if key_pressed.code == terminal.KEY_ESCAPE:
                 temp_start.set_hidden()
-                return True
+                return (True, False, False)
             elif key_pressed.code == terminal.KEY_ENTER:
                 enemy_board[temp_start.row][temp_start.col].make_used()
                 enemy_board[temp_start.row][temp_start.col].set_hidden()
@@ -190,7 +193,13 @@ def main():
         print(player_fleet_status)
         if options_main[user_choice] == "Start":
             output_string('Starting Battleship Game...')
-            (game_running, enemy_fleet_status, player_fleet_status) = play_game(enemy_board, player_board, enemy_fleet, player_fleet)
+            user_choice = start_menu.show()
+            if options_start[user_choice] == "Random Placement":
+                (game_running, enemy_fleet_status, player_fleet_status) = play_game(enemy_board, player_board, enemy_fleet, player_fleet)
+            elif options_start[user_choice] == "Manual Placement":
+                user_choice = ship_menu.show()
+            else:
+                user_choice = main_menu.show()
         elif options_main[user_choice] == "Exit":
             game_running = False
     if enemy_fleet_status:
