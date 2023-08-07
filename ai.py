@@ -26,6 +26,11 @@ class Ai:
         
         self.remaining_ships = temp_ship_list
     
+    def update_hit_list(self):
+        sunk_ship = self.return_last_sunk_ship()
+        for node in sunk_ship:
+            self.successful_hits.remove((node.col, node.row))
+
     def add_hit_to_set(self, hit):
         self.all_hits.add(hit)
     
