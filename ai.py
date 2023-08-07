@@ -38,7 +38,7 @@ class Ai:
             self.fail_counter += 1
 
     def reset_counter(self):
-        self.start_counter = False
+        self.start_counter = True
         self.fail_counter = 0
     
     def new_random_move(self):
