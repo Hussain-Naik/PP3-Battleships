@@ -198,7 +198,7 @@ def main():
                 (game_running, enemy_fleet_status, player_fleet_status) = play_game(enemy_board, player_board, enemy_fleet, player_fleet)
             elif options_start[user_choice] == "Manual Placement":
                 user_choice = ship_menu.show()
-            else:
+            elif options_start[user_choice] == "Back":
                 user_choice = main_menu.show()
         elif options_main[user_choice] == "Exit":
             game_running = False
