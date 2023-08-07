@@ -147,10 +147,12 @@ def play_game(enemy_board, player_board, enemy_fleet, player_fleet):
             key_pressed = terminal.inkey()
             temp_start.set_view()
             enemy_fleet_status = all([ship.sunk for ship in enemy_fleet])
+            player_fleet_status = all([ship.sunk for ship in player_fleet])
             if enemy_fleet_status:
                 return (False, True, False)
             elif player_fleet_status:
                 return (False, False, True)
+            
             if key_pressed.code == terminal.KEY_ESCAPE:
                 temp_start.set_hidden()
                 player_assigned_ships(enemy_fleet)
