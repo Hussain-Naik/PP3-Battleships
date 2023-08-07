@@ -84,10 +84,21 @@ def move_ship(ship, board, direction):
     """
     Function to move ship up on grid
     """
-def computer_move(enemy):
+def computer_move(enemy,board):
     """
     Function to make computer move on grid
     """
+    before = enemy.remaining_ship_count()
+    (col, row) = enemy.new_move()
+    board[col][row].make_used()
+    enemy.add_hit_to_set((col, row))
+    if board[col][row].occupied:
+        enemy.add_successful_hit((col, row))
+    
+    after = enemy.remaining_ship_count()
+    if after < before:
+        enemy.update_hit_list()
+
 
 def generate_fleet():
     fleet = []
@@ -146,7 +157,7 @@ def play_game(enemy_board, player_board, enemy_fleet, player_fleet):
                 enemy_board[temp_start.row][temp_start.col].set_hidden()
                 for ships in enemy_fleet:
                     ships.update_status()
-                computer_move(computer)
+                computer_move(computer, player_board)
             elif key_pressed.code == terminal.KEY_UP:
                 temp_start = move_node(temp_start, enemy_board, UP, CURSOR)
             elif key_pressed.code == terminal.KEY_DOWN:
