@@ -29,6 +29,7 @@ ship_menu = TerminalMenu(options_ship, title="Ship menu")
 
 #Blessed terminal variable
 terminal = Terminal()
+message = ''
 
 def generate_grid():
     """
@@ -84,19 +85,22 @@ def move_ship(ship, board, direction):
     """
     Function to move ship up on grid
     """
-def computer_move(enemy,board):
+def computer_move(enemy,board,fleet):
     """
     Function to make computer move on grid
     """
     before = enemy.remaining_ship_count()
-    (col, row) = enemy.new_move()
-    board[col][row].make_used()
-    enemy.add_hit_to_set((col, row))
-    if board[col][row].occupied:
-        enemy.add_successful_hit((col, row))
+    (row, col) = enemy.new_move()
+    board[row][col].make_used()
+    enemy.add_hit_to_set((row, col))
+    if board[row][col].occupied:
+        for ships in fleet:
+            ships.update_status()
+        enemy.add_successful_hit((row, col))
     
     after = enemy.remaining_ship_count()
     if after < before:
+        output_string('sunk\n')
         enemy.update_hit_list()
 
 
@@ -157,7 +161,7 @@ def play_game(enemy_board, player_board, enemy_fleet, player_fleet):
                 enemy_board[temp_start.row][temp_start.col].set_hidden()
                 for ships in enemy_fleet:
                     ships.update_status()
-                computer_move(computer, player_board)
+                computer_move(computer, player_board, player_fleet)
             elif key_pressed.code == terminal.KEY_UP:
                 temp_start = move_node(temp_start, enemy_board, UP, CURSOR)
             elif key_pressed.code == terminal.KEY_DOWN:
