@@ -88,6 +88,9 @@ class Ai:
         result_last_x = last_x + dx if check_last_x_limit else sequence_x -dx
         result_last_y = last_y + dy if check_last_y_limit else sequence_y -dy
         check_last_hit = (result_last_x, result_last_y) in self.all_hits
+        check_wall_seq = (result_last_x, result_last_y) in self.successful_hits
+        result_last_x = result_last_x - dx if check_wall_seq else result_last_x
+        result_last_y = result_last_y - dy if check_wall_seq else result_last_y
 
         check_seq_x_limit = sequence_x + dx >= 0 and sequence_x + dx <= 9
         check_seq_y_limit = sequence_y + dy >= 0 and sequence_y + dy <= 9
