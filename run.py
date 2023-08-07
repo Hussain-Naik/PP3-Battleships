@@ -5,6 +5,7 @@ import sys
 from time import sleep
 from node import Node
 from ships import Ship
+from ai import Ai
 
 #Set up constant global variables
 UP = (0,-1)
@@ -159,6 +160,7 @@ def main():
  
     enemy_board = generate_grid()
     player_board = generate_grid()
+    computer = Ai(player_fleet)
 
     #Testing section
     print(enemy_fleet_status)
@@ -171,6 +173,7 @@ def main():
     print(f'{str(enemy_fleet[3])} nodes:{enemy_fleet[3].return_node_set()} size:{enemy_fleet[3].return_size()}')
     print(f'{str(enemy_fleet[4])} nodes:{enemy_fleet[4].return_node_set()} size:{enemy_fleet[4].return_size()}')
     place_fleet_on_board(enemy_fleet, enemy_board)
+    print(computer)
     #End of testing section
     while game_running:
         user_choice = main_menu.show()
