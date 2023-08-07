@@ -37,6 +37,7 @@ class Ai:
     def add_successful_hit(self, hit):
         self.successful_hits.append(hit)
         self.reset_counter()
+        self.update_sunk_ships()
 
     def increment_counter(self):
         if self.start_counter:
@@ -118,14 +119,3 @@ class Ai:
             check = new_move in self.all_hits
 
         return new_move
-
-computer = Ai('fleet')
-computer.add_successful_hit((0,0))
-computer.add_successful_hit((0,1))
-computer.add_hit_to_set((0,2))
-computer.add_hit_to_set((0,0))
-computer.fail_counter = 1
-computer.add_hit_to_set((1,5))
-computer.add_hit_to_set((2,4))
-move = computer.new_move()
-print(move)
