@@ -90,6 +90,15 @@ class Ship:
         for node in self.nodes:
             #Call node occupy method
             node.occupy()
+
+    def assign_to_player(self):
+        """
+        Set all ship nodes to occupied variable to True
+        """
+        #Loop through all ship nodes
+        for node in self.nodes:
+            #Call node occupy method
+            node.set_players()
     
     def return_node_set(self):
         node_set = set()
