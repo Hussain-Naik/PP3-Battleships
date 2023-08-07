@@ -82,9 +82,13 @@ def move_node(t_node, board, direction, size):
 
 def move_ship(ship, board, direction):
     """
-    Method to move ship up on grid
+    Function to move ship up on grid
     """
-    
+def computer_move(enemy):
+    """
+    Function to make computer move on grid
+    """
+
 def generate_fleet():
     fleet = []
     carrier = Ship(5)
@@ -119,6 +123,7 @@ def place_fleet_on_board(fleet, board):
 def play_game(enemy_board, player_board, enemy_fleet, player_fleet):
     enemy_fleet_status = all([ship.sunk for ship in enemy_fleet])
     player_fleet_status = all([ship.sunk for ship in enemy_fleet])
+    computer = Ai(player_fleet)
     display_grid(enemy_board, player_board, enemy_fleet, player_fleet)
     with terminal.cbreak(), terminal.hidden_cursor():
         output_string('Select Location to Strike.\nPress Enter when Co-ordinates confirmed Admiral')
@@ -141,6 +146,7 @@ def play_game(enemy_board, player_board, enemy_fleet, player_fleet):
                 enemy_board[temp_start.row][temp_start.col].set_hidden()
                 for ships in enemy_fleet:
                     ships.update_status()
+                computer_move(computer)
             elif key_pressed.code == terminal.KEY_UP:
                 temp_start = move_node(temp_start, enemy_board, UP, CURSOR)
             elif key_pressed.code == terminal.KEY_DOWN:
@@ -165,9 +171,9 @@ def game_initialize():
  
     enemy_board = generate_grid()
     player_board = generate_grid()
-    computer = Ai(player_fleet)
 
-    return (enemy_fleet, enemy_fleet_status, enemy_board, player_fleet, player_fleet_status, player_board, computer)
+
+    return (enemy_fleet, enemy_fleet_status, enemy_board, player_fleet, player_fleet_status, player_board)
     
 def main():
     """
@@ -180,7 +186,6 @@ def main():
     player_fleet = False
     player_fleet_status = False
     player_board = False
-    computer = False
     """
     #Testing section
     print(f'hit list :{len(computer.successful_hits)}')
@@ -201,7 +206,7 @@ def main():
             output_string('Starting Battleship Game...\n')
             user_choice = start_menu.show()
             if options_start[user_choice] == "Random Placement":
-                (enemy_fleet, enemy_fleet_status, enemy_board, player_fleet, player_fleet_status, player_board, computer) = game_initialize()
+                (enemy_fleet, enemy_fleet_status, enemy_board, player_fleet, player_fleet_status, player_board) = game_initialize()
                 auto_position_fleet(enemy_fleet)
                 place_fleet_on_board(enemy_fleet, enemy_board)
                 auto_position_fleet(player_fleet)
