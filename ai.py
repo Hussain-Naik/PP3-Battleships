@@ -31,8 +31,12 @@ class Ai:
     
     def update_hit_list(self):
         sunk_ship = self.return_last_sunk_ship()
+        print(sunk_ship.return_node_set())
         for node in sunk_ship.nodes:
-            self.successful_hits.remove((node.col, node.row))
+            print(f'node {node}')
+            print(f'col:{node.col} row:{node.row}')
+            print(self.successful_hits)
+            self.successful_hits.remove((node.row, node.col))
 
     def add_hit_to_set(self, hit):
         self.all_hits.add(hit)
@@ -88,20 +92,19 @@ class Ai:
         result_last_x = last_x + dx if check_last_x_limit else sequence_x -dx
         result_last_y = last_y + dy if check_last_y_limit else sequence_y -dy
         check_last_hit = (result_last_x, result_last_y) in self.all_hits
-        check_wall_seq = (result_last_x, result_last_y) in self.successful_hits
-        result_last_x = result_last_x - dx if check_wall_seq else result_last_x
-        result_last_y = result_last_y - dy if check_wall_seq else result_last_y
 
         check_seq_x_limit = sequence_x + dx >= 0 and sequence_x + dx <= 9
         check_seq_y_limit = sequence_y + dy >= 0 and sequence_y + dy <= 9
         result_seq_x = sequence_x + dx if check_seq_x_limit else last_x -dx
         result_seq_y = sequence_y + dy if check_seq_y_limit else last_y -dy
         check_seq_hit = (result_seq_x, result_seq_y) in self.all_hits
-        print(f'result seq x:{result_seq_x} y:{result_seq_y}')
+        
         if dx == 0 or dy == 0:
+            print(f'result last x:{result_seq_x} y:{result_seq_y} ')
+            print(f'result seq x:{result_seq_x} y:{result_seq_y} ')
             if self.fail_counter == 0 and not check_last_hit:
                 return (result_last_x, result_last_y)
-            elif self.fail_counter > 0 and not check_seq_hit:
+            elif self.fail_counter == 1 and not check_seq_hit:
                 return (result_seq_x, result_seq_y)
             else:
                 return self.new_calculated_move()
