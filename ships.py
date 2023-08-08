@@ -45,6 +45,14 @@ class Ship:
     def print_location(self):
         return self.nodes
     
+    def display_sunk_ship(self):
+        """
+        Method to set ship nodes to first letter of ship name
+        """
+        if self.sunk == True:
+            for node in self.nodes:
+                node.name = self.name[0]
+
     def rotate_ship(self):
         """
         Rotate method for ship
@@ -67,6 +75,7 @@ class Ship:
         Update ship sunk status
         """
         self.sunk = all([node.used for node in self.nodes])
+        self.display_sunk_ship()
 
     def assign_ship_to_board(self, board):
         """
