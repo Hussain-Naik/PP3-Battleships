@@ -40,6 +40,7 @@ class Ai:
 
     def add_hit_to_set(self, hit):
         self.all_hits.add(hit)
+        self.increment_counter()
     
     def add_successful_hit(self, hit):
         self.successful_hits.append(hit)
