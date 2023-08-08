@@ -89,23 +89,49 @@ def move_node(t_node, board, direction, size):
     """
     (x, y) = direction
     (size_x, size_y) = size
-    grid_row = t_node.row if (
-        t_node.row + 
-        y + size_y
-        ) > len(board) -1  or t_node.row + y < 0 else t_node.row + y
-    grid_col = t_node.col if (
-        t_node.col + 
-        x + size_x
-        ) > len(board) -1  or t_node.col + x < 0 else t_node.col + x
-    t_node.set_hidden()
-    t_node = board[grid_row][grid_col]
-    t_node.set_view()
-    return t_node
+    if type(t_node) != list:
+        grid_row = t_node.row if (
+            t_node.row + 
+            y + size_y
+            ) > len(board) -1  or t_node.row + y < 0 else t_node.row + y
+        grid_col = t_node.col if (
+            t_node.col + 
+            x + size_x
+            ) > len(board) -1  or t_node.col + x < 0 else t_node.col + x
+        t_node.set_hidden()
+        t_node = board[grid_row][grid_col]
+        t_node.set_view()
+        return t_node
+    else:
+        check_all = []
+        for node in t_node:
+            move_y = node.row + y
+            move_x = node.col + x
+            if (move_y > len(board) -1 or
+                move_y < 0 or
+                move_x > len(board) -1 or
+                move_x < 0 or
+                board[move_y][move_x].is_occupied()):
+                check_all.append(False)
+            else:
+                check_all.append(True)
+        if all(check_all):
+            for node in t_node:
+                move_y = node.row + y
+                move_x = node.col + x
+                node.set_hidden()
+                node = board[move_y][move_x]
+                node.set_view()
+        return t_node
 
 def move_ship(ship, board, direction):
     """
     Function to move ship up on grid
     """
+    size = ship.return_size()
+    move_node(ship.nodes, board, direction, size)
+        
+
 def computer_move(enemy,board,fleet):
     """
     Function to make computer move on grid
@@ -201,7 +227,7 @@ def play_game(enemy_board, player_board, enemy_fleet, player_fleet):
                 temp_start = move_node(temp_start, enemy_board, LEFT, CURSOR)
             display_grid(enemy_board, player_board, enemy_fleet, player_fleet)
         return True
-
+    
 def player_assigned_ships(fleet):
     for ship in fleet:
         ship.assign_to_player()
@@ -258,30 +284,64 @@ def main():
         if options_main[user_choice] == "Start":
             output_string('Starting Battleship Game...\n')
             user_choice = start_menu.show()
-            if user_choice == None:
-                user_choice = -1
-            if options_start[user_choice] == "Random Placement":
-                (enemy_fleet, 
-                 enemy_fleet_status, 
-                 enemy_board, 
-                 player_fleet, 
-                 player_fleet_status, 
-                 player_board) = game_initialize()
-                auto_position_fleet(enemy_fleet)
-                place_fleet_on_board(enemy_fleet, enemy_board)
-                auto_position_fleet(player_fleet)
-                place_fleet_on_board(player_fleet, player_board)
-                player_assigned_ships(player_fleet)
-                (game_running,
-                 enemy_fleet_status,
-                 player_fleet_status) = play_game(enemy_board, 
-                                                  player_board, 
-                                                  enemy_fleet, 
-                                                  player_fleet)
-            elif options_start[user_choice] == "Manual Placement":
-                user_choice = ship_menu.show()
-            elif options_start[user_choice] == "Back":
-                user_choice = main_menu.show()
+            start_loop = True
+            while start_loop:
+                if user_choice == None:
+                    user_choice = -1
+                if options_start[user_choice] == "Random Placement":
+                    (enemy_fleet, 
+                    enemy_fleet_status, 
+                    enemy_board, 
+                    player_fleet, 
+                    player_fleet_status, 
+                    player_board) = game_initialize()
+                    auto_position_fleet(enemy_fleet)
+                    place_fleet_on_board(enemy_fleet, enemy_board)
+                    auto_position_fleet(player_fleet)
+                    place_fleet_on_board(player_fleet, player_board)
+                    player_assigned_ships(player_fleet)
+                    (game_running,
+                    enemy_fleet_status,
+                    player_fleet_status) = play_game(enemy_board, 
+                                                    player_board, 
+                                                    enemy_fleet, 
+                                                    player_fleet)
+                    user_choice = start_menu.show()
+                elif options_start[user_choice] == "Manual Placement":
+                    user_choice = ship_menu.show()
+                    manual = True
+                    while manual:
+                        if user_choice == None:
+                            user_choice = -1
+                        if options_ship[user_choice] == "Patrol Boat":
+                                print('patrol')
+                                user_choice = ship_menu.show()
+                        elif options_ship[user_choice] == "Submarine":
+                                print('sub')
+                                user_choice = ship_menu.show()
+                        elif options_ship[user_choice] == "Destroyer":
+                                print('des')
+                                user_choice = ship_menu.show()
+                        elif options_ship[user_choice] == "Battleship":
+                                print('batt')
+                                user_choice = ship_menu.show()
+                        elif options_ship[user_choice] == "Carrier":
+                                print('car')
+                                user_choice = ship_menu.show()
+                        else:
+                            manual = False
+                            user_choice = start_menu.show()
+                    (enemy_fleet, 
+                    enemy_fleet_status, 
+                    enemy_board, 
+                    player_fleet, 
+                    player_fleet_status, 
+                    player_board) = game_initialize()
+                    auto_position_fleet(enemy_fleet)
+                    place_fleet_on_board(enemy_fleet, enemy_board)
+                elif options_start[user_choice] == "Back":
+                    start_loop = False
+                    user_choice = main_menu.show()
         elif options_main[user_choice] == "Exit":
             game_running = False
     if enemy_fleet_status:
