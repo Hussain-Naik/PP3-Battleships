@@ -8,24 +8,29 @@ from ships import Ship
 from ai import Ai
 
 #Set up constant global variables
-UP = (0,-1)
+UP = (0, -1)
 DOWN = (0, 1)
-LEFT = (-1,0)
-RIGHT = (1,0)
-CURSOR = (0,0)
+LEFT = (-1, 0)
+RIGHT = (1, 0)
+CURSOR = (0, 0)
 DELAY = 0.02
 
 #List of option for main menu
-options_main = ["Start","Exit"]
+options_main = ["Start", "Exit"]
 options_start = ["Random Placement", "Manual Placement", "Back"]
-options_ship = ["Patrol Boat","Submarine","Destroyer", "Battleship", "Carrier", "Back"]
+options_ship = ["Patrol Boat", 
+                "Submarine", 
+                "Destroyer", 
+                "Battleship", 
+                "Carrier", 
+                "Back"]
 
 #Variable for main menu
-main_menu = TerminalMenu(options_main, title="Main menu")
+main_menu = TerminalMenu(options_main, title = "Main menu")
 #Variable for start menu
-start_menu = TerminalMenu(options_start, title="Start menu")
+start_menu = TerminalMenu(options_start, title = "Start menu")
 #Variable for ship menu
-ship_menu = TerminalMenu(options_ship, title="Ship menu")
+ship_menu = TerminalMenu(options_ship, title = "Ship menu")
 
 #Blessed terminal variable
 terminal = Terminal()
@@ -54,15 +59,25 @@ def display_grid(enemy_grid, player_grid, enemy_ships, player_ships):
     """
     with terminal.hidden_cursor():
         print(terminal.home + terminal.clear)
-        print("            #######################     #######################")
-        for (enemy_row, player_row, i) in zip(enemy_grid, player_grid, range(0,10)):
+        print(
+            "            #######################     #######################"
+            )
+        for (enemy_row, 
+             player_row, 
+             i) in zip(enemy_grid, player_grid, range(0,10)):
             enemy_ship_name = " " * 11
             player_ship_name = " " * 11
             if i < len(enemy_ships):
                 enemy_ship_name = str(enemy_ships[i])
                 player_ship_name = str(player_ships[i])
-            print(enemy_ship_name + " # " + " ".join(str(node) for node in enemy_row) + " #     # " + " ".join(str(point) for point in player_row) + " # "+ player_ship_name)
-        print("            #######################     #######################")
+            print(enemy_ship_name + 
+                  " # " + " ".join(str(node) for node in enemy_row) + 
+                  " #     # " + " ".join(str(point) for point in player_row) + 
+                  " # "+ player_ship_name
+                  )
+        print(
+            "            #######################     #######################"
+            )
         print("Use ARROW keys to move around the grid.")
         print("Press ENTER to confirm placement")
         print("Press ESC to show menu.")
@@ -74,8 +89,14 @@ def move_node(t_node, board, direction, size):
     """
     (x, y) = direction
     (size_x, size_y) = size
-    grid_row = t_node.row if t_node.row + y + size_y > len(board) -1  or t_node.row + y < 0 else t_node.row + y
-    grid_col = t_node.col if t_node.col + x + size_x> len(board) -1  or t_node.col + x < 0 else t_node.col + x
+    grid_row = t_node.row if (
+        t_node.row + 
+        y + size_y
+        ) > len(board) -1  or t_node.row + y < 0 else t_node.row + y
+    grid_col = t_node.col if (
+        t_node.col + 
+        x + size_x
+        ) > len(board) -1  or t_node.col + x < 0 else t_node.col + x
     t_node.set_hidden()
     t_node = board[grid_row][grid_col]
     t_node.set_view()
@@ -120,14 +141,14 @@ def generate_fleet():
     return fleet
 
 def auto_position_fleet(fleet):
-    fleet_positions = set()
+    fleet_pos = set()
     for x in range(0, len(fleet)):
         fleet[x].set_random_position()
         ship_position = fleet[x].return_node_set()
-        while len(ship_position.difference(fleet_positions)) < len(ship_position):
+        while len(ship_position.difference(fleet_pos)) < len(ship_position):
             fleet[x].set_random_position()
             ship_position = fleet[x].return_node_set()
-        fleet_positions.update(ship_position)
+        fleet_pos.update(ship_position)
 
         
 def place_fleet_on_board(fleet, board):
@@ -141,7 +162,9 @@ def play_game(enemy_board, player_board, enemy_fleet, player_fleet):
     computer = Ai(player_fleet)
     display_grid(enemy_board, player_board, enemy_fleet, player_fleet)
     with terminal.cbreak(), terminal.hidden_cursor():
-        output_string('Select Location to Strike.\nPress Enter when Co-ordinates confirmed Admiral')
+        output_string(
+            'Select Location to Strike.\n'+
+            'Press Enter when Co-ordinates confirmed Admiral')
         temp_start = enemy_board[5][5]
         while not enemy_fleet_status or not player_fleet_status:
             key_pressed = terminal.inkey()
@@ -156,7 +179,11 @@ def play_game(enemy_board, player_board, enemy_fleet, player_fleet):
             if key_pressed.code == terminal.KEY_ESCAPE:
                 temp_start.set_hidden()
                 player_assigned_ships(enemy_fleet)
-                display_grid(enemy_board, player_board, enemy_fleet, player_fleet)
+                display_grid(enemy_board, 
+                             player_board, 
+                             enemy_fleet, 
+                             player_fleet
+                             )
                 return (True, False, False)
             elif key_pressed.code == terminal.KEY_ENTER:
                 enemy_board[temp_start.row][temp_start.col].make_used()
@@ -190,7 +217,14 @@ def game_initialize():
     player_board = generate_grid()
 
 
-    return (enemy_fleet, enemy_fleet_status, enemy_board, player_fleet, player_fleet_status, player_board)
+    return (
+        enemy_fleet, 
+        enemy_fleet_status, 
+        enemy_board, 
+        player_fleet, 
+        player_fleet_status, 
+        player_board
+        )
     
 def main():
     """
@@ -217,19 +251,33 @@ def main():
     print(f'hit list :{len(computer.successful_hits)}')
     #End of testing section
     """
+    user_choice = main_menu.show()
     while game_running:
-        user_choice = main_menu.show()
+        if user_choice == None:
+            user_choice = -1
         if options_main[user_choice] == "Start":
             output_string('Starting Battleship Game...\n')
             user_choice = start_menu.show()
+            if user_choice == None:
+                user_choice = -1
             if options_start[user_choice] == "Random Placement":
-                (enemy_fleet, enemy_fleet_status, enemy_board, player_fleet, player_fleet_status, player_board) = game_initialize()
+                (enemy_fleet, 
+                 enemy_fleet_status, 
+                 enemy_board, 
+                 player_fleet, 
+                 player_fleet_status, 
+                 player_board) = game_initialize()
                 auto_position_fleet(enemy_fleet)
                 place_fleet_on_board(enemy_fleet, enemy_board)
                 auto_position_fleet(player_fleet)
                 place_fleet_on_board(player_fleet, player_board)
                 player_assigned_ships(player_fleet)
-                (game_running, enemy_fleet_status, player_fleet_status) = play_game(enemy_board, player_board, enemy_fleet, player_fleet)
+                (game_running,
+                 enemy_fleet_status,
+                 player_fleet_status) = play_game(enemy_board, 
+                                                  player_board, 
+                                                  enemy_fleet, 
+                                                  player_fleet)
             elif options_start[user_choice] == "Manual Placement":
                 user_choice = ship_menu.show()
             elif options_start[user_choice] == "Back":
@@ -237,9 +285,13 @@ def main():
         elif options_main[user_choice] == "Exit":
             game_running = False
     if enemy_fleet_status:
-        output_string('Victory is yours Admiral entire enemy fleet destroyed\n')
+        output_string(
+            'Victory is yours Admiral entire enemy fleet destroyed\n'
+            )
     elif player_fleet_status:
-        output_string('Enemy have sunk all your vessels! better luck next time\n')
+        output_string(
+            'Enemy have sunk all your vessels! better luck next time\n'
+            )
     else:
         output_string('Closing Battleship Game...\n')
 
