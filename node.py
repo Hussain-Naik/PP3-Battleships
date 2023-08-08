@@ -14,12 +14,13 @@ class Node:
         self.view = False
         #Variable for assigned to player ships
         self.player = False
+        self.name = 'X'
     
     def __str__(self):
         # override str method to display node as string.
         if self.used and self.occupied:
             #board to display X if Hit and occupied
-            return "X"
+            return self.name
         elif self.player:
             #board to display + when selecting grid position
             return "@"
