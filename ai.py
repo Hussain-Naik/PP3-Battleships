@@ -60,12 +60,14 @@ class Ai:
         return (random_col, random_row)
 
     def new_calculated_move(self):
-        last_hit = self.successful_hits[len(self.successful_hits) -1]
+        last_hit = self.successful_hits[-1]
         (last_x, last_y) = last_hit
         i = 0
         while True:
             print(f'start loop {i}')
-            (precision_x, precision_y) = self.precision_list[(self.fail_counter + i) % 4]
+            (precision_x, precision_y) = self.precision_list[
+                (self.fail_counter + i) % 4
+                ]
             check_hit = (precision_x + last_x, precision_y + last_y)
             (check_x, check_y) = check_hit
             print(f'check x:{check_x} check y:{check_y}')
@@ -78,25 +80,26 @@ class Ai:
             else:
                 return check_hit
     
-    def new_sequence_move(self):
-        last_hit = self.successful_hits[len(self.successful_hits) -1]
-        sequence_hit = self.successful_hits[len(self.successful_hits) -2]
+    def new_seq_move(self):
+        last_hit = self.successful_hits[-1]
+        seq_hit = self.successful_hits[-2]
+
         (last_x, last_y) = last_hit
-        (sequence_x, sequence_y) = sequence_hit
-        dy = last_y - sequence_y if self.fail_counter == 0 else sequence_y - last_y
+        (seq_x, seq_y) = seq_hit
+        dy = last_y - seq_y if self.fail_counter == 0 else seq_y - last_y
         dy = 0 if dy == 0 else int(dy / abs(dy))
-        dx = last_x - sequence_x if self.fail_counter == 0 else sequence_x - last_x
+        dx = last_x - seq_x if self.fail_counter == 0 else seq_x - last_x
         dx = 0 if dx == 0 else int(dx / abs(dx))
         check_last_x_limit = last_x + dx >= 0 and last_x + dx <= 9
         check_last_y_limit = last_y + dy >= 0 and last_y + dy <= 9
-        result_last_x = last_x + dx if check_last_x_limit else sequence_x -dx
-        result_last_y = last_y + dy if check_last_y_limit else sequence_y -dy
+        result_last_x = last_x + dx if check_last_x_limit else seq_x -dx
+        result_last_y = last_y + dy if check_last_y_limit else seq_y -dy
         check_last_hit = (result_last_x, result_last_y) in self.all_hits
 
-        check_seq_x_limit = sequence_x + dx >= 0 and sequence_x + dx <= 9
-        check_seq_y_limit = sequence_y + dy >= 0 and sequence_y + dy <= 9
-        result_seq_x = sequence_x + dx if check_seq_x_limit else last_x -dx
-        result_seq_y = sequence_y + dy if check_seq_y_limit else last_y -dy
+        check_seq_x_limit = seq_x + dx >= 0 and seq_x + dx <= 9
+        check_seq_y_limit = seq_y + dy >= 0 and seq_y + dy <= 9
+        result_seq_x = seq_x + dx if check_seq_x_limit else last_x -dx
+        result_seq_y = seq_y + dy if check_seq_y_limit else last_y -dy
         check_seq_hit = (result_seq_x, result_seq_y) in self.all_hits
         
         if dx == 0 or dy == 0:
@@ -124,7 +127,7 @@ class Ai:
         elif len(self.successful_hits) == 1:
             new_move = self.new_calculated_move()
         else:
-            new_move = self.new_sequence_move()
+            new_move = self.new_seq_move()
 
         check = new_move in self.all_hits
         while check:
