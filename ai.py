@@ -95,24 +95,38 @@ class Ai:
         result_last_x = last_x + dx if check_last_x_limit else seq_x -dx
         result_last_y = last_y + dy if check_last_y_limit else seq_y -dy
         check_last_hit = (result_last_x, result_last_y) in self.all_hits
+        check_last_larger_seq = (result_last_x,
+                            result_last_y) in self.successful_hits
 
         check_seq_x_limit = seq_x + dx >= 0 and seq_x + dx <= 9
         check_seq_y_limit = seq_y + dy >= 0 and seq_y + dy <= 9
         result_seq_x = seq_x + dx if check_seq_x_limit else last_x -dx
         result_seq_y = seq_y + dy if check_seq_y_limit else last_y -dy
         check_seq_hit = (result_seq_x, result_seq_y) in self.all_hits
+        check_seq_larger_seq = (result_seq_x,
+                                result_seq_y) in self.successful_hits
         
         if dx == 0 or dy == 0:
             print(f'result last x:{result_seq_x} y:{result_seq_y} ')
             print(f'result seq x:{result_seq_x} y:{result_seq_y} ')
             if self.fail_counter == 0 and not check_last_hit:
                 return (result_last_x, result_last_y)
-            elif self.fail_counter == 0 and check_last_hit:
-                return (result_last_x - dx, result_last_y - dy)
+            elif self.fail_counter == 0 and check_last_larger_seq:
+                while check_last_larger_seq:
+                    result_last_x -= dx
+                    result_last_y -= dy
+                    check_last_larger_seq = (result_last_x,
+                            result_last_y) in self.successful_hits
+                return (result_last_x, result_last_y)
             elif self.fail_counter > 0 and not check_seq_hit:
                 return (result_seq_x, result_seq_y)
-            elif self.fail_counter > 0 and check_seq_hit:
-                return (result_seq_x + dx, result_seq_y + dy)
+            elif self.fail_counter > 0 and check_seq_larger_seq:
+                while check_seq_larger_seq:
+                    result_seq_x += dx
+                    result_seq_y += dy
+                    check_seq_larger_seq = (result_seq_x,
+                                result_seq_y) in self.successful_hits
+                return (result_seq_x, result_seq_y)
             else:
                 return self.new_calculated_move()
         else:
