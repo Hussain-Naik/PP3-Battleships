@@ -26,7 +26,8 @@ class Ship:
     def __str__(self):
         # override str method to display ship type as string.
         if self.sunk:
-            return "\u0336".join(self.name) + "\u0336" + " " * (11 - len(self.name))
+            return ("\u0336".join(self.name) + "\u0336" 
+                    + " " * (11 - len(self.name)))
         else:
             return self.name + " " * (11 - len(self.name))
     
