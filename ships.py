@@ -92,6 +92,12 @@ class Ship:
         #Save node list with temporary list
         self.nodes = placed_nodes
 
+    def is_ship_placed(self):
+        """
+        Method to return if ship has been placed on board
+        """
+        return all([node.occupied for node in self.nodes])
+    
     def confirm_placement(self):
         """
         Set all ship nodes to occupied variable to True
