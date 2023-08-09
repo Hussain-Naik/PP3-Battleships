@@ -119,28 +119,24 @@ def move_node(t_node, board, direction, size):
             else:
                 check_all.append(True)
         if all(check_all):
-            for node in t_node:
-                move_y = node.row + y
-                move_x = node.col + x
-                node.set_hidden()
-                node = board[move_y][move_x]
-                node.set_view()
+            new_temp = t_node[:]
+            if x > 0 or y > 0:
+                new_temp.reverse()
+            new_node_list = []
+            for node in new_temp:
+                new_node_list.append(move_node(node, board, direction, size))
+            if x > 0 or y > 0:
+                new_node_list.reverse()
+            return new_node_list
         return t_node
-
-def move_ship(ship, board, direction):
-    """
-    Function to move ship up on grid
-    """
-    size = ship.return_size()
-    return  move_node(ship.nodes, board, direction, size)
 
 def manual_ship_placement(enemy_board, player_board, enemy_fleet, player_fleet, ship):
     display_grid(enemy_board, player_board, enemy_fleet, player_fleet)
     ship_placed = ship.is_ship_placed()
     with terminal.cbreak(), terminal.hidden_cursor():
+        temp = ship.nodes
         while not ship_placed:
             key_pressed = terminal.inkey()
-            temp = ship.nodes
             if key_pressed.code == terminal.KEY_ESCAPE:
                 player_assigned_ships(enemy_fleet)
                 display_grid(enemy_board, 
@@ -152,13 +148,17 @@ def manual_ship_placement(enemy_board, player_board, enemy_fleet, player_fleet, 
             elif key_pressed.code == terminal.KEY_ENTER:
                 ship.confirm_placement()
             elif key_pressed.code == terminal.KEY_UP:
-                temp.nodes = move_ship(ship, player_board, UP)
+                temp = move_node(temp, player_board, UP, CURSOR)
+                ship.nodes = temp
             elif key_pressed.code == terminal.KEY_DOWN:
-                ship.nodes = move_ship(ship, player_board, DOWN)
+                temp = move_node(temp, player_board, DOWN, CURSOR)
+                ship.nodes = temp
             elif key_pressed.code == terminal.KEY_RIGHT:
-                move_ship(ship, player_board, RIGHT)
+                temp = move_node(temp, player_board, RIGHT, CURSOR)
+                ship.nodes = temp
             elif key_pressed.code == terminal.KEY_LEFT:
-                move_ship(ship, player_board, LEFT)
+                temp = move_node(temp, player_board, LEFT, CURSOR)
+                ship.nodes = temp
             
             ship_placed = ship.is_ship_placed()
             display_grid(enemy_board, player_board, enemy_fleet, player_fleet)
@@ -370,19 +370,19 @@ def main():
                         if user_choice == None:
                             user_choice = -1
                         if options[user_choice] == "Patrol Boat":
-                                manual_ship_placement(enemy_board, player_board, enemy_fleet, player_fleet, player_fleet[-1])
+                                manual_ship_placement(enemy_board, player_board, enemy_fleet, player_fleet, player_fleet[4])
                                 user_choice = return_menu_choice(all_ship_placed)
                         elif options[user_choice] == "Submarine":
-                                print('sub')
+                                manual_ship_placement(enemy_board, player_board, enemy_fleet, player_fleet, player_fleet[3])
                                 user_choice = return_menu_choice(all_ship_placed)
                         elif options[user_choice] == "Destroyer":
-                                print('des')
+                                manual_ship_placement(enemy_board, player_board, enemy_fleet, player_fleet, player_fleet[2])
                                 user_choice = ship_menu.show()
                         elif options[user_choice] == "Battleship":
-                                print('batt')
+                                manual_ship_placement(enemy_board, player_board, enemy_fleet, player_fleet, player_fleet[1])
                                 user_choice = ship_menu.show()
                         elif options[user_choice] == "Carrier":
-                                print(options)
+                                manual_ship_placement(enemy_board, player_board, enemy_fleet, player_fleet, player_fleet[0])
                                 user_choice = ship_menu.show()
                         elif options[user_choice] == "Start Game":
                             print('start game')
