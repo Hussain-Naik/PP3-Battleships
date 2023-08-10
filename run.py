@@ -82,8 +82,7 @@ def display_grid(enemy_grid, player_grid, enemy_ships, player_ships):
             "            #######################     #######################"
             )
         print("Use ARROW keys to move around the grid.")
-        print("Press ENTER to confirm placement")
-        print("Press ESC to show menu.")
+        print("Press ENTER to confirm placement. Press ESC to show menu.")
         sleep(DELAY)
 
 def move_node(t_node, board, direction, size):
@@ -407,7 +406,6 @@ def main():
                             manual = False
 
                         all_ship_placed = all(ship.is_ship_placed() for ship in player_fleet)
-                    print('set player')
                     
                     user_choice = start_menu.show()
                     
