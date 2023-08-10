@@ -56,7 +56,7 @@ class Ship:
         """
         Rotate method for ship
         """
-        for node in self.nodes:
+        for node in self.nodes[1:]:
             #Assign temporary variables
             temp_row = node.return_row()
             temp_col = node.return_col()
