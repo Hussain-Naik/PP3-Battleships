@@ -24,7 +24,7 @@ options_ship = ["Patrol Boat",
                 "Battleship", 
                 "Carrier", 
                 "Back"]
-options_confirm = ["Start Game", "Change Placement", "Back"]
+options_confirm = ["Start Game", "Reset All Ships", "Back"]
 
 #Variable for main menu
 main_menu = TerminalMenu(options_main, title = "Main menu")
@@ -322,7 +322,7 @@ def manual_placement(game_running, start_loop):
                                             enemy_fleet, 
                                             player_fleet)
             manual = False
-        elif options[user_choice] == "Change Placement":
+        elif options[user_choice] == "Reset All Ships":
             for ship in player_fleet:
                 ship.reset_ship()
             
