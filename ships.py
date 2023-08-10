@@ -145,9 +145,10 @@ class Ship:
     
     def reset_ship(self):
         for x in range(0 ,self.size):
-            self.nodes[x].col = 0
-            self.nodes[x].row = x
             self.nodes[x].reset_node()
+            self.nodes[x] = Node(x, 0)
         self.horizontal_size = len(self.nodes)
         self.vertical = False
         self.vertical_size = 1
+
+
