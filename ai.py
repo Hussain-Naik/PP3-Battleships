@@ -31,11 +31,7 @@ class Ai:
     
     def update_hit_list(self):
         sunk_ship = self.return_last_sunk_ship()
-        print(sunk_ship.return_node_set())
         for node in sunk_ship.nodes:
-            print(f'node {node}')
-            print(f'col:{node.col} row:{node.row}')
-            print(self.successful_hits)
             self.successful_hits.remove((node.row, node.col))
 
     def add_hit_to_set(self, hit):
@@ -65,13 +61,11 @@ class Ai:
         (last_x, last_y) = last_hit
         i = 0
         while True:
-            print(f'start loop {i}')
             (precision_x, precision_y) = self.precision_list[
                 (self.fail_counter + i) % 4
                 ]
             check_hit = (precision_x + last_x, precision_y + last_y)
             (check_x, check_y) = check_hit
-            print(f'check x:{check_x} check y:{check_y}')
             if check_hit in self.all_hits:
                 i += 1
             elif 0 > check_x or  check_x > 9 :
@@ -108,8 +102,6 @@ class Ai:
                                 result_seq_y) in self.successful_hits
         
         if dx == 0 or dy == 0:
-            print(f'result last x:{result_seq_x} y:{result_seq_y} ')
-            print(f'result seq x:{result_seq_x} y:{result_seq_y} ')
             if self.fail_counter == 0 and not check_last_hit:
                 return (result_last_x, result_last_y)
             elif self.fail_counter == 0 and check_last_larger_seq:
