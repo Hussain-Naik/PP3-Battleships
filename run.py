@@ -237,9 +237,9 @@ def play_game(enemy_board, player_board, enemy_fleet, player_fleet):
             enemy_fleet_status = all([ship.sunk for ship in enemy_fleet])
             player_fleet_status = all([ship.sunk for ship in player_fleet])
             if enemy_fleet_status:
-                return (False, True, False)
+                return (False, False, True, False)
             elif player_fleet_status:
-                return (False, False, True)
+                return (False, False, False, True)
             
             if key_pressed.code == terminal.KEY_ESCAPE:
                 temp_start.set_hidden()
@@ -249,7 +249,7 @@ def play_game(enemy_board, player_board, enemy_fleet, player_fleet):
                              enemy_fleet, 
                              player_fleet
                              )
-                return (True, False, False)
+                return (True, True, False, False)
             elif key_pressed.code == terminal.KEY_ENTER:
                 enemy_board[temp_start.row][temp_start.col].make_used()
                 enemy_board[temp_start.row][temp_start.col].set_hidden()
@@ -266,6 +266,7 @@ def play_game(enemy_board, player_board, enemy_fleet, player_fleet):
                 temp_start = move_node(temp_start, enemy_board, LEFT, CURSOR)
             display_grid(enemy_board, player_board, enemy_fleet, player_fleet)
         return True
+    
 def manual_placement(game_running, start_loop):
     manual = True
     (enemy_fleet, 
@@ -314,12 +315,12 @@ def manual_placement(game_running, start_loop):
                     player_fleet, player_fleet[0])
         elif options[user_choice] == "Start Game":
             (game_running,
-            enemy_fleet_status,
-            player_fleet_status) = play_game(enemy_board, 
+             start_loop,
+             enemy_fleet_status, 
+             player_fleet_status) = play_game(enemy_board, 
                                             player_board, 
                                             enemy_fleet, 
                                             player_fleet)
-            start_loop = False
             manual = False
         elif options[user_choice] == "Change Placement":
             for ship in player_fleet:
@@ -376,25 +377,13 @@ def main():
     player_fleet = False
     player_fleet_status = False
     player_board = False
-    """
-    #Testing section
-    print(f'hit list :{len(computer.successful_hits)}')
-    player_fleet[3].sunk = True
-    player_fleet[3].confirm_placement()
-    print(player_fleet[3].return_node_set())
-    computer.add_successful_hit((0,0))
-    computer.add_successful_hit((0,1))
-    print(f'hit list :{len(computer.successful_hits)}')
-    computer.update_hit_list()
-    print(f'shunk ships :{len(computer.sunk_ships)}')
-    print(f'hit list :{len(computer.successful_hits)}')
-    #End of testing section
-    """
+    
     user_choice = main_menu.show()
     while game_running:
         if user_choice == None:
             user_choice = -1
         if options_main[user_choice] == "Start":
+            print(terminal.home + terminal.clear)
             output_string('Starting Battleship Game...\n')
             user_choice = start_menu.show()
             start_loop = True
@@ -414,11 +403,14 @@ def main():
                     place_fleet_on_board(player_fleet, player_board)
                     player_assigned_ships(player_fleet)
                     (game_running,
-                    enemy_fleet_status,
-                    player_fleet_status) = play_game(enemy_board, 
+                     start_loop,
+                     enemy_fleet_status,
+                     player_fleet_status) = play_game(enemy_board, 
                                                     player_board, 
                                                     enemy_fleet, 
                                                     player_fleet)
+                    if not start_loop:
+                        break
                     user_choice = start_menu.show()
                 elif options_start[user_choice] == "Manual Placement":
                     (game_running,
@@ -426,10 +418,14 @@ def main():
                      enemy_fleet_status,
                      player_fleet_status
                      ) = manual_placement(game_running, start_loop)
+                    if not start_loop:
+                        break
                     user_choice = start_menu.show()
                 elif options_start[user_choice] == "Back":
                     start_loop = False
                     user_choice = main_menu.show()
+            if not game_running:
+                break
         elif options_main[user_choice] == "Exit":
             game_running = False
     if enemy_fleet_status:
