@@ -364,6 +364,7 @@ def manual_placement(game_running, start_loop):
                 ship.reset_ship()
             
         else:
+            print(terminal.home + terminal.clear)
             manual = False
 
         all_ship_placed = all(
@@ -428,6 +429,7 @@ def main():
                 if user_choice == None:
                     user_choice = -1
                 if options_start[user_choice] == "Random Placement":
+                    print(terminal.home + terminal.clear)
                     (enemy_fleet, 
                     enemy_fleet_status, 
                     enemy_board, 
@@ -450,6 +452,7 @@ def main():
                         break
                     user_choice = start_menu.show()
                 elif options_start[user_choice] == "Manual Placement":
+                    print(terminal.home + terminal.clear)
                     (game_running,
                      start_loop,
                      enemy_fleet_status,
@@ -459,6 +462,7 @@ def main():
                         break
                     user_choice = start_menu.show()
                 elif options_start[user_choice] == "Back":
+                    print(terminal.home + terminal.clear)
                     start_loop = False
                     user_choice = main_menu.show()
             if not game_running:
