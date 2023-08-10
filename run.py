@@ -12,7 +12,6 @@ UP = (0, -1)
 DOWN = (0, 1)
 LEFT = (-1, 0)
 RIGHT = (1, 0)
-CURSOR = (0, 0)
 DELAY = 0.02
 
 #List of option for main menu
@@ -85,49 +84,71 @@ def display_grid(enemy_grid, player_grid, enemy_ships, player_ships):
         print("Press ENTER to confirm placement. Press ESC to show menu.")
         sleep(DELAY)
 
-def move_node(t_node, board, direction, size):
+def check_ship_move(t_node, x, y, board):
+    """
+    Function to return possible ship move
+    """
+    check_all = []
+    for node in t_node:
+        move_y = node.row + y
+        move_x = node.col + x
+        if (move_y > len(board) -1 or
+            move_y < 0 or
+            move_x > len(board) -1 or
+            move_x < 0 or
+            board[move_y][move_x].is_occupied()):
+            check_all.append(False)
+        else:
+            check_all.append(True)
+    
+    return check_all
+    
+def move_node(t_node, board, direction):
     """
     Function to move in grid
     """
     (x, y) = direction
-    (size_x, size_y) = size
     if type(t_node) != list:
         grid_row = t_node.row if (
             t_node.row + 
-            y + size_y
+            y
             ) > len(board) -1  or t_node.row + y < 0 else t_node.row + y
         grid_col = t_node.col if (
             t_node.col + 
-            x + size_x
+            x
             ) > len(board) -1  or t_node.col + x < 0 else t_node.col + x
         t_node.set_hidden()
         t_node = board[grid_row][grid_col]
         t_node.set_view()
         return t_node
     else:
-        check_all = []
-        for node in t_node:
-            move_y = node.row + y
-            move_x = node.col + x
-            if (move_y > len(board) -1 or
-                move_y < 0 or
-                move_x > len(board) -1 or
-                move_x < 0 or
-                board[move_y][move_x].is_occupied()):
-                check_all.append(False)
-            else:
-                check_all.append(True)
+        check_all = check_ship_move(t_node, x, y, board)
         if all(check_all):
             new_temp = t_node[:]
             if x > 0 or y > 0:
                 new_temp.reverse()
             new_node_list = []
             for node in new_temp:
-                new_node_list.append(move_node(node, board, direction, size))
+                new_node_list.append(move_node(node, board, direction))
             if x > 0 or y > 0:
                 new_node_list.reverse()
             return new_node_list
         return t_node
+    
+def confirm_rotation(ship, temp, board):
+    """
+    Function to confirm rotation
+    """
+    for ship_node in ship.nodes:
+        ship_node.set_hidden()
+    
+    new_node_list = []
+    for temp_node in temp:
+        temp_node = board[temp_node.row][temp_node.col]
+        temp_node.set_view()
+        new_node_list.append(temp_node)
+    return new_node_list
+
 
 def manual_ship_placement(
         enemy_board, player_board, enemy_fleet, player_fleet, ship
@@ -156,16 +177,23 @@ def manual_ship_placement(
                                 )
                 return all(ship.is_ship_placed() for ship in player_fleet)
             elif key_pressed.code == terminal.KEY_UP:
-                temp = move_node(temp, player_board, UP, CURSOR)
+                temp = move_node(temp, player_board, UP)
                 ship.nodes = temp
             elif key_pressed.code == terminal.KEY_DOWN:
-                temp = move_node(temp, player_board, DOWN, CURSOR)
+                temp = move_node(temp, player_board, DOWN)
                 ship.nodes = temp
             elif key_pressed.code == terminal.KEY_RIGHT:
-                temp = move_node(temp, player_board, RIGHT, CURSOR)
+                temp = move_node(temp, player_board, RIGHT)
                 ship.nodes = temp
             elif key_pressed.code == terminal.KEY_LEFT:
-                temp = move_node(temp, player_board, LEFT, CURSOR)
+                temp = move_node(temp, player_board, LEFT)
+                ship.nodes = temp
+            elif key_pressed.lower() == 'r':
+                temp_r = ship.manual_ship_rotation()
+                check = check_ship_move(temp_r, 0, 0, player_board)
+                if all(check):
+                    temp = confirm_rotation(ship, temp_r, player_board)
+                    ship.change_vertical_status()
                 ship.nodes = temp
             
             ship_placed = ship.is_ship_placed()
@@ -257,13 +285,13 @@ def play_game(enemy_board, player_board, enemy_fleet, player_fleet):
                     ships.update_status()
                 computer_move(computer, player_board, player_fleet)
             elif key_pressed.code == terminal.KEY_UP:
-                temp_start = move_node(temp_start, enemy_board, UP, CURSOR)
+                temp_start = move_node(temp_start, enemy_board, UP)
             elif key_pressed.code == terminal.KEY_DOWN:
-                temp_start = move_node(temp_start, enemy_board, DOWN, CURSOR)
+                temp_start = move_node(temp_start, enemy_board, DOWN)
             elif key_pressed.code == terminal.KEY_RIGHT:
-                temp_start = move_node(temp_start, enemy_board, RIGHT, CURSOR)
+                temp_start = move_node(temp_start, enemy_board, RIGHT)
             elif key_pressed.code == terminal.KEY_LEFT:
-                temp_start = move_node(temp_start, enemy_board, LEFT, CURSOR)
+                temp_start = move_node(temp_start, enemy_board, LEFT)
             display_grid(enemy_board, player_board, enemy_fleet, player_fleet)
         return True
     
