@@ -5,7 +5,7 @@ class Ship:
     Battleship class
     """
     sunk = True
-    vertical = False
+    vertical = True
     vertical_size = 1
     horizontal_size = 1
     nodes = []
@@ -15,9 +15,9 @@ class Ship:
         #Size of the ship
         self.size = size
         #Set horizontal size for checking end collision
-        self.horizontal_size = size
+        self.vertical_size = size
         #Set temporary nodes for ship
-        self.nodes = [Node(0, col) for col in range(size)]
+        self.nodes = [Node(0, x) for x in range(size)]
         #Set ship sunk boolean based of all node used variable
         self.sunk = all([node.used for node in self.nodes])
         self.name = self.name_ship()
@@ -84,11 +84,11 @@ class Ship:
         """
         new_list = []
         new_list.append(self.nodes[0])
-        col = self.nodes[0].return_col
-        row = self.nodes[0].return_row
+        col = self.nodes[0].return_col()
+        row = self.nodes[0].return_row()
         (col_size, row_size) = self.return_size()
         for x,node in enumerate(self.nodes[1:]):
-            if col_size > row_size:
+            if col_size < row_size:
                 new_list.append(Node(row + x + 1, col))
             else:
                 new_list.append(Node(row, col + x + 1))
