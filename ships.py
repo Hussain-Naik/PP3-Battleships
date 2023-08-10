@@ -1,4 +1,3 @@
-import numpy as np
 import random
 from node import Node
 class Ship:
