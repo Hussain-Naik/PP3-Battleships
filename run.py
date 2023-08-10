@@ -187,7 +187,6 @@ def computer_move(enemy,board,fleet):
     
     after = enemy.remaining_ship_count()
     if after < before:
-        output_string('sunk\n')
         enemy.update_hit_list()
 
 
@@ -267,6 +266,74 @@ def play_game(enemy_board, player_board, enemy_fleet, player_fleet):
                 temp_start = move_node(temp_start, enemy_board, LEFT, CURSOR)
             display_grid(enemy_board, player_board, enemy_fleet, player_fleet)
         return True
+def manual_placement(game_running, start_loop):
+    manual = True
+    (enemy_fleet, 
+    enemy_fleet_status, 
+    enemy_board, 
+    player_fleet, 
+    player_fleet_status, 
+    player_board) = game_initialize()
+    auto_position_fleet(enemy_fleet)
+    place_fleet_on_board(enemy_fleet, enemy_board)
+    all_ship_placed = all(
+        ship.is_ship_placed() for ship in player_fleet)
+
+    while manual:
+        if all_ship_placed == True:
+            options = options_confirm
+        else:
+            options = options_ship
+        user_choice = return_menu_choice(all_ship_placed)
+        if user_choice == None:
+            user_choice = -1
+        if options[user_choice] == "Patrol Boat":
+                player_fleet[4].reset_ship()
+                all_ship_placed = manual_ship_placement(
+                    enemy_board, player_board, enemy_fleet,
+                    player_fleet, player_fleet[4])
+        elif options[user_choice] == "Submarine":
+                player_fleet[3].reset_ship()
+                all_ship_placed = manual_ship_placement(
+                    enemy_board, player_board, enemy_fleet,
+                    player_fleet, player_fleet[3])
+        elif options[user_choice] == "Destroyer":
+                player_fleet[2].reset_ship()
+                all_ship_placed = manual_ship_placement(
+                    enemy_board, player_board, enemy_fleet,
+                    player_fleet, player_fleet[2])
+        elif options[user_choice] == "Battleship":
+                player_fleet[1].reset_ship()
+                all_ship_placed = manual_ship_placement(
+                    enemy_board, player_board, enemy_fleet,
+                    player_fleet, player_fleet[1])
+        elif options[user_choice] == "Carrier":
+                player_fleet[0].reset_ship()
+                all_ship_placed = manual_ship_placement(
+                    enemy_board, player_board, enemy_fleet,
+                    player_fleet, player_fleet[0])
+        elif options[user_choice] == "Start Game":
+            (game_running,
+            enemy_fleet_status,
+            player_fleet_status) = play_game(enemy_board, 
+                                            player_board, 
+                                            enemy_fleet, 
+                                            player_fleet)
+            start_loop = False
+            manual = False
+        elif options[user_choice] == "Change Placement":
+            for ship in player_fleet:
+                ship.reset_ship()
+            
+        else:
+            manual = False
+
+        all_ship_placed = all(
+            ship.is_ship_placed() for ship in player_fleet)
+        
+    
+    return (game_running, start_loop, enemy_fleet_status,
+            player_fleet_status)
     
 def player_assigned_ships(fleet):
     for ship in fleet:
@@ -354,70 +421,12 @@ def main():
                                                     player_fleet)
                     user_choice = start_menu.show()
                 elif options_start[user_choice] == "Manual Placement":
-                    
-
-                    manual = True
-                    
-                    (enemy_fleet, 
-                    enemy_fleet_status, 
-                    enemy_board, 
-                    player_fleet, 
-                    player_fleet_status, 
-                    player_board) = game_initialize()
-                    auto_position_fleet(enemy_fleet)
-                    place_fleet_on_board(enemy_fleet, enemy_board)
-                    all_ship_placed = all(
-                        ship.is_ship_placed() for ship in player_fleet)
-                    if all_ship_placed:
-                        user_choice = confirm_menu.show()
-                    else:
-                        user_choice = ship_menu.show()
-                    while manual:
-                        if all_ship_placed == True:
-                            options = options_confirm
-                        else:
-                            options = options_ship
-                        if user_choice == None:
-                            user_choice = -1
-                        if options[user_choice] == "Patrol Boat":
-                                player_fleet[4].reset_ship()
-                                all_ship_placed = manual_ship_placement(
-                                    enemy_board, player_board, enemy_fleet,
-                                    player_fleet, player_fleet[4])
-                        elif options[user_choice] == "Submarine":
-                                player_fleet[3].reset_ship()
-                                all_ship_placed = manual_ship_placement(
-                                    enemy_board, player_board, enemy_fleet,
-                                    player_fleet, player_fleet[3])
-                        elif options[user_choice] == "Destroyer":
-                                player_fleet[2].reset_ship()
-                                all_ship_placed = manual_ship_placement(
-                                    enemy_board, player_board, enemy_fleet,
-                                    player_fleet, player_fleet[2])
-                        elif options[user_choice] == "Battleship":
-                                player_fleet[1].reset_ship()
-                                all_ship_placed = manual_ship_placement(
-                                    enemy_board, player_board, enemy_fleet,
-                                    player_fleet, player_fleet[1])
-                        elif options[user_choice] == "Carrier":
-                                player_fleet[0].reset_ship()
-                                all_ship_placed = manual_ship_placement(
-                                    enemy_board, player_board, enemy_fleet,
-                                    player_fleet, player_fleet[0])
-                        elif options[user_choice] == "Start Game":
-                            game_running = False
-                        elif options[user_choice] == "Change Placement":
-                            for ship in player_fleet:
-                                ship.reset_ship()
-                            
-                        else:
-                            manual = False
-
-                        all_ship_placed = all(
-                            ship.is_ship_placed() for ship in player_fleet)
-                        user_choice = return_menu_choice(all_ship_placed)
+                    (game_running,
+                     start_loop,
+                     enemy_fleet_status,
+                     player_fleet_status
+                     ) = manual_placement(game_running, start_loop)
                     user_choice = start_menu.show()
-                    
                 elif options_start[user_choice] == "Back":
                     start_loop = False
                     user_choice = main_menu.show()
