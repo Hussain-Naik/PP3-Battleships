@@ -17,7 +17,7 @@ class Ship:
         #Set horizontal size for checking end collision
         self.horizontal_size = size
         #Set temporary nodes for ship
-        self.nodes = [Node(row, 0) for row in range(size)]
+        self.nodes = [Node(0, row) for row in range(size)]
         #Set ship sunk boolean based of all node used variable
         self.sunk = all([node.used for node in self.nodes])
         self.name = self.name_ship()
