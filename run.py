@@ -13,6 +13,8 @@ DOWN = (0, 1)
 LEFT = (-1, 0)
 RIGHT = (1, 0)
 DELAY = 0.02
+SHIP_CONTROLS = "Use ARROW keys to move around the grid. 'r' to rotate ship"
+GAME_CONTROLS = "Use ARROW keys to move around the grid."
 
 #List of option for main menu
 options_main = ["Start", "Exit"]
@@ -55,7 +57,7 @@ def output_string(string):
         sys.stdout.write(char)
         sys.stdout.flush()
         
-def display_grid(enemy_grid, player_grid, enemy_ships, player_ships):
+def display_grid(enemy_grid, player_grid, enemy_ships, player_ships, message):
     """
     Displays the grid in the terminal.
     """
@@ -80,7 +82,7 @@ def display_grid(enemy_grid, player_grid, enemy_ships, player_ships):
         print(
             "            #######################     #######################"
             )
-        print("Use ARROW keys to move around the grid.")
+        print(message)
         print("Press ENTER to confirm placement. Press ESC to show menu.")
         sleep(DELAY)
 
@@ -153,7 +155,8 @@ def confirm_rotation(ship, temp, board):
 def manual_ship_placement(
         enemy_board, player_board, enemy_fleet, player_fleet, ship
         ):
-    display_grid(enemy_board, player_board, enemy_fleet, player_fleet)
+    display_grid(enemy_board, player_board,
+                  enemy_fleet, player_fleet, SHIP_CONTROLS)
     ship_placed = ship.is_ship_placed()
     with terminal.cbreak(), terminal.hidden_cursor():
         temp = ship.nodes
@@ -163,7 +166,8 @@ def manual_ship_placement(
                 display_grid(enemy_board, 
                                 player_board, 
                                 enemy_fleet, 
-                                player_fleet
+                                player_fleet, 
+                                SHIP_CONTROLS
                                 )
                 ship_placed = True
                 return all(ship.is_ship_placed() for ship in player_fleet)
@@ -173,7 +177,8 @@ def manual_ship_placement(
                 display_grid(enemy_board, 
                                 player_board, 
                                 enemy_fleet, 
-                                player_fleet
+                                player_fleet, 
+                                SHIP_CONTROLS
                                 )
                 return all(ship.is_ship_placed() for ship in player_fleet)
             elif key_pressed.code == terminal.KEY_UP:
@@ -197,7 +202,8 @@ def manual_ship_placement(
                 ship.nodes = temp
             
             ship_placed = ship.is_ship_placed()
-            display_grid(enemy_board, player_board, enemy_fleet, player_fleet)
+            display_grid(enemy_board, player_board, 
+                         enemy_fleet, player_fleet, SHIP_CONTROLS)
         
 
 def computer_move(enemy,board,fleet):
@@ -253,7 +259,8 @@ def play_game(enemy_board, player_board, enemy_fleet, player_fleet):
     enemy_fleet_status = all([ship.sunk for ship in enemy_fleet])
     player_fleet_status = all([ship.sunk for ship in enemy_fleet])
     computer = Ai(player_fleet)
-    display_grid(enemy_board, player_board, enemy_fleet, player_fleet)
+    display_grid(enemy_board, player_board, 
+                 enemy_fleet, player_fleet, GAME_CONTROLS)
     with terminal.cbreak(), terminal.hidden_cursor():
         output_string(
             'Select Location to Strike.\n'+
@@ -275,7 +282,8 @@ def play_game(enemy_board, player_board, enemy_fleet, player_fleet):
                 display_grid(enemy_board, 
                              player_board, 
                              enemy_fleet, 
-                             player_fleet
+                             player_fleet, 
+                             GAME_CONTROLS
                              )
                 return (True, True, False, False)
             elif key_pressed.code == terminal.KEY_ENTER:
@@ -292,7 +300,8 @@ def play_game(enemy_board, player_board, enemy_fleet, player_fleet):
                 temp_start = move_node(temp_start, enemy_board, RIGHT)
             elif key_pressed.code == terminal.KEY_LEFT:
                 temp_start = move_node(temp_start, enemy_board, LEFT)
-            display_grid(enemy_board, player_board, enemy_fleet, player_fleet)
+            display_grid(enemy_board, player_board, 
+                         enemy_fleet, player_fleet, GAME_CONTROLS)
         return True
     
 def manual_placement(game_running, start_loop):
