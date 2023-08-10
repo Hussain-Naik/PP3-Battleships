@@ -39,6 +39,16 @@ class Node:
         """
         return f"{self.col}, {self.row}"
     
+    def reset_node(self):
+        #variable for ship placement
+        self.occupied = False
+        #variable for used attack position 
+        self.used = False
+        #Variable for grid position selection
+        self.view = False
+        #Variable for assigned to player ships
+        self.player = False
+    
     def is_used(self):
         """
         method to access used variable
