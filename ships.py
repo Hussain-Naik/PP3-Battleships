@@ -17,7 +17,7 @@ class Ship:
         #Set horizontal size for checking end collision
         self.horizontal_size = size
         #Set temporary nodes for ship
-        self.nodes = [Node(0, row) for row in range(size)]
+        self.nodes = [Node(0, col) for col in range(size)]
         #Set ship sunk boolean based of all node used variable
         self.sunk = all([node.used for node in self.nodes])
         self.name = self.name_ship()
@@ -63,11 +63,36 @@ class Ship:
             #Invert row and col
             node.col = temp_row
             node.row = temp_col
-        #Change vertical
+        
+        self.change_vertical_status()
+
+    def change_vertical_status(self):
+        """
+        Method to change vertical status
+        """
+        #Change vertical status
         self.vertical = not self.vertical
+        #store ship current sizes as temp
+        (temp_horizontal, temp_vertical) = self.return_size()
         #Switch Vertical and horizontal sizes
-        self.horizontal_size = 1 if True else self.size
-        self.vertical_size =  self.size if True else 0
+        self.vertical_size = temp_horizontal + 1
+        self.horizontal_size = temp_vertical + 1
+
+    def manual_ship_rotation(self):
+        """
+        Method to return new list of nodes after rotation
+        """
+        new_list = []
+        new_list.append(self.nodes[0])
+        col = self.nodes[0].return_col
+        row = self.nodes[0].return_row
+        (col_size, row_size) = self.return_size()
+        for x,node in enumerate(self.nodes[1:]):
+            if col_size > row_size:
+                new_list.append(Node(row + x + 1, col))
+            else:
+                new_list.append(Node(row, col + x + 1))
+        return new_list
     
     def update_status(self):
         """
