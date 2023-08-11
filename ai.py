@@ -1,5 +1,6 @@
 import random
 
+
 class Ai:
     """
     AI Class
@@ -9,7 +10,7 @@ class Ai:
         self.sunk_ships = []
         self.all_hits = set()
         self.successful_hits = []
-        self.precision_list = [(1,0), (0,1), (-1,0), (0,-1)]
+        self.precision_list = [(1, 0), (0, 1), (-1, 0), (0, -1)]
         self.start_counter = False
         self.fail_counter = 0
 
@@ -17,8 +18,8 @@ class Ai:
         return len(self.remaining_ships)
 
     def return_last_sunk_ship(self):
-        return self.sunk_ships[len(self.sunk_ships) -1]
-    
+        return self.sunk_ships[len(self.sunk_ships) - 1]
+
     def update_sunk_ships(self):
         temp_ship_list = []
         for ship in self.remaining_ships:
@@ -26,9 +27,9 @@ class Ai:
                 self.sunk_ships.append(ship)
             else:
                 temp_ship_list.append(ship)
-        
+
         self.remaining_ships = temp_ship_list
-    
+
     def update_hit_list(self):
         sunk_ship = self.return_last_sunk_ship()
         for node in sunk_ship.nodes:
@@ -37,7 +38,7 @@ class Ai:
     def add_hit_to_set(self, hit):
         self.all_hits.add(hit)
         self.increment_counter()
-    
+
     def add_successful_hit(self, hit):
         self.successful_hits.append(hit)
         self.reset_counter()
@@ -50,7 +51,7 @@ class Ai:
     def reset_counter(self):
         self.start_counter = True
         self.fail_counter = 0
-    
+
     def new_random_move(self):
         random_col = random.randint(0, 9)
         random_row = random.randint(0, 9)
@@ -68,13 +69,13 @@ class Ai:
             (check_x, check_y) = check_hit
             if check_hit in self.all_hits:
                 i += 1
-            elif 0 > check_x or  check_x > 9 :
+            elif 0 > check_x or check_x > 9:
                 i += 1
-            elif 0 > check_y or check_y > 9 :
+            elif 0 > check_y or check_y > 9:
                 i += 1
             else:
                 return check_hit
-    
+
     def new_seq_move(self):
         last_hit = self.successful_hits[-1]
         seq_hit = self.successful_hits[-2]
@@ -87,20 +88,20 @@ class Ai:
         dx = 0 if dx == 0 else int(dx / abs(dx))
         check_last_x_limit = last_x + dx >= 0 and last_x + dx <= 9
         check_last_y_limit = last_y + dy >= 0 and last_y + dy <= 9
-        result_last_x = last_x + dx if check_last_x_limit else seq_x -dx
-        result_last_y = last_y + dy if check_last_y_limit else seq_y -dy
+        result_last_x = last_x + dx if check_last_x_limit else seq_x - dx
+        result_last_y = last_y + dy if check_last_y_limit else seq_y - dy
         check_last_hit = (result_last_x, result_last_y) in self.all_hits
         check_last_larger_seq = (result_last_x,
-                            result_last_y) in self.successful_hits
+                                 result_last_y) in self.successful_hits
 
         check_seq_x_limit = seq_x + dx >= 0 and seq_x + dx <= 9
         check_seq_y_limit = seq_y + dy >= 0 and seq_y + dy <= 9
-        result_seq_x = seq_x + dx if check_seq_x_limit else last_x -dx
-        result_seq_y = seq_y + dy if check_seq_y_limit else last_y -dy
+        result_seq_x = seq_x + dx if check_seq_x_limit else last_x - dx
+        result_seq_y = seq_y + dy if check_seq_y_limit else last_y - dy
         check_seq_hit = (result_seq_x, result_seq_y) in self.all_hits
         check_seq_larger_seq = (result_seq_x,
                                 result_seq_y) in self.successful_hits
-        
+
         if dx == 0 or dy == 0:
             if self.fail_counter == 0 and not check_last_hit:
                 return (result_last_x, result_last_y)
@@ -108,8 +109,10 @@ class Ai:
                 while check_last_larger_seq:
                     result_last_x -= dx
                     result_last_y -= dy
-                    check_last_larger_seq = (result_last_x,
-                            result_last_y) in self.successful_hits
+                    check_last_larger_seq = (
+                                             result_last_x,
+                                             result_last_y
+                                             ) in self.successful_hits
                 return (result_last_x, result_last_y)
             elif self.fail_counter > 0 and not check_seq_hit:
                 return (result_seq_x, result_seq_y)
@@ -117,15 +120,15 @@ class Ai:
                 while check_seq_larger_seq:
                     result_seq_x += dx
                     result_seq_y += dy
-                    check_seq_larger_seq = (result_seq_x,
-                                result_seq_y) in self.successful_hits
+                    check_seq_larger_seq = (
+                                            result_seq_x,
+                                            result_seq_y
+                                            ) in self.successful_hits
                 return (result_seq_x, result_seq_y)
             else:
                 return self.new_calculated_move()
         else:
             return self.new_calculated_move()
-        
-
 
     def new_move(self):
         new_move = ()
