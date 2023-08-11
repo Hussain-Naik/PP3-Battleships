@@ -1,32 +1,194 @@
-![CI logo](https://codeinstitute.s3.amazonaws.com/fullstack/ci_logo_small.png)
+# Battleships
+[Battleships](https://pp3-battleships.onrender.com/) is a python terminal application that allows the user play the classic battleship game with advanced ai algorithm.
 
-Welcome,
+Users can start game with random placement of ships, or manually place the ship to the users defined positions on the board.
 
-This is the Code Institute student template for deploying your third portfolio project, the Python command-line project. The last update to this file was: **March 14, 2023**
-
-## Reminders
-
-- Your code must be placed in the `run.py` file
-- Your dependencies must be placed in the `requirements.txt` file
-- Do not edit any of the other files or your code may not deploy properly
-
-## Creating the Heroku app
-
-When you create the app, you will need to add two buildpacks from the _Settings_ tab. The ordering is as follows:
-
-1. `heroku/python`
-2. `heroku/nodejs`
-
-You must then create a _Config Var_ called `PORT`. Set this to `8000`
-
-If you have credentials, such as in the Love Sandwiches project, you must create another _Config Var_ called `CREDS` and paste the JSON into the value field.
-
-Connect your GitHub repository and deploy as normal.
-
-## Constraints
-
-The deployment terminal is set to 80 columns by 24 rows. That means that each line of text needs to be 80 characters or less otherwise it will be wrapped onto a second line.
+![Am I Responsive screenshot](assets/documentation/am-i-responsive.png)
 
 ---
 
-Happy coding!
+### How to use    
+
+1. Open this [link](https://pp3-battleships.onrender.com/) or copy it from here: `https://pp3-battleships.onrender.com/`, paste it into your browser's address bar, and press enter.
+2. When the page is loaded, click the "RUN PROGRAM" button.
+3. Navigate through the menu options using the arrow keys on your keyboard, press enter to choose an option.
+4. Start game with random ship placement or manually place ships.
+5. Then, you will take turns to find and hit enemy ships.
+6. Enemy will make move after your turn
+6. Game ends when either the computer or player fleet have been sunk.
+
+---
+
+### User stories
+
+- As a first-time visitor, I want to be able to understand the main purpose of the application.
+- As a first-time visitor, I want to be able to see the instructions on how to use the application.
+- As a first-time visitor, I want to be able to see the different types of patterns that can be generated.
+- As a first-time visitor, I want to be able to see the different algorithms that can be used to find the shortest path between the start and end points.
+- As a user, I want to be able to see how the algorithms work with different patterns and different start and end nodes placement on the grid.
+- As a user, I want to be able to change the pattern type, start and end nodes placement, and algorithm without restarting the application.
+
+---
+
+### Features
+
+---
+
+### Flowchart
+
+---
+
+### Technologies used
+
+###### Languages
+
+- [Python](https://www.python.org/): The main language used to develop the application.
+- [JavaScript](https://www.javascript.com/): The language used by the Code Institute to run the mock terminal in the browser.
+- [HTML](https://www.w3schools.com/html/): The language used by the Code Institute to create the layout needed to run the mock terminal in the browser.
+
+###### Frameworks, libraries, and packages
+- [random](https://docs.python.org/3/library/random.html): used to generate random numbers.
+- [numpy](https://docs.scipy.org/doc/numpy/reference/): used to generate a 2d array used to represent the grid.
+- [time](https://docs.python.org/3/library/time.html): sleep function from the time library was used to make every step of the grid update visible to the user.
+- [blessed](https://pypi.org/project/blessed/): used to manipulate the terminal output.
+- [simple-term-menu](https://pypi.org/project/simple-term-menu/): used to create the terminal menu for the application.
+
+###### Other tools
+- [Git](https://git-scm.com/): used to manage the application source code.
+- [GitHub](https://github.com/): used to host the application source code.
+- [Visual Studio Code](https://code.visualstudio.com/): used to edit the application source code.
+- [Chrome](https://www.google.com/chrome/): used to run the application in the browser.
+- [Draw.io](https://www.draw.io/): used to create the flowchart.
+
+---
+
+### Bugs and issues
+
+- ###### Solved bugs
+
+
+- ###### Unsolved bugs
+
+
+### Testing
+
+The application was tested manually during the whole development process. Visual Studio Code terminal was used to run the application locally, and the mock terminal provided by the Code Institute was used to run the application in the browser.
+
+###### Validator results
+
+---
+
+### Deployment
+
+The application was deployed to [Render](https://www.render.com/) and can be accessed from the following link: [Battleships](https://pp3-battleships.onrender.com/)
+
+#### Heroku deployment
+
+**The steps to deploy the application to Heroku are:**
+
+1. Create a Heroku account if you don't have one.
+
+2. In the dashboard, go to the "Apps" tab.
+
+3. Click on the "New" button and choose "Create a new app".
+
+4. Enter a name for the app.
+
+5. Choose a region.
+
+6. Click on the "Create" button.
+
+7. Open the app you created and go to the "Settings" tab.
+
+8. At the "Config Vars" section, click on the "Add" button and enter the following:
+
+    - key: `PORT`
+    - value: `8000`
+
+9. At the "Buildpacks" section, click on the "Add" button and choose:
+
+    - Python
+    - Node.js
+    The order of the buildpacks is important.
+
+10. After that, click on the "Deploy" tab.
+
+11. At the "Deployment method" section, choose GitHub and connect your GitHub account.
+
+12. Then, you need to choose the repository you want to deploy.
+
+13. Go down to the "Manual deploy" section, choose the branch you want to deploy, and click on the "Deploy branch" button.
+
+14. The application will be deployed to Heroku. You can access it by clicking on the "View" button.
+
+**The steps to run the application locally on your machine are:**
+
+1. The application requires you to have Python 3 installed on your machine.
+
+    - If you are using Windows, you can download Python 3 from [Python website](https://www.python.org/downloads/windows/).
+
+    - If you are using Linux, the Python 3 installation is probably already included in your distribution, but if not, you can install it by running the following command in your terminal:
+
+        + For Ubuntu or other Debian based distributions: `sudo apt-get install python3`
+        + For Fedora or other Red Hat based distributions: `sudo yum install python3`
+        + For Arch Linux based distributions: `sudo pacman -S python3`
+        + Other installation instructions can be found [here](https://www.python.org/downloads/).
+
+    - If you are using macOS, you can download Python 3 from [Python website](https://www.python.org/downloads/macosx/).
+
+2. Now, you need to download the application source code from GitHub.
+
+    + Go to the GitHub repository, click on the "Download ZIP" button, and extract the zip file's contents to the folder where you want to place the application.
+
+    + Or use the following command to download the application source code:
+        + `git clone https://github.com/Hussain-Naik/PP3-Battleships.git`
+
+3. Now, you need to install the dependencies.
+
+    + Navigate to the folder where you placed the application source code and run the following command:
+        + `pip3 install -r requirements.txt`
+
+4. Now, you can run the application on your machine by running the following command:
+    + `python3 run.py`
+    
+#### Render deployment
+
+
+1. Create a new Render account if you don't already have one here [Render](https://render.com/).
+
+2. Create a new application on the following page here [New Render App](https://dashboard.render.com/), choose **Webserver**:
+
+3. Select the GitHub option and connect the application to the repository you created.
+
+4. Search for the repository you created and click "Connect."
+
+5. Create name for the application
+
+6. Select the region where you want to deploy the application.
+
+7. Select branch to deploy.
+
+8. Select environment.
+
+9. Render build command: `pip3 install -r requirements.txt && npm install`
+
+10. Render start command: `node index.js`
+
+11. Select Free plan.
+
+12. Click on "Advanced" settings.
+
+13. Add the following environment variables:
+
+    - Key: PORT Value: 8000
+    - Key: PYTHON_VERSION Value: 3.10.7
+
+14. Click "Create Web Service."
+
+15. Wait for the completion of the deployment.
+
+---
+
+### Credits
+
+- [Aleksei Konovalov](https://github.com/lexach91) great guidance and mentor throughout project, as the battleship concept revolved round a node elements to make the board and ship fragments. 
