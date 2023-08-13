@@ -8,13 +8,18 @@ from ships import Ship
 from ai import Ai
 
 # Set up constant global variables
+# Constant direction values
 UP = (0, -1)
 DOWN = (0, 1)
 LEFT = (-1, 0)
 RIGHT = (1, 0)
+# Time delay constant
 DELAY = 0.02
+# Ship controls message
 SHIP_CONTROLS = "Use ARROW keys to move around the grid. 'r' to rotate ship"
+# Game controls message
 GAME_CONTROLS = "Use ARROW keys to move around the grid."
+# User validation messages
 USER_VALIDATION = [
     'Please select another location',
     'Ship Rotation out of bounds or new co ordinates occupied',
@@ -22,13 +27,16 @@ USER_VALIDATION = [
 
 # List of option for main menu
 options_main = ["Start", "Exit"]
+# List of option for start menu
 options_start = ["Random Placement", "Manual Placement", "Back"]
+# List of option for ship placement menu
 options_ship = ["Patrol Boat",
                 "Submarine",
                 "Destroyer",
                 "Battleship",
                 "Carrier",
                 "Back"]
+# List of option for confirm menu
 options_confirm = ["Start Game", "Reset All Ships", "Back"]
 
 # Variable for main menu
@@ -42,6 +50,7 @@ confirm_menu = TerminalMenu(options_confirm, title="Start Game")
 
 # Blessed terminal variable
 terminal = Terminal()
+# User validation global message
 user_validation = ''
 
 
