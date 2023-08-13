@@ -62,9 +62,9 @@ Once user has placed all ships on the board they will be provided with a new men
 ![Confirm menu screenshot](assets/documentation/confirm-placement-menu.png)
 
 - ##### Exit.
-The last option in the main menu is the "Exit". Here, the user can exit the application and see the bye message.
+The last option in the main menu is the "Exit". Here, the user can exit the application and see the game closing message.
 
-![Exit menu screenshot](assets/documentation/bye-message.png) 
+![Exit menu screenshot](assets/documentation/exit-message.png) 
 
 ---
 
@@ -99,7 +99,12 @@ The last option in the main menu is the "Exit". Here, the user can exit the appl
 ### Bugs and issues
 
 - ##### Solved bugs
-
+- Fix AI move for ship placement parallel next to edge or parallel adjacent to board edge by checking for unused successful hits in opposite direction
+- Fix ship rotation method to have a starting node pivot point as first node in list
+- Fix computer move as inverted col, row tuple
+- Fix random displacement for row and col by inverting ship size tuple.
+- Fix node location method to return correct sequence of col then row
+- Fix node display to show 'X' when used and occupied node
 
 - ##### Unsolved bugs
 - No unsolved bugs
