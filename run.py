@@ -15,7 +15,9 @@ RIGHT = (1, 0)
 DELAY = 0.02
 SHIP_CONTROLS = "Use ARROW keys to move around the grid. 'r' to rotate ship"
 GAME_CONTROLS = "Use ARROW keys to move around the grid."
-VALIDATION_MESSAGE = []
+USER_VALIDATION = [
+    'Please select another location',
+    'Ship Rotation out of bounds or new co ordinates occupied']
 
 # List of option for main menu
 options_main = ["Start", "Exit"]
@@ -39,7 +41,7 @@ confirm_menu = TerminalMenu(options_confirm, title="Start Game")
 
 # Blessed terminal variable
 terminal = Terminal()
-message = ''
+user_validation = ''
 
 
 def generate_grid():
@@ -88,6 +90,7 @@ def display_grid(enemy_grid, player_grid, enemy_ships, player_ships, message):
             )
         print(message)
         print("Press ENTER to confirm placement. Press ESC to show menu.")
+        output_string(user_validation)
         sleep(DELAY)
 
 
@@ -170,6 +173,8 @@ def manual_ship_placement(
     with terminal.cbreak(), terminal.hidden_cursor():
         temp = ship.nodes
         while not ship_placed:
+            global user_validation
+            user_validation = ''
             key_pressed = terminal.inkey()
             if key_pressed.code == terminal.KEY_ESCAPE:
                 display_grid(enemy_board,
@@ -208,6 +213,8 @@ def manual_ship_placement(
                 if all(check):
                     temp = confirm_rotation(ship, temp_r, player_board)
                     ship.change_vertical_status()
+                else:
+                    user_validation = USER_VALIDATION[1]
                 ship.nodes = temp
 
             ship_placed = ship.is_ship_placed()
@@ -290,6 +297,8 @@ def play_game(enemy_board, player_board, enemy_fleet, player_fleet):
             'Press Enter when Co-ordinates confirmed Admiral')
         temp_start = enemy_board[5][5]
         while not enemy_fleet_status or not player_fleet_status:
+            global user_validation
+            user_validation = ''
             key_pressed = terminal.inkey()
             temp_start.set_view()
             enemy_fleet_status = all([ship.sunk for ship in enemy_fleet])
@@ -309,11 +318,14 @@ def play_game(enemy_board, player_board, enemy_fleet, player_fleet):
                              )
                 return (True, True, False, False)
             elif key_pressed.code == terminal.KEY_ENTER:
-                enemy_board[temp_start.row][temp_start.col].make_used()
-                enemy_board[temp_start.row][temp_start.col].set_hidden()
-                for ships in enemy_fleet:
-                    ships.update_status()
-                computer_move(computer, player_board, player_fleet)
+                if enemy_board[temp_start.row][temp_start.col].is_used():
+                    user_validation = USER_VALIDATION[0]
+                else:
+                    enemy_board[temp_start.row][temp_start.col].make_used()
+                    enemy_board[temp_start.row][temp_start.col].set_hidden()
+                    for ships in enemy_fleet:
+                        ships.update_status()
+                    computer_move(computer, player_board, player_fleet)
             elif key_pressed.code == terminal.KEY_UP:
                 temp_start = move_node(temp_start, enemy_board, UP)
             elif key_pressed.code == terminal.KEY_DOWN:
