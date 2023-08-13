@@ -85,16 +85,24 @@ class Ship:
         """
         Method to return new list of nodes after rotation
         """
+        # Temporary list
         new_list = []
+        # Append first node as pivot point for rotation
         new_list.append(self.nodes[0])
+        # variable to store first node column value
         col = self.nodes[0].return_col()
+        # variable to store first ndoe row value
         row = self.nodes[0].return_row()
+        # variable to unpack tuple of ship size
         (col_size, row_size) = self.return_size()
+        # Loop through remaining nodes of ship
         for x, node in enumerate(self.nodes[1:]):
+            # Check if ship is vertical or horizontal 
             if col_size < row_size:
                 new_list.append(Node(row + x + 1, col))
             else:
                 new_list.append(Node(row, col + x + 1))
+        # Return temporary list
         return new_list
 
     def update_status(self):
@@ -144,18 +152,29 @@ class Ship:
             node.set_players()
 
     def return_node_set(self):
+        """
+        Method to return ship nodes as set
+        """
+        # Temporary set of node 
         node_set = set()
+        # Loop through all nodes
         for node in self.nodes:
+            # Add node row, col tuple values to set
             node_set.add(node.location())
 
         return node_set
 
     def set_random_position(self):
+        """
+        Method for random ship placement
+        """
+        # Reset ship
         self.reset_ship()
+        # Randomly chose to rotate 
         random_rotate = random.randint(0, 1)
         if random_rotate == 0:
             self.rotate_ship()
-
+        # Randomly assign new position for ship nodes
         (x, y) = self.return_size()
         random_col = random.randint(0, 9 - y)
         random_row = random.randint(0, 9 - x)
@@ -171,6 +190,9 @@ class Ship:
         return (self.horizontal_size - 1, self.vertical_size - 1)
 
     def reset_ship(self):
+        """
+        Method to reset ship position and status
+        """
         for x in range(0, self.size):
             self.nodes[x].reset_node()
             self.nodes[x] = Node(x, 0)
