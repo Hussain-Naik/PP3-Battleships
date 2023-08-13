@@ -41,6 +41,9 @@ class Node:
         return f"{self.col}, {self.row}"
 
     def reset_node(self):
+        """
+        method to reset node status
+        """
         # variable for ship placement
         self.occupied = False
         # variable for used attack position
