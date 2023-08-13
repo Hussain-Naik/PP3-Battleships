@@ -17,7 +17,8 @@ SHIP_CONTROLS = "Use ARROW keys to move around the grid. 'r' to rotate ship"
 GAME_CONTROLS = "Use ARROW keys to move around the grid."
 USER_VALIDATION = [
     'Please select another location',
-    'Ship Rotation out of bounds or new co ordinates occupied']
+    'Ship Rotation out of bounds or new co ordinates occupied',
+    'Ship Co Ordinate occupied or out of bound']
 
 # List of option for main menu
 options_main = ["Start", "Exit"]
@@ -118,6 +119,7 @@ def move_node(t_node, board, direction):
     """
     Function to move in grid
     """
+    global user_validation
     (x, y) = direction
     if type(t_node) != list:
         grid_row = t_node.row if (
@@ -144,6 +146,8 @@ def move_node(t_node, board, direction):
             if x > 0 or y > 0:
                 new_node_list.reverse()
             return new_node_list
+        else:
+            user_validation = USER_VALIDATION[2]
         return t_node
 
 
