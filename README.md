@@ -23,10 +23,8 @@ Users can start game with random placement of ships, or manually place the ship 
 
 - As a first-time visitor, I want to be able to understand the main purpose of the application.
 - As a first-time visitor, I want to be able to see the instructions on how to use the application.
-- As a first-time visitor, I want to be able to see the different types of patterns that can be generated.
-- As a first-time visitor, I want to be able to see the different algorithms that can be used to find the shortest path between the start and end points.
-- As a user, I want to be able to see how the algorithms work with different patterns and different start and end nodes placement on the grid.
-- As a user, I want to be able to change the pattern type, start and end nodes placement, and algorithm without restarting the application.
+- As a user, I want to be able to manually place my ships.
+- As a user, I want to be able to play against a difficult opponent.
 
 ---
 
