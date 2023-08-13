@@ -15,6 +15,7 @@ RIGHT = (1, 0)
 DELAY = 0.02
 SHIP_CONTROLS = "Use ARROW keys to move around the grid. 'r' to rotate ship"
 GAME_CONTROLS = "Use ARROW keys to move around the grid."
+VALIDATION_MESSAGE = []
 
 # List of option for main menu
 options_main = ["Start", "Exit"]
@@ -160,6 +161,9 @@ def confirm_rotation(ship, temp, board):
 def manual_ship_placement(
         enemy_board, player_board, enemy_fleet, player_fleet, ship
         ):
+    """
+    Function to manually place player ships on board
+    """
     display_grid(enemy_board, player_board,
                  enemy_fleet, player_fleet, SHIP_CONTROLS)
     ship_placed = ship.is_ship_placed()
@@ -230,6 +234,9 @@ def computer_move(enemy, board, fleet):
 
 
 def generate_fleet():
+    """
+    Function to set upi default fleet with each size ship
+    """
     fleet = []
     carrier = Ship(5)
     fleet.append(carrier)
@@ -246,6 +253,9 @@ def generate_fleet():
 
 
 def auto_position_fleet(fleet):
+    """
+    Function to randomly place fleet on board
+    """
     fleet_pos = set()
     for x in range(0, len(fleet)):
         fleet[x].set_random_position()
@@ -257,12 +267,18 @@ def auto_position_fleet(fleet):
 
 
 def place_fleet_on_board(fleet, board):
+    """
+    Function to assign board nodes to ships in fleet
+    """
     for x in range(0, len(fleet)):
         fleet[x].assign_ship_to_board(board)
         fleet[x].confirm_placement()
 
 
 def play_game(enemy_board, player_board, enemy_fleet, player_fleet):
+    """
+    Main game loop
+    """
     enemy_fleet_status = all([ship.sunk for ship in enemy_fleet])
     player_fleet_status = all([ship.sunk for ship in enemy_fleet])
     computer = Ai(player_fleet)
@@ -312,6 +328,9 @@ def play_game(enemy_board, player_board, enemy_fleet, player_fleet):
 
 
 def manual_placement(game_running, start_loop):
+    """
+    manual ship placement loop
+    """
     manual = True
     (enemy_fleet,
      enemy_fleet_status,
@@ -390,11 +409,17 @@ def manual_placement(game_running, start_loop):
 
 
 def player_assigned_ships(fleet):
+    """
+    Function to assign ships to player
+    """
     for ship in fleet:
         ship.assign_to_player()
 
 
 def return_menu_choice(completed):
+    """
+    Function to change menu option after all ships placed on board
+    """
     if completed is True:
         return confirm_menu.show()
     else:
@@ -402,6 +427,9 @@ def return_menu_choice(completed):
 
 
 def game_initialize():
+    """
+    Function to initialize game variables
+    """
     enemy_fleet = generate_fleet()
     enemy_fleet_status = all([ship.sunk for ship in enemy_fleet])
 
