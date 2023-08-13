@@ -69,7 +69,8 @@ The last option in the main menu is the "Exit". Here, the user can exit the appl
 ---
 
 ### Flowchart
-
+In the following flowchart, you can see the basic logic of the application.
+![Flowchart](assets/documentation/flowchart.png)
 ---
 
 ### Technologies used
