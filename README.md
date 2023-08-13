@@ -31,6 +31,40 @@ Users can start game with random placement of ships, or manually place the ship 
 ---
 
 ### Features
+- ##### Main menu.
+The user can see the main menu with options to start the application or exit.
+
+![Main menu screenshot](assets/documentation/main-menu.png)
+
+- ##### Start menu.
+When start is selected the user will be displayed a message stating 'Starting Battleship Game...' with two new options random placement or manual placement
+
+![Start menu screenshot](assets/documentation/start-menu.png)
+
+- ##### Random Placement.
+The game will start with random placement for both computer and player ships
+
+![Game screenshot](assets/documentation/game-screen.png)
+
+- ##### Manual Placement.
+New menu option for all ships to be placed on board, user to select each ship and manual place in desired location
+
+![Ship menu screenshot](assets/documentation/ship-menu.png)
+
+- ##### Ship Placement.
+When user select a ship from the options the board will be displayed and user can move ship on board
+
+![Ship placement screenshot](assets/documentation/ship-placement-screen.png)
+
+- ##### Confirm Placement and start game menu.
+Once user has placed all ships on the board they will be provided with a new menu to start game or reset all ships
+
+![Confirm menu screenshot](assets/documentation/confirm-placement-menu.png)
+
+- ##### Exit.
+The last option in the main menu is the "Exit". Here, the user can exit the application and see the bye message.
+
+![Exit menu screenshot](assets/documentation/bye-message.png) 
 
 ---
 
@@ -64,11 +98,13 @@ Users can start game with random placement of ships, or manually place the ship 
 
 ### Bugs and issues
 
-- ###### Solved bugs
+- ##### Solved bugs
 
 
-- ###### Unsolved bugs
+- ##### Unsolved bugs
+- No unsolved bugs
 
+---
 
 ### Testing
 
@@ -170,7 +206,7 @@ The application was deployed to [Render](https://www.render.com/) and can be acc
 
 8. Select environment.
 
-9. Render build command: `pip3 install -r requirements.txt && npm install`
+9. Render build command: `pip install --upgrade pip && pip3 install -r requirements.txt && npm install`
 
 10. Render start command: `node index.js`
 
