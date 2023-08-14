@@ -115,10 +115,10 @@ class Ai:
         i = 0
         while True:
             '''
-            Unpack precision list item with index of loop variable + 
+            Unpack precision list item with index of loop variable +
             fail counter mod 4 to be within list index size
             '''
-            
+
             (precision_x, precision_y) = self.precision_list[
                 (self.fail_counter + i) % 4
                 ]
@@ -155,25 +155,25 @@ class Ai:
         (seq_x, seq_y) = seq_hit
         '''
         Find direction in vertical axis as last hit y value - previous hit y
-        value. Invert difference if fail counter > 0 as computer has missed 
+        value. Invert difference if fail counter > 0 as computer has missed
         after second successful hit
         '''
         dy = last_y - seq_y if self.fail_counter == 0 else seq_y - last_y
         '''
-        Change vertical direction to be one of three values -1, 0, 1 by 
-        dividing by absolute value of vertical direction for any value that 
+        Change vertical direction to be one of three values -1, 0, 1 by
+        dividing by absolute value of vertical direction for any value that
         is not 0
         '''
         dy = 0 if dy == 0 else int(dy / abs(dy))
         '''
         Find direction in horizontal axis as last hit x value - previous hit x
-        value. Invert difference if fail counter > 0 as computer has missed 
+        value. Invert difference if fail counter > 0 as computer has missed
         after second successful hit
         '''
         dx = last_x - seq_x if self.fail_counter == 0 else seq_x - last_x
         '''
-        Change horizontal direction to be one of three values -1, 0, 1 by 
-        dividing by absolute value of horizontal direction for any value that 
+        Change horizontal direction to be one of three values -1, 0, 1 by
+        dividing by absolute value of horizontal direction for any value that
         is not 0
         '''
         dx = 0 if dx == 0 else int(dx / abs(dx))
@@ -183,12 +183,12 @@ class Ai:
         check_last_y_limit = last_y + dy >= 0 and last_y + dy <= 9
         '''
         Result x set to last x value + the horizontal direction if new hit in
-        bounds else result x set to previous x value - horizontal direction 
+        bounds else result x set to previous x value - horizontal direction
         '''
         result_last_x = last_x + dx if check_last_x_limit else seq_x - dx
         '''
         Result y set to last y value + the vertical direction if new hit in
-        bounds else result y set to previous y value - vertical direction 
+        bounds else result y set to previous y value - vertical direction
         '''
         result_last_y = last_y + dy if check_last_y_limit else seq_y - dy
         # Variable to check new hit result in all hits
@@ -201,15 +201,15 @@ class Ai:
         # Variable to check new hit y from previous hit y in bounds
         check_seq_y_limit = seq_y + dy >= 0 and seq_y + dy <= 9
         '''
-        Sequence result x set to previous x value + the horizontal direction 
-        if new hit in bounds else result x set to last x value - horizontal 
-        direction 
+        Sequence result x set to previous x value + the horizontal direction
+        if new hit in bounds else result x set to last x value - horizontal
+        direction
         '''
         result_seq_x = seq_x + dx if check_seq_x_limit else last_x - dx
         '''
-        Sequence result y set to previous y value + the vertical direction if 
-        new hit in bounds else result y set to last y value - vertical 
-        direction 
+        Sequence result y set to previous y value + the vertical direction if
+        new hit in bounds else result y set to last y value - vertical
+        direction
         '''
         result_seq_y = seq_y + dy if check_seq_y_limit else last_y - dy
         # Variable to check sequence hit result in all hits
@@ -235,7 +235,7 @@ class Ai:
                                              ) in self.successful_hits
                 # Check if hit after larger sequence is a miss
                 if (result_last_x, result_last_y) in self.all_hits:
-                        return self.new_calculated_move()
+                    return self.new_calculated_move()
                 else:
                     return (result_last_x, result_last_y)
             # If computer has failed and reverse sequence direction new hit
@@ -254,7 +254,7 @@ class Ai:
                                             ) in self.successful_hits
                 # Check if hit after larger sequence is a miss
                 if (result_seq_x, result_seq_y) in self.all_hits:
-                        return self.new_calculated_move()
+                    return self.new_calculated_move()
                 else:
                     return (result_seq_x, result_seq_y)
             else:
@@ -266,7 +266,7 @@ class Ai:
         """
         Method for AI new move
         """
-        # Temporary tuple 
+        # Temporary tuple
         new_move = ()
         # Check if there any successful hits
         if len(self.successful_hits) == 0:
@@ -278,7 +278,7 @@ class Ai:
         else:
             # return sequence move
             new_move = self.new_seq_move()
-        
+
         # Temporary loop variable as boolean if new move exists in hits set
         check = new_move in self.all_hits
         while check:
