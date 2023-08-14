@@ -115,6 +115,7 @@ def check_ship_move(t_node, x, y, board):
     Function to return possible ship move
     """
     check_all = []
+    # Loop through all nodes
     for node in t_node:
         move_y = node.row + y
         move_x = node.col + x
@@ -123,8 +124,10 @@ def check_ship_move(t_node, x, y, board):
            move_x > len(board) - 1 or
            move_x < 0 or
            board[move_y][move_x].is_occupied()):
+            # Append False to temporary list if invalid node move
             check_all.append(False)
         else:
+            # Append True to list if valid node move
             check_all.append(True)
 
     return check_all
