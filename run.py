@@ -257,19 +257,7 @@ def generate_fleet():
     """
     Function to set upi default fleet with each size ship
     """
-    fleet = []
-    carrier = Ship(5)
-    fleet.append(carrier)
-    battleship = Ship(4)
-    fleet.append(battleship)
-    destroyer = Ship(3)
-    fleet.append(destroyer)
-    submarine = Ship(2)
-    fleet.append(submarine)
-    patrol = Ship(1)
-    fleet.append(patrol)
-
-    return fleet
+    return [Ship(5), Ship(4), Ship(3), Ship(2), Ship(1)]
 
 
 def auto_position_fleet(fleet):
