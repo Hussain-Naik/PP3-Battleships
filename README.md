@@ -116,6 +116,36 @@ In the following flowchart, you can see the basic logic of the application.
 
 The application was tested manually during the whole development process. Visual Studio Code terminal was used to run the application locally, and the mock terminal provided by the Code Institute was used to run the application in the browser.
 
+#### Manual Testing
+
+| Feature | Expected Outcome | Testing Performed | Result | Pass/Fail |
+| --- | --- | --- | --- | --- |
+| Main Menu - Start | show menu for user option to start game | press enter when Start selected | Starting message displays then Start menu loads | Pass |
+| Main Menu - Exit | Close terminal application | press enter when Exit selected | closing game message displayed then application closes | Pass |
+| Random Placement option | Start battleships game with random placement of ships | press enter when Random Placement selected | Battleship game starts | Pass |
+| Manual Placement | Show menu of ships to place on board | press enter when Manual Placement selected | Ship menu loads | Pass |
+| Patrol Boat option | display board with ship size 1 to be placed | press enter when Patrol Boat selected | board with ship size 1 able to move on game board | Pass |
+| Submarine option | display board with ship size 2 to be placed | press enter when Submarine selected | board with ship size 2 able to move on game board | Pass |
+| Destroyer option | display board with ship size 3 to be placed | press enter when Destroyer selected | board with ship size 3 able to move on game board | Pass |
+| Battleship option | display board with ship size 4 to be placed | press enter when Battleship selected | board with ship size 4 able to move on game board | Pass |
+| Carrier option | display board with ship size 5 to be placed | press enter when Carrier selected | board with ship size 5 able to move on game board | Pass |
+| Start Game options | show menu for user option after all ships placed | All ships placed on board | Start Game menu displayed | Pass |
+| Start Game Menu - Start Game | Start battleships game with user placed ships | Press enter when Start Game selected | Battleships game starts | Pass |
+| Start Game Menu - Reset All Ships | Display Ship Menu options | Press enter when Reset All Ship selected | Ship menu options displayed | Pass |
+| Back menu options - All | Display previous menu | Press enter when Back selected | Previous menus displayed | Pass |
+| ESC or q pressed during menu - All | Run last menu option command | Press ESC or q | Last menu option executed | Pass |
+| Ship placement controls | Arrow keys to move and r to rotate ship | pressed arrow keys and r key | Ship move in direction of arrow key and rotated when r pressed | Pass |
+| Confirm Ship placement | Place ship on game board by pressing ENTER | pressed ENTER in desired placement | Board displayed ship placed | Pass |
+| User game movement | Arrow keys to move on enemy board | pressed arrow keys | selected node move in direction of arrow key | Pass |
+| Confirm hit location - Miss | Confirm hit location on board by pressing ENTER | pressed ENTER in desired location | Board displayed hit location as 0 | Pass |
+| Confirm hit location - Hit | Confirm hit location on board by pressing ENTER | pressed ENTER in desired location | Board displayed hit location as X | Pass |
+| Ship Sunk - All ship nodes hit | Display ship initial when sunk | All ship nodes hit | Board displayed Ship initials | Pass |
+| Selecting previously used node | Message displayed prompting user to select new location | Press enter on used location | Message printed to terminal prompting new location selection | Pass |
+| Moving ship in occupied nodes | unable to move ship in current direction and inform user | Move ship to occupied node | Selected ship unable to move in direction and message displayed | Pass |
+| Moving ship out of board bounds | unable to move ship in current direction and inform user | Move ship off board | Selected ship unable to move in direction and message displayed | Pass |
+| Rotate ship in occupied nodes | unable to rotate ship and inform user | Rotate ship to occupied node | Selected ship unable to rotate and message displayed | Pass |
+| Rotate ship out of board bounds | unable to rotate ship and inform user | Rotate ship off board | Selected ship unable to rotate and message displayed | Pass |
+
 ###### Validator results
 
 ---
