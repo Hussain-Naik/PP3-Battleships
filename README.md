@@ -98,12 +98,14 @@ In the following flowchart, you can see the basic logic of the application.
 ### Bugs and issues
 
 - ##### Solved bugs
-- Fix AI move for ship placement parallel next to edge or parallel adjacent to board edge by checking for unused successful hits in opposite direction
-- Fix ship rotation method to have a starting node pivot point as first node in list
-- Fix computer move as inverted col, row tuple
-- Fix random displacement for row and col by inverting ship size tuple.
-- Fix node location method to return correct sequence of col then row
+- AI sequence move stuck in infinite loop as larger ship near edge
+    - Fix AI move for ship placement parallel next to edge or parallel adjacent to board edge by checking for unused successful hits in opposite direction
+- AI move was incorrectly placed
+    - Fix computer move as inverted col, row tuple
+- Random ship placement was placed on inverted axis
+    - Fix random displacement for row and col by inverting ship size tuple.
 - Fix node display to show 'X' when used and occupied node
+    - Added logical if statement with and operand to include both used and occupied boolean expressions
 
 - ##### Unsolved bugs
 - No unsolved bugs
