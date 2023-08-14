@@ -97,7 +97,7 @@ class Ship:
         (col_size, row_size) = self.return_size()
         # Loop through remaining nodes of ship
         for x, node in enumerate(self.nodes[1:]):
-            # Check if ship is vertical or horizontal 
+            # Check if ship is vertical or horizontal
             if col_size < row_size:
                 new_list.append(Node(row + x + 1, col))
             else:
@@ -155,7 +155,7 @@ class Ship:
         """
         Method to return ship nodes as set
         """
-        # Temporary set of node 
+        # Temporary set of node
         node_set = set()
         # Loop through all nodes
         for node in self.nodes:
@@ -170,7 +170,7 @@ class Ship:
         """
         # Reset ship
         self.reset_ship()
-        # Randomly chose to rotate 
+        # Randomly chose to rotate
         random_rotate = random.randint(0, 1)
         if random_rotate == 0:
             self.rotate_ship()
