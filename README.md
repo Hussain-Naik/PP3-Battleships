@@ -21,10 +21,10 @@ Users can start game with random placement of ships, or manually place the ship 
 
 ### User stories
 
-- As a first-time visitor, I want to be able to understand the main purpose of the application.
-- As a first-time visitor, I want to be able to see the instructions on how to use the application.
-- As a user, I want to be able to manually place my ships.
-- As a user, I want to be able to play against a difficult opponent.
+- As a first-time visitor, I want the instructions to be simple so I am able to understand the main purpose of the application.
+- As a first-time visitor, I want to be able to see the instructions on how to use the application so i can play the game.
+- As a user, I want to be able to manually place my ships to make the game more challenging.
+- As a user, I want to be able to play against a difficult opponent so i can improve my logical selection.
 
 ---
 
@@ -82,7 +82,7 @@ In the following flowchart, you can see the basic logic of the application.
 ###### Frameworks, libraries, and packages
 - [random](https://docs.python.org/3/library/random.html): used to generate random numbers.
 - [numpy](https://docs.scipy.org/doc/numpy/reference/): used to generate a 2d array used to represent the grid.
-- [time](https://docs.python.org/3/library/time.html): sleep function from the time library was used to make every step of the grid update visible to the user.
+- [time](https://docs.python.org/3/library/time.html): sleep function from the time library was used to make the type animation for the message displays.
 - [blessed](https://pypi.org/project/blessed/): used to manipulate the terminal output.
 - [simple-term-menu](https://pypi.org/project/simple-term-menu/): used to create the terminal menu for the application.
 
