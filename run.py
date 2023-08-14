@@ -179,9 +179,11 @@ def confirm_rotation(ship, temp, board):
     """
     Function to confirm rotation
     """
+    # Set current nodes visible to false
     for ship_node in ship.nodes:
         ship_node.set_hidden()
     new_node_list = []
+    # Add new rotated node to temp list and set visible to True
     for temp_node in temp:
         temp_node = board[temp_node.row][temp_node.col]
         temp_node.set_view()
