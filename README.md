@@ -106,6 +106,8 @@ In the following flowchart, you can see the basic logic of the application.
     - Fix random displacement for row and col by inverting ship size tuple.
 - Fix node display to show 'X' when used and occupied node
     - Added logical if statement with and operand to include both used and occupied boolean expressions
+- Fix user validation bug when held repeatedly press same key
+    - Update message output to normal print function
 
 - ##### Unsolved bugs
 - No unsolved bugs
