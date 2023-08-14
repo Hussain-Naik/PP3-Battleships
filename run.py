@@ -139,6 +139,7 @@ def move_node(t_node, board, direction):
     """
     global user_validation
     (x, y) = direction
+    # If parameter t_node is not a list of nodes update node is valid
     if type(t_node) != list:
         grid_row = t_node.row if (
             t_node.row +
@@ -153,18 +154,23 @@ def move_node(t_node, board, direction):
         t_node.set_view()
         return t_node
     else:
+        # If list of nodes check all nodes have valid move
         check_all = check_ship_move(t_node, x, y, board)
         if all(check_all):
             new_temp = t_node[:]
+            # If moving in negative direction reverse list 
             if x > 0 or y > 0:
                 new_temp.reverse()
             new_node_list = []
+            # pass each node in move node function and append new list
             for node in new_temp:
                 new_node_list.append(move_node(node, board, direction))
+            # If moving in negative direction reverse new node list 
             if x > 0 or y > 0:
                 new_node_list.reverse()
             return new_node_list
         else:
+            # Display user Validation for invalid ship movement
             user_validation = USER_VALIDATION[2]
         return t_node
 
