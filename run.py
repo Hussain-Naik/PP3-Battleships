@@ -100,7 +100,7 @@ def display_grid(enemy_grid, player_grid, enemy_ships, player_ships, message):
             )
         print(message)
         print("Press ENTER to confirm placement. Press ESC to show menu.")
-        output_string(user_validation)
+        print(user_validation)
         sleep(DELAY)
 
 
@@ -297,6 +297,7 @@ def play_game(enemy_board, player_board, enemy_fleet, player_fleet):
             'Select Location to Strike.\n' +
             'Press Enter when Co-ordinates confirmed Admiral')
         temp_start = enemy_board[5][5]
+        key_lock = False
         while not enemy_fleet_status or not player_fleet_status:
             global user_validation
             user_validation = ''
