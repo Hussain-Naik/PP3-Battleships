@@ -78,10 +78,13 @@ def display_grid(enemy_grid, player_grid, enemy_ships, player_ships, message):
     Displays the grid in the terminal.
     """
     with terminal.hidden_cursor():
+        # Clear screen
         print(terminal.home + terminal.clear)
+        # Print board top edge
         print(
             "            #######################     #######################"
             )
+        # Print ship names, board edge and board rows for both players
         for (enemy_row,
              player_row,
              i) in zip(enemy_grid, player_grid, range(0, 10)):
@@ -95,11 +98,14 @@ def display_grid(enemy_grid, player_grid, enemy_ships, player_ships, message):
                   " #     # " + " ".join(str(point) for point in player_row) +
                   " # " + player_ship_name
                   )
+        # Print board bottom edge
         print(
             "            #######################     #######################"
             )
+        # Print message depending on game or ship placement
         print(message)
         print("Press ENTER to confirm placement. Press ESC to show menu.")
+        # Print user validation when user makes error
         print(user_validation)
         sleep(DELAY)
 
@@ -297,7 +303,6 @@ def play_game(enemy_board, player_board, enemy_fleet, player_fleet):
             'Select Location to Strike.\n' +
             'Press Enter when Co-ordinates confirmed Admiral')
         temp_start = enemy_board[5][5]
-        key_lock = False
         while not enemy_fleet_status or not player_fleet_status:
             global user_validation
             user_validation = ''
@@ -306,8 +311,10 @@ def play_game(enemy_board, player_board, enemy_fleet, player_fleet):
             enemy_fleet_status = all([ship.sunk for ship in enemy_fleet])
             player_fleet_status = all([ship.sunk for ship in player_fleet])
             if enemy_fleet_status:
+                # Update game_running, start_loop, win, lose
                 return (False, False, True, False)
             elif player_fleet_status:
+                # Update game_running, start_loop, win, lose
                 return (False, False, False, True)
             if key_pressed.code == terminal.KEY_ESCAPE:
                 temp_start.set_hidden()
@@ -318,6 +325,7 @@ def play_game(enemy_board, player_board, enemy_fleet, player_fleet):
                              player_fleet,
                              GAME_CONTROLS
                              )
+                # Update game_running, start_loop, win, lose
                 return (True, True, False, False)
             elif key_pressed.code == terminal.KEY_ENTER:
                 if enemy_board[temp_start.row][temp_start.col].is_used():
