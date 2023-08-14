@@ -24,7 +24,7 @@ Users can start game with random placement of ships, or manually place the ship 
 - As a first-time visitor, I want the instructions to be simple so I am able to understand the main purpose of the application.
 - As a first-time visitor, I want to be able to see the instructions on how to use the application so i can play the game.
 - As a user, I want to be able to manually place my ships to make the game more challenging.
-- As a user, I want to be able to play against a difficult opponent so i can improve my logical selection.
+- As a user, I want to be able to play against a difficult opponent so i can improve my game play.
 
 ---
 
@@ -150,6 +150,23 @@ The application was tested manually during the whole development process. Visual
 
 ###### Validator results
 
+[CI PEP8 online validator](https://pep8ci.herokuapp.com/#) was used to check the code for meeting PEP8 requirements. No warnings or errors were found. The results of the validator are in the screenshots below.
+
+- `run.py`:
+
+![PEP8 validator results for run.py](assets/documentation/validate-run.png)
+
+- `ai.py`:
+
+![PEP8 validator results for ai.py](assets/documentation/validate-ai.png)
+
+- `node.py`:
+
+![PEP8 validator results for node.py](assets/documentation/validate-node.png)
+
+- `ships.py`:
+
+![PEP8 validator results for ships.py](assets/documentation/validate-ships.png)
 ---
 
 ### Deployment
