@@ -19,7 +19,10 @@ class Node:
 
     def __str__(self):
         # override str method to display node as string.
-        if self.used and self.occupied:
+        if self.view and self.used:
+            # board to display new character for viewing used nodes
+            return "8"
+        elif self.used and self.occupied:
             # board to display X if Hit and occupied
             return self.name
         elif self.player:
