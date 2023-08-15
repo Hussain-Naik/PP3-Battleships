@@ -59,6 +59,11 @@ Once user has placed all ships on the board they will be provided with a new men
 
 ![Confirm menu screenshot](assets/documentation/confirm-placement-menu.png)
 
+- ##### Replay Game or close application.
+Once the game has ended with the player winning or losing they will be presented with a menu to replay by selecting one of the two placement option or closing the application
+
+![Replay screenshot](assets/documentation/replay-menu.png)
+
 - ##### Exit.
 The last option in the main menu is the "Exit". Here, the user can exit the application and see the game closing message.
 
