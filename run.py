@@ -20,10 +20,12 @@ SHIP_CONTROLS = "Use ARROW keys to move around the grid. 'r' to rotate ship"
 # Game controls message
 GAME_CONTROLS = "Use ARROW keys to move around the grid."
 # User validation messages
-USER_VALIDATION = [
+USER_INFORMATION = [
     'Please select another location',
     'Ship Rotation out of bounds or new co ordinates occupied',
-    'Ship Co Ordinate occupied or out of bound']
+    'Ship Co Ordinate occupied or out of bound',
+    'Victory is yours Admiral entire enemy fleet destroyed',
+    'Enemy have sunk all your vessels! better luck next time']
 
 # List of option for main menu
 options_main = ["Start", "Exit"]
@@ -57,7 +59,7 @@ game_over_menu = TerminalMenu(options_game_over, title="Game Over")
 # Blessed terminal variable
 terminal = Terminal()
 # User validation global message
-user_validation = ''
+user_info = ''
 
 
 def generate_grid():
@@ -112,7 +114,7 @@ def display_grid(enemy_grid, player_grid, enemy_ships, player_ships, message):
         print(message)
         print("Press ENTER to confirm placement. Press ESC to show menu.")
         # Print user validation when user makes error
-        print(user_validation)
+        print(user_info)
         sleep(DELAY)
 
 
@@ -143,7 +145,7 @@ def move_node(t_node, board, direction):
     """
     Function to move in grid
     """
-    global user_validation
+    global user_info
     (x, y) = direction
     # If parameter t_node is not a list of nodes update node is valid
     if type(t_node) != list:
@@ -177,7 +179,7 @@ def move_node(t_node, board, direction):
             return new_node_list
         else:
             # Display user Validation for invalid ship movement
-            user_validation = USER_VALIDATION[2]
+            user_info = USER_INFORMATION[2]
         return t_node
 
 
@@ -210,8 +212,8 @@ def manual_ship_placement(
         display_grid(enemy_board, player_board,
                  enemy_fleet, player_fleet, SHIP_CONTROLS)
         while not ship_placed:
-            global user_validation
-            user_validation = ''
+            global user_info
+            user_info = ''
             key_pressed = terminal.inkey()
             if key_pressed.code == terminal.KEY_ESCAPE:
                 display_grid(enemy_board,
@@ -251,7 +253,7 @@ def manual_ship_placement(
                     temp = confirm_rotation(ship, temp_r, player_board)
                     ship.change_vertical_status()
                 else:
-                    user_validation = USER_VALIDATION[1]
+                    user_info = USER_INFORMATION[1]
                 ship.nodes = temp
 
             ship_placed = ship.is_ship_placed()
@@ -322,16 +324,22 @@ def play_game(enemy_board, player_board, enemy_fleet, player_fleet):
             'Press Enter when Co-ordinates confirmed Admiral')
         temp_start = enemy_board[5][5]
         while not enemy_fleet_status or not player_fleet_status:
-            global user_validation
-            user_validation = ''
+            global user_info
+            user_info = ''
             key_pressed = terminal.inkey()
             temp_start.set_view()
             enemy_fleet_status = all([ship.sunk for ship in enemy_fleet])
             player_fleet_status = all([ship.sunk for ship in player_fleet])
             if enemy_fleet_status:
+                user_info = USER_INFORMATION[3]
+                display_grid(enemy_board, player_board,
+                 enemy_fleet, player_fleet, GAME_CONTROLS)
                 # Update game_running, start_loop, win, lose
                 return (False, False, True, False)
             elif player_fleet_status:
+                user_info = USER_INFORMATION[4]
+                display_grid(enemy_board, player_board,
+                 enemy_fleet, player_fleet, GAME_CONTROLS)
                 # Update game_running, start_loop, win, lose
                 return (False, False, False, True)
             if key_pressed.code == terminal.KEY_ESCAPE:
@@ -347,7 +355,7 @@ def play_game(enemy_board, player_board, enemy_fleet, player_fleet):
                 return (True, True, False, False)
             elif key_pressed.code == terminal.KEY_ENTER:
                 if enemy_board[temp_start.row][temp_start.col].is_used():
-                    user_validation = USER_VALIDATION[0]
+                    user_info = USER_INFORMATION[0]
                 else:
                     enemy_board[temp_start.row][temp_start.col].make_used()
                     enemy_board[temp_start.row][temp_start.col].set_hidden()
@@ -508,12 +516,20 @@ def main():
         if options_main[user_choice] == "Start":
             print(terminal.home + terminal.clear)
             output_string('Starting Battleship Game...\n')
-            user_choice = start_menu.show()
+            
             start_loop = True
+            replay = True
             while start_loop:
+                
+                if replay is True:
+                    options_loop = options_start
+                    user_choice = start_menu.show()
+                else:
+                    options_loop = options_game_over
+                    user_choice = game_over_menu.show()
                 if user_choice is None:
                     user_choice = -1
-                if options_start[user_choice] == "Random Placement":
+                if options_loop[user_choice] == "Random Placement":
                     print(terminal.home + terminal.clear)
                     (enemy_fleet,
                      enemy_fleet_status,
@@ -527,43 +543,33 @@ def main():
                     place_fleet_on_board(player_fleet, player_board)
                     player_assigned_ships(player_fleet)
                     (game_running,
-                     start_loop,
+                     replay,
                      enemy_fleet_status,
                      player_fleet_status) = play_game(enemy_board,
                                                       player_board,
                                                       enemy_fleet,
                                                       player_fleet)
-                    if not start_loop:
-                        break
-                    user_choice = start_menu.show()
-                elif options_start[user_choice] == "Manual Placement":
+                elif options_loop[user_choice] == "Manual Placement":
                     print(terminal.home + terminal.clear)
                     (game_running,
-                     start_loop,
+                     replay,
                      enemy_fleet_status,
                      player_fleet_status
                      ) = manual_placement(game_running, start_loop)
-                    if not start_loop:
-                        break
-                    user_choice = start_menu.show()
-                elif options_start[user_choice] == "Back":
+                elif options_loop[user_choice] == "Back":
                     print(terminal.home + terminal.clear)
                     start_loop = False
                     user_choice = main_menu.show()
-            if not game_running:
+                elif options_loop[user_choice] == "Close Application":
+                    game_running = False
+                    start_loop = False
+                    break
+            if game_running is False:
                 break
         elif options_main[user_choice] == "Exit":
             game_running = False
-    if enemy_fleet_status:
-        output_string(
-            'Victory is yours Admiral entire enemy fleet destroyed\n'
-            )
-    elif player_fleet_status:
-        output_string(
-            'Enemy have sunk all your vessels! better luck next time\n'
-            )
-    else:
-        output_string('Closing Battleship Game...\n')
+    
+    output_string('Closing Battleship Game...\n')
 
 
 # Checking if we are running this file directly.
