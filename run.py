@@ -166,14 +166,14 @@ def move_node(t_node, board, direction):
         check_all = check_ship_move(t_node, x, y, board)
         if all(check_all):
             new_temp = t_node[:]
-            # If moving in negative direction reverse list 
+            # If moving in negative direction reverse list
             if x > 0 or y > 0:
                 new_temp.reverse()
             new_node_list = []
             # pass each node in move node function and append new list
             for node in new_temp:
                 new_node_list.append(move_node(node, board, direction))
-            # If moving in negative direction reverse new node list 
+            # If moving in negative direction reverse new node list
             if x > 0 or y > 0:
                 new_node_list.reverse()
             return new_node_list
@@ -210,7 +210,7 @@ def manual_ship_placement(
         temp = ship.nodes
         temp = move_node(temp, player_board, (0, 0))
         display_grid(enemy_board, player_board,
-                 enemy_fleet, player_fleet, SHIP_CONTROLS)
+                     enemy_fleet, player_fleet, SHIP_CONTROLS)
         while not ship_placed:
             global user_info
             user_info = ''
@@ -333,13 +333,13 @@ def play_game(enemy_board, player_board, enemy_fleet, player_fleet):
             if enemy_fleet_status:
                 user_info = USER_INFORMATION[3]
                 display_grid(enemy_board, player_board,
-                 enemy_fleet, player_fleet, GAME_CONTROLS)
+                             enemy_fleet, player_fleet, GAME_CONTROLS)
                 # Update game_running, start_loop, win, lose
                 return (False, False, True, False)
             elif player_fleet_status:
                 user_info = USER_INFORMATION[4]
                 display_grid(enemy_board, player_board,
-                 enemy_fleet, player_fleet, GAME_CONTROLS)
+                             enemy_fleet, player_fleet, GAME_CONTROLS)
                 # Update game_running, start_loop, win, lose
                 return (False, False, False, True)
             if key_pressed.code == terminal.KEY_ESCAPE:
@@ -516,11 +516,9 @@ def main():
         if options_main[user_choice] == "Start":
             print(terminal.home + terminal.clear)
             output_string('Starting Battleship Game...\n')
-            
             start_loop = True
             replay = True
             while start_loop:
-                
                 if replay is True:
                     options_loop = options_start
                     user_choice = start_menu.show()
@@ -568,7 +566,6 @@ def main():
                 break
         elif options_main[user_choice] == "Exit":
             game_running = False
-    
     output_string('Closing Battleship Game...\n')
 
 
