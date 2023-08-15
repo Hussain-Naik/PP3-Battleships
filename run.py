@@ -29,6 +29,10 @@ USER_VALIDATION = [
 options_main = ["Start", "Exit"]
 # List of option for start menu
 options_start = ["Random Placement", "Manual Placement", "Back"]
+# List of option for game over menu
+options_game_over = ["Random Placement",
+                     "Manual Placement",
+                     "Close Application"]
 # List of option for ship placement menu
 options_ship = ["Patrol Boat",
                 "Submarine",
@@ -47,6 +51,8 @@ start_menu = TerminalMenu(options_start, title="Start menu")
 ship_menu = TerminalMenu(options_ship, title="Ship menu")
 # Variable for ship menu
 confirm_menu = TerminalMenu(options_confirm, title="Start Game")
+# Variable for start menu
+game_over_menu = TerminalMenu(options_game_over, title="Game Over")
 
 # Blessed terminal variable
 terminal = Terminal()
@@ -197,11 +203,12 @@ def manual_ship_placement(
     """
     Function to manually place player ships on board
     """
-    display_grid(enemy_board, player_board,
-                 enemy_fleet, player_fleet, SHIP_CONTROLS)
     ship_placed = ship.is_ship_placed()
     with terminal.cbreak(), terminal.hidden_cursor():
         temp = ship.nodes
+        temp = move_node(temp, player_board, (0, 0))
+        display_grid(enemy_board, player_board,
+                 enemy_fleet, player_fleet, SHIP_CONTROLS)
         while not ship_placed:
             global user_validation
             user_validation = ''
