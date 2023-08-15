@@ -138,6 +138,9 @@ class Ai:
             elif 0 > check_y or check_y > 9:
                 # Increment loop variable
                 i += 1
+            # Check and return random move if infinite loop
+            elif i > 15:
+                return self.new_random_move()
             else:
                 return check_hit
 
